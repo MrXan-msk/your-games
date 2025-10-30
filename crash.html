@@ -795,7 +795,6 @@
 
                 // Handle player crash
                 if (gameState.playerInGame) {
-                    showResultMessage("Увы, не повезло", "#ff4444");
                     gameState.playerInGame = false;
                     gameState.autoCashoutActive = false;
                     createParticles(10, '#ff4444');
@@ -850,7 +849,7 @@
                 cashoutButton.disabled = true;
                 autoCashoutIndicator.style.display = 'none';
 
-                showResultMessage("Победа!", "#00ff88");
+                showResultMessage("Успели!", "#00ff88");
                 createParticles(15, '#00ff88');
 
                 // При кэшауте не добавляем в историю, только при краше
