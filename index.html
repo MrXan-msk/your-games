@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xanchik Bet</title>
+    <title>Xanchik Bet - Главная</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
-            padding-bottom: 80px; /* Место для нижнего меню */
+            padding-bottom: 80px;
         }
 
         .container {
@@ -154,58 +154,120 @@
             font-size: 0.8rem;
         }
 
-        /* Стили для картинок из папки assets */
         .crash {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/crash.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/crash.png');
             background-size: cover;
             background-position: center;
         }
 
         .mines {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/mines.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/mines.png');
             background-size: cover;
             background-position: center;
         }
 
         .upgrades {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/upgrades.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/upgrades.png');
             background-size: cover;
             background-position: center;
         }
 
         .cases {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/cases.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/cases.png');
             background-size: cover;
             background-position: center;
         }
 
         .contracts {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/contracts.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/contracts.png');
             background-size: cover;
             background-position: center;
         }
 
         .shop {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('assets/shop.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('assets/shop.png');
             background-size: cover;
             background-position: center;
         }
 
-        /* Заглушки для картинок, если они не загружены */
-        .crash:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #ff6b6b, #ffa36c); z-index: 0; }
-        .mines:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #4ecdc4, #44a08d); z-index: 0; }
-        .upgrades:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #ffd89b, #19547b); z-index: 0; }
-        .cases:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #834d9b, #d04ed6); z-index: 0; }
-        .contracts:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #5d4157, #a8caba); z-index: 0; }
-        .shop:before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #de6262, #ffb88c); z-index: 0; }
+        .crash::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            opacity: 0.3;
+            z-index: 0;
+        }
 
-        /* Нижнее меню */
+        .mines::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .upgrades::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ffd89b, #19547b);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .cases::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #834d9b, #d04ed6);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .contracts::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #5d4157, #a8caba);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .shop::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #de6262, #ffb88c);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -256,39 +318,28 @@
             .container {
                 padding: 10px;
             }
-            
+
             header {
                 flex-direction: column;
                 gap: 15px;
                 padding: 10px 0;
             }
-            
+
             .logo h1 {
                 font-size: 1.7rem;
             }
-            
+
             .user-info {
                 width: 100%;
                 justify-content: space-between;
             }
-            
+
             .main-content {
                 gap: 12px;
             }
-            
+
             .game-card {
                 height: 130px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .main-content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .game-card {
-                height: 150px;
             }
         }
     </style>
@@ -301,7 +352,7 @@
             </div>
             <div class="user-info">
                 <div class="balance">
-                    <span>10.5 TON</span>
+                    <span id="balanceAmount">10.5 TON</span>
                     <button class="deposit-btn">Пополнить</button>
                 </div>
                 <div class="avatar">U</div>
@@ -317,7 +368,7 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="mines.html" style="text-decoration: none;">
                 <div class="game-card mines">
                     <div class="game-card-content">
@@ -326,7 +377,7 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="upgrade.html" style="text-decoration: none;">
                 <div class="game-card upgrades">
                     <div class="game-card-content">
@@ -335,7 +386,7 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="cases.html" style="text-decoration: none;">
                 <div class="game-card cases">
                     <div class="game-card-content">
@@ -344,7 +395,7 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="contract.html" style="text-decoration: none;">
                 <div class="game-card contracts">
                     <div class="game-card-content">
@@ -353,7 +404,7 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="shop.html" style="text-decoration: none;">
                 <div class="game-card shop">
                     <div class="game-card-content">
@@ -365,16 +416,15 @@
         </div>
     </div>
 
-    <!-- Нижнее меню -->
     <nav class="bottom-nav">
         <div class="nav-container">
-            <a href="profile.html" class="nav-item active">
+            <a href="profile.html" class="nav-item">
                 <div class="nav-icon">👤</div>
                 <div class="nav-text">Профиль</div>
             </a>
-            <a href="shop.html" class="nav-item">
-                <div class="nav-icon">🛒</div>
-                <div class="nav-text">Магазин</div>
+            <a href="index.html" class="nav-item active">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Главная</div>
             </a>
             <a href="withdraw.html" class="nav-item">
                 <div class="nav-icon">💎</div>
@@ -384,25 +434,34 @@
     </nav>
 
     <script>
-        // Обработка кнопки пополнения
-        document.querySelector('.deposit-btn').addEventListener('click', function() {
-            alert('Функция пополнения баланса TON будет реализована здесь');
-            // В реальном приложении здесь будет интеграция с платежной системой TON
-        });
-
-        // Активация пунктов нижнего меню
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Имитация Telegram Web App
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.expand();
-            Telegram.WebApp.enableClosingConfirmation();
+        function initializeBalance() {
+            let balance = localStorage.getItem('userBalance');
+            if (!balance) {
+                balance = '10.5';
+                localStorage.setItem('userBalance', balance);
+            }
+            document.getElementById('balanceAmount').textContent = balance + ' TON';
         }
+
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+            currentBalance += amount;
+            localStorage.setItem('userBalance', currentBalance.toFixed(2));
+            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+            return currentBalance;
+        }
+
+        document.querySelector('.deposit-btn').addEventListener('click', function() {
+            const amount = prompt('Введите сумму пополнения в TON:');
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                updateBalance(parseFloat(amount));
+                alert('Баланс успешно пополнен на ' + amount + ' TON!');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBalance();
+        });
     </script>
 </body>
 </html>
