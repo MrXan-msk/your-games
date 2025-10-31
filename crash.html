@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crash Game</title>
+    <title>Xanchik Bet - Краш</title>
     <style>
         :root {
             --primary-color: #0f0f23;
@@ -25,68 +25,108 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary-color), #000000);
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 100%);
             color: var(--text-color);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
 
-        .game-container {
-            width: 100%;
-            max-width: 500px;
-            background: var(--secondary-color);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
         }
 
-        .header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .balance {
-            font-size: 26px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 15px;
             font-weight: bold;
-            background: linear-gradient(45deg, #00ff88, #00ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .profile {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
-        .back-button {
-            background: var(--accent-color);
-            padding: 10px;
-            border-radius: 50%;
+        .deposit-btn {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .deposit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .avatar {
             width: 40px;
             height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            color: var(--text-color);
-            font-size: 18px;
+            font-weight: bold;
+            font-size: 1rem;
         }
 
-        .back-button:hover {
-            background: var(--highlight-color);
-            transform: scale(1.1);
+        .game-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .game-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .bet-section {
@@ -445,69 +485,162 @@
             border-radius: 10px;
             backdrop-filter: blur(10px);
         }
+
+        /* Нижнее меню */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 12, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 5px 12px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #ffa36c;
+            background: rgba(255, 163, 108, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+            
+            .logo h1 {
+                font-size: 1.7rem;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <div class="header">
-            <div class="balance">
-                TON: <span id="balance">5000.00</span>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Xanchik Bet</h1>
             </div>
-            <div class="profile">
-                <button class="back-button" onclick="window.location.href='index.html'">←</button>
-                <span>Игрок</span>
+            <div class="user-info">
+                <div class="balance">
+                    <span id="balanceAmount">10.5 TON</span>
+                    <button class="deposit-btn">Пополнить</button>
+                </div>
+                <div class="avatar">U</div>
             </div>
-        </div>
+        </header>
 
-        <div class="bet-section">
-            <div class="bet-title">Ставка</div>
-            <div class="bet-input-container">
-                <input type="number" class="bet-input" id="bet-input" value="10.0" min="1.0" step="1.0">
-                <div class="bet-buttons">
-                    <button class="bet-button" data-action="half">1/2</button>
-                    <button class="bet-button" data-action="double">2x</button>
+        <div class="game-container">
+            <h2 class="game-title">Краш</h2>
+
+            <div class="bet-section">
+                <div class="bet-title">Ставка</div>
+                <div class="bet-input-container">
+                    <input type="number" class="bet-input" id="bet-input" value="1.0" min="1.0" step="1.0">
+                    <div class="bet-buttons">
+                        <button class="bet-button" data-action="half">1/2</button>
+                        <button class="bet-button" data-action="double">2x</button>
+                    </div>
+                </div>
+                <div class="auto-cashout-section">
+                    <div class="auto-cashout-label">Автовывод:</div>
+                    <input type="number" class="auto-cashout-input" id="auto-cashout-input" value="2.00" min="1.10" step="0.10">
+                    <div class="auto-cashout-label">x</div>
+                    <div class="auto-cashout-toggle">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="auto-cashout-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="auto-cashout-section">
-                <div class="auto-cashout-label">Автовывод:</div>
-                <input type="number" class="auto-cashout-input" id="auto-cashout-input" value="2.00" min="1.10" step="0.10">
-                <div class="auto-cashout-label">x</div>
-                <div class="auto-cashout-toggle">
-                    <label class="toggle-label">
-                        <input type="checkbox" id="auto-cashout-toggle">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
+
+            <div class="game-graph" id="game-graph">
+                <canvas class="graph-canvas" id="graph-canvas"></canvas>
+                <div class="multiplier-display" id="multiplier-display">1.00x</div>
+                <div class="phase-indicator" id="phase-indicator">Ожидание ставок</div>
+                <div class="auto-cashout-indicator" id="auto-cashout-indicator" style="display: none;">Автовывод: 2.00x</div>
+                <div class="round-info" id="round-info">Следующий раунд: 5с</div>
             </div>
-        </div>
 
-        <div class="game-graph" id="game-graph">
-            <canvas class="graph-canvas" id="graph-canvas"></canvas>
-            <div class="multiplier-display" id="multiplier-display">1.00x</div>
-            <div class="phase-indicator" id="phase-indicator">Ожидание ставок</div>
-            <div class="auto-cashout-indicator" id="auto-cashout-indicator" style="display: none;">Автовывод: 2.00x</div>
-            <div class="round-info" id="round-info">Следующий раунд: 5с</div>
-        </div>
+            <div class="action-buttons">
+                <button class="action-button cashout-button" id="cashout-button" disabled>Забрать</button>
+                <button class="action-button play-button" id="play-button">Поставить</button>
+            </div>
 
-        <div class="action-buttons">
-            <button class="action-button cashout-button" id="cashout-button" disabled>Забрать</button>
-            <button class="action-button play-button" id="play-button">Поставить</button>
-        </div>
-
-        <div class="history">
-            <div class="history-title">История Игр</div>
-            <div class="history-items" id="history-items">
-                <!-- History will be generated by JavaScript -->
+            <div class="history">
+                <div class="history-title">История Игр</div>
+                <div class="history-items" id="history-items">
+                    <!-- History will be generated by JavaScript -->
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="profile.html" class="nav-item">
+                <div class="nav-icon">👤</div>
+                <div class="nav-text">Профиль</div>
+            </a>
+            <a href="index.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Главная</div>
+            </a>
+            <a href="withdraw.html" class="nav-item">
+                <div class="nav-icon">💎</div>
+                <div class="nav-text">Вывод</div>
+            </a>
+        </div>
+    </nav>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Game state
             const gameState = {
-                balance: 5000.00,
-                currentBet: 10.0,
+                balance: 10.5,
+                currentBet: 1.0,
                 currentMultiplier: 1.00,
                 crashPoint: 1.00,
                 roundPhase: 'waiting', // waiting, playing, crashed
@@ -524,7 +657,7 @@
             };
 
             // DOM elements
-            const balanceElement = document.getElementById('balance');
+            const balanceElement = document.getElementById('balanceAmount');
             const betInput = document.getElementById('bet-input');
             const graphCanvas = document.getElementById('graph-canvas');
             const multiplierDisplay = document.getElementById('multiplier-display');
@@ -537,7 +670,27 @@
             const autoCashoutInput = document.getElementById('auto-cashout-input');
             const autoCashoutIndicator = document.getElementById('auto-cashout-indicator');
             const autoCashoutToggle = document.getElementById('auto-cashout-toggle');
+            const depositBtn = document.querySelector('.deposit-btn');
             const ctx = graphCanvas.getContext('2d');
+
+            // Инициализация баланса
+            function initializeBalance() {
+                let balance = localStorage.getItem('userBalance');
+                if (!balance) {
+                    balance = '10.5';
+                    localStorage.setItem('userBalance', balance);
+                }
+                gameState.balance = parseFloat(balance);
+                updateBalanceDisplay();
+            }
+
+            // Обновление баланса
+            function updateBalance(amount) {
+                gameState.balance += amount;
+                localStorage.setItem('userBalance', gameState.balance.toFixed(2));
+                updateBalanceDisplay();
+                return gameState.balance;
+            }
 
             // Функция для определения цвета по множителю
             function getMultiplierColor(multiplier) {
@@ -825,10 +978,12 @@
                     return;
                 }
 
-                gameState.balance -= gameState.currentBet;
                 gameState.playerBet = gameState.currentBet;
                 gameState.playerInGame = true;
                 gameState.autoCashoutActive = true;
+
+                // Вычитаем ставку из баланса
+                updateBalance(-gameState.currentBet);
 
                 updateBalanceDisplay();
                 playButton.disabled = true;
@@ -841,9 +996,11 @@
                 if (!gameState.playerInGame || gameState.roundPhase !== 'playing') return;
 
                 const winnings = gameState.playerBet * gameState.currentMultiplier;
-                gameState.balance += winnings;
                 gameState.playerInGame = false;
                 gameState.autoCashoutActive = false;
+
+                // Добавляем выигрыш к балансу
+                updateBalance(winnings);
 
                 updateBalanceDisplay();
                 cashoutButton.disabled = true;
@@ -892,7 +1049,7 @@
 
             // Update balance display
             function updateBalanceDisplay() {
-                balanceElement.textContent = gameState.balance.toFixed(2);
+                balanceElement.textContent = gameState.balance.toFixed(2) + ' TON';
             }
 
             // Update history display
@@ -945,8 +1102,18 @@
                 });
             });
 
+            // Обработка кнопки пополнения
+            depositBtn.addEventListener('click', function() {
+                const amount = prompt('Введите сумму пополнения в TON:');
+                if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                    updateBalance(parseFloat(amount));
+                    alert('Баланс успешно пополнен на ' + amount + ' TON!');
+                }
+            });
+
             // Initialize game
             function initGame() {
+                initializeBalance();
                 window.addEventListener('resize', initCanvas);
                 initCanvas();
                 updateBalanceDisplay();
