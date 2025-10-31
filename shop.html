@@ -32,7 +32,7 @@
             align-items: center;
             padding: 15px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .logo {
@@ -41,7 +41,7 @@
         }
 
         .logo h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
@@ -76,7 +76,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .deposit-btn:active {
@@ -84,25 +84,25 @@
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: linear-gradient(135deg, #ff6b6b, #ffa36c);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .shop-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .shop-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
@@ -110,22 +110,22 @@
         }
 
         .shop-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.8;
         }
 
-        /* Стили для карточек */
+        /* Стили для карточек - УМЕНЬШЕНЫ как в inv.html */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
 
         .shop-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 14px;
+            padding: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
@@ -134,39 +134,39 @@
         }
 
         .shop-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: rgba(255, 107, 107, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .card-image {
             width: 100%;
-            height: 120px;
+            height: 85px; /* Уменьшено с 120px */
             border-radius: 10px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             position: relative;
             overflow: hidden;
         }
 
-        .card-image img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
+        .card-icon {
+            font-size: 2rem; /* Уменьшено */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .card-rarity {
             position: absolute;
-            top: 8px;
-            right: 8px;
+            top: 6px;
+            right: 6px;
             background: rgba(0, 0, 0, 0.7);
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.65rem;
             font-weight: bold;
+            backdrop-filter: blur(5px);
         }
 
         .rarity-common { color: #b0b0b0; }
@@ -175,46 +175,48 @@
         .rarity-legendary { color: #FF9800; }
 
         .card-content {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .card-title {
-            font-size: 1.1rem;
+            font-size: 0.95rem; /* Уменьшено с 1.1rem */
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            line-height: 1.2;
         }
 
         .card-description {
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* Уменьшено с 0.8rem */
             opacity: 0.8;
             line-height: 1.3;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 6px;
         }
 
         .card-price {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             font-weight: bold;
         }
 
         .price-amount {
-            font-size: 1.1rem;
+            font-size: 0.95rem; /* Уменьшено с 1.1rem */
             color: #ffa36c;
         }
 
         .price-currency {
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* Уменьшено с 0.8rem */
             opacity: 0.8;
         }
 
@@ -222,17 +224,17 @@
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             border: none;
             color: white;
-            padding: 8px 16px;
-            border-radius: 10px;
+            padding: 6px 10px; /* Уменьшено */
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .buy-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
         }
 
         .buy-button:disabled {
@@ -288,12 +290,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
-            max-width: 400px;
+            max-width: 350px;
             width: 90%;
         }
 
@@ -305,12 +307,13 @@
         }
 
         .modal-btn {
-            padding: 10px 20px;
+            padding: 8px 18px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.85rem;
         }
 
         .modal-confirm {
@@ -328,15 +331,18 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+            background: rgba(76, 175, 80, 0.9);
             color: white;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border-radius: 10px;
+            font-weight: bold;
+            z-index: 2000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 1001;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
         }
 
         .notification.show {
@@ -352,7 +358,7 @@
             background: rgba(12, 12, 46, 0.95);
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 0;
+            padding: 10px 0;
             z-index: 100;
         }
 
@@ -371,8 +377,9 @@
             color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             transition: all 0.3s;
-            padding: 5px 12px;
+            padding: 5px 10px;
             border-radius: 10px;
+            font-size: 0.8rem;
         }
 
         .nav-item.active {
@@ -381,12 +388,12 @@
         }
 
         .nav-icon {
-            font-size: 1.3rem;
-            margin-bottom: 4px;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
         }
 
         .nav-text {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
         }
 
@@ -397,12 +404,12 @@
 
             header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
                 padding: 10px 0;
             }
 
             .logo h1 {
-                font-size: 1.7rem;
+                font-size: 1.5rem;
             }
 
             .user-info {
@@ -411,12 +418,12 @@
             }
 
             .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
                 gap: 10px;
             }
 
             .shop-title {
-                font-size: 2rem;
+                font-size: 1.7rem;
             }
 
             .notification {
@@ -431,6 +438,20 @@
         }
 
         @media (max-width: 480px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .card-image {
+                height: 75px;
+            }
+            
+            .card-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 360px) {
             .cards-grid {
                 grid-template-columns: 1fr;
             }
@@ -491,8 +512,8 @@
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="inv.html" class="nav-item">
-                <div class="nav-icon">👤</div>
-                <div class="nav-text">Профиль</div>
+                <div class="nav-icon">🎒</div>
+                <div class="nav-text">Инвентарь</div>
             </a>
             <a href="index.html" class="nav-item">
                 <div class="nav-icon">🏠</div>
