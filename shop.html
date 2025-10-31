@@ -98,6 +98,7 @@
         .shop-header {
             text-align: center;
             margin-bottom: 25px;
+            position: relative;
         }
 
         .shop-title {
@@ -112,6 +113,34 @@
         .shop-subtitle {
             font-size: 1rem;
             opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .sort-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sort-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .sort-btn.active {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border-color: transparent;
+        }
+
+        .sort-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         /* Стили для карточек - УМЕНЬШЕНЫ как в inv.html */
@@ -157,23 +186,6 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
-        .card-rarity {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 3px 8px;
-            border-radius: 8px;
-            font-size: 0.65rem;
-            font-weight: bold;
-            backdrop-filter: blur(5px);
-        }
-
-        .rarity-common { color: #b0b0b0; }
-        .rarity-rare { color: #4CAF50; }
-        .rarity-epic { color: #9C27B0; }
-        .rarity-legendary { color: #FF9800; }
-
         .card-content {
             margin-bottom: 12px;
         }
@@ -187,13 +199,7 @@
             background-clip: text;
             color: transparent;
             line-height: 1.2;
-        }
-
-        .card-description {
-            font-size: 0.75rem; /* Уменьшено с 0.8rem */
-            opacity: 0.8;
-            line-height: 1.3;
-            margin-bottom: 8px;
+            text-align: center;
         }
 
         .card-footer {
@@ -441,11 +447,11 @@
             .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .card-image {
                 height: 75px;
             }
-            
+
             .card-icon {
                 font-size: 1.8rem;
             }
@@ -476,14 +482,10 @@
         <div class="shop-header">
             <h2 class="shop-title">Магазин</h2>
             <p class="shop-subtitle">Покупайте уникальные предметы и улучшения</p>
-        </div>
-
-        <div class="category-filter">
-            <button class="filter-btn active" data-category="all">Все</button>
-            <button class="filter-btn" data-category="upgrades">Апгрейды</button>
-            <button class="filter-btn" data-category="cases">Кейсы</button>
-            <button class="filter-btn" data-category="contracts">Контракты</button>
-            <button class="filter-btn" data-category="boosters">Бустеры</button>
+            <div class="sort-buttons">
+                <button class="sort-btn active" data-sort="cheap">Сначала дешёвые</button>
+                <button class="sort-btn" data-sort="expensive">Сначала дорогие</button>
+            </div>
         </div>
 
         <div class="cards-grid" id="cardsGrid">
@@ -527,7 +529,7 @@
     </nav>
 
     <script>
-        // Система карточек
+        // Временная система карточек - если cards.js не загружен
         class CardSystem {
             constructor() {
                 this.cards = new Map();
@@ -535,53 +537,115 @@
             }
 
             initializeCards() {
-                // Апгрейды (25 карточек)
-                for (let i = 1; i <= 25; i++) {
-                    this.addCard(i, {
-                        title: `Апгрейд ${i}`,
-                        description: `Мощное улучшение для вашего аккаунта #${i}`,
-                        price: Math.floor(Math.random() * 100) + 50,
-                        category: "upgrades",
-                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
-                        image: `assets/shop/upgrade_${i}.png`
-                    });
-                }
+                // Создаем тестовые карточки по вашему списку
+                const cardList = [
+                    { id: 1, title: "B-Day Candle", price: 1.65 },
+                    { id: 2, title: "Lunar Snake", price: 1.65 },
+                    { id: 3, title: "Snake Box", price: 1.65 },
+                    { id: 4, title: "Desk Calendar", price: 1.75 },
+                    { id: 5, title: "Whip Cupcake", price: 1.85 },
+                    { id: 6, title: "lol Pop", price: 2 },
+                    { id: 7, title: "Xmas Stocking", price: 2.1 },
+                    { id: 8, title: "Candy Cane", price: 2.1 },
+                    { id: 9, title: "Pet Snake", price: 2.1 },
+                    { id: 10, title: "Jester Hat", price: 2.1 },
+                    { id: 11, title: "Big Year", price: 2.2 },
+                    { id: 12, title: "Holiday Drink", price: 2.2 },
+                    { id: 13, title: "Party Sparkler", price: 2.2 },
+                    { id: 14, title: "Cookie Heart", price: 2.2 },
+                    { id: 15, title: "Hypno Lollipop", price: 2.2 },
+                    { id: 16, title: "Winter Wreath", price: 2.2 },
+                    { id: 17, title: "Fresh Socks", price: 2.2 },
+                    { id: 18, title: "Homemade Cake", price: 2.2 },
+                    { id: 19, title: "Jingle Balls", price: 2.3 },
+                    { id: 20, title: "Ginger Cookie", price: 2.3 },
+                    { id: 21, title: "Clover Pin", price: 2.3 },
+                    { id: 22, title: "Tama Gadget", price: 2.4 },
+                    { id: 23, title: "Spices Wine", price: 2.45 },
+                    { id: 24, title: "Stellar Rocket", price: 2.5 },
+                    { id: 25, title: "Snoop Dogg", price: 2.6 },
+                    { id: 26, title: "Swag Bag", price: 2.7 },
+                    { id: 27, title: "Moon Pendant", price: 2.8 },
+                    { id: 28, title: "Jack-in-the-Box", price: 3 },
+                    { id: 29, title: "Star Notepad", price: 3 },
+                    { id: 30, title: "Easter Egg", price: 3 },
+                    { id: 31, title: "Santa Hat", price: 3 },
+                    { id: 32, title: "Restless Jar", price: 3 },
+                    { id: 33, title: "Joyful Bundle", price: 3 },
+                    { id: 34, title: "Light Sword", price: 3 },
+                    { id: 35, title: "Lush Bouquet", price: 3.5 },
+                    { id: 36, title: "Snow Globe", price: 3.5 },
+                    { id: 37, title: "Hex Pot", price: 3.5 },
+                    { id: 38, title: "Bunnt Muffin", price: 3.75 },
+                    { id: 39, title: "Witch Hat", price: 3.8 },
+                    { id: 40, title: "Input Key", price: 4 },
+                    { id: 41, title: "Bow Tie", price: 4 },
+                    { id: 42, title: "Jelly Bunny", price: 4 },
+                    { id: 43, title: "Eternal Candle", price: 4 },
+                    { id: 44, title: "Spy Agaric", price: 4.3 },
+                    { id: 45, title: "Snow Mittens", price: 4.5 },
+                    { id: 46, title: "Berry Box", price: 4.5 },
+                    { id: 47, title: "Evil Eye", price: 5 },
+                    { id: 48, title: "Jolly Chimp", price: 5 },
+                    { id: 49, title: "Hanging Star", price: 5 },
+                    { id: 50, title: "Valentine Box", price: 5.3 },
+                    { id: 51, title: "Sakura Flower", price: 5.5 },
+                    { id: 52, title: "Snoop Cigar", price: 6.5 },
+                    { id: 53, title: "Slegh Bell", price: 7.5 },
+                    { id: 54, title: "Sky Skitettos", price: 8 },
+                    { id: 55, title: "Record Player", price: 8 },
+                    { id: 56, title: "Crystal Ball", price: 8.4 },
+                    { id: 57, title: "Love Candle", price: 7.5 },
+                    { id: 58, title: "Top Hat", price: 8.5 },
+                    { id: 59, title: "Skull Flower", price: 9 },
+                    { id: 60, title: "Trapped Heart", price: 10 },
+                    { id: 61, title: "Love Potion", price: 11.5 },
+                    { id: 62, title: "Flying Broom", price: 12 },
+                    { id: 63, title: "Ionic Dryer", price: 13 },
+                    { id: 64, title: "Cupid Charm", price: 14 },
+                    { id: 65, title: "Eternal Rose", price: 17 },
+                    { id: 66, title: "Mad Pumpkin", price: 18.5 },
+                    { id: 67, title: "Diamond Ring", price: 20 },
+                    { id: 68, title: "Voodoo Doll", price: 22 },
+                    { id: 69, title: "Toy Bear", price: 24 },
+                    { id: 70, title: "Vintage Cigar", price: 25 },
+                    { id: 71, title: "Signet Ring", price: 28 },
+                    { id: 72, title: "Low Rider", price: 30 },
+                    { id: 73, title: "Neko Helmet", price: 33 },
+                    { id: 74, title: "Kissed Frog", price: 35 },
+                    { id: 75, title: "Sharp Tongue", price: 40 },
+                    { id: 76, title: "Swiss Watch", price: 47 },
+                    { id: 77, title: "Genie Lamp", price: 50 },
+                    { id: 78, title: "Bonded Ring", price: 55 },
+                    { id: 79, title: "Westside Sign", price: 58 },
+                    { id: 80, title: "Scared Cat", price: 60 },
+                    { id: 81, title: "Gem Signet", price: 65 },
+                    { id: 82, title: "Magic Potion", price: 77 },
+                    { id: 83, title: "Ion Gem", price: 80 },
+                    { id: 84, title: "Perfume Bottle", price: 88 },
+                    { id: 85, title: "Mini Oscar", price: 90 },
+                    { id: 86, title: "Loot Bag", price: 95 },
+                    { id: 87, title: "Artisan Brick", price: 110 },
+                    { id: 88, title: "Nail Bracelet", price: 120 },
+                    { id: 89, title: "Astral Shard", price: 145 },
+                    { id: 90, title: "Mighty Arm", price: 235 },
+                    { id: 91, title: "Heroic Helmet", price: 250 },
+                    { id: 92, title: "Precious Peach", price: 385 },
+                    { id: 93, title: "Durov's Cap", price: 900 },
+                    { id: 94, title: "Heart Locket", price: 1300 },
+                    { id: 95, title: "Plush Pepe", price: 6000 }
+                ];
 
-                // Кейсы (15 карточек)
-                for (let i = 26; i <= 40; i++) {
-                    this.addCard(i, {
-                        title: `Кейс ${i-25}`,
-                        description: `Случайный набор предметов #${i-25}`,
-                        price: Math.floor(Math.random() * 80) + 20,
-                        category: "cases",
-                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
-                        image: `assets/shop/case_${i-25}.png`
+                cardList.forEach(card => {
+                    this.addCard(card.id, {
+                        title: card.title,
+                        description: "",
+                        price: card.price,
+                        category: "items",
+                        rarity: "",
+                        image: `assets/shop/item_${card.id}.png`
                     });
-                }
-
-                // Контракты (15 карточек)
-                for (let i = 41; i <= 55; i++) {
-                    this.addCard(i, {
-                        title: `Контракт ${i-40}`,
-                        description: `Выгодное предложение #${i-40}`,
-                        price: Math.floor(Math.random() * 120) + 30,
-                        category: "contracts",
-                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
-                        image: `assets/shop/contract_${i-40}.png`
-                    });
-                }
-
-                // Бустеры (15 карточек)
-                for (let i = 56; i <= 70; i++) {
-                    this.addCard(i, {
-                        title: `Бустер ${i-55}`,
-                        description: `Временное усиление #${i-55}`,
-                        price: Math.floor(Math.random() * 60) + 10,
-                        category: "boosters",
-                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
-                        image: `assets/shop/booster_${i-55}.png`
-                    });
-                }
+                });
             }
 
             addCard(id, cardData) {
@@ -607,21 +671,177 @@
                 return this.cards.get(id);
             }
 
-            getRarityText(rarity) {
-                const rarityMap = {
-                    'common': 'Обычная',
-                    'rare': 'Редкая',
-                    'epic': 'Эпическая',
-                    'legendary': 'Легендарная'
-                };
-                return rarityMap[rarity] || rarity;
+            getAllCards() {
+                return Array.from(this.cards.values());
             }
         }
+
+        // Создаем глобальный экземпляр системы карточек
+        const cardSystem = new CardSystem();
 
         // Система инвентаря
         class InventorySystem {
             constructor() {
                 this.items = JSON.parse(localStorage.getItem('userInventory')) || [];
+                this.currentSort = 'cheap';
+                this.currentCategory = 'all';
+                this.allCards = [];
+                this.filteredCards = [];
+
+                this.loadCardsFromSystem();
+                this.sortCards();
+                this.generateShopCards();
+                this.setupEventListeners();
+                this.initializeBalance();
+                this.setupBalancePersistence();
+            }
+
+            loadCardsFromSystem() {
+                // Загружаем карточки из cardSystem
+                this.allCards = cardSystem.getAllCards();
+                this.filteredCards = [...this.allCards];
+                console.log('Загружено карточек:', this.allCards.length);
+            }
+
+            sortCards() {
+                if (this.currentSort === 'cheap') {
+                    this.filteredCards.sort((a, b) => a.price - b.price);
+                } else {
+                    this.filteredCards.sort((a, b) => b.price - a.price);
+                }
+            }
+
+            filterCardsByCategory(category) {
+                if (category === 'all') {
+                    this.filteredCards = [...this.allCards];
+                } else {
+                    this.filteredCards = this.allCards.filter(card => card.category === category);
+                }
+                this.sortCards();
+                this.generateShopCards();
+            }
+
+            generateShopCards() {
+                const cardsGrid = document.getElementById('cardsGrid');
+
+                if (this.filteredCards.length === 0) {
+                    cardsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; opacity: 0.7;">Карточки не найдены</p>';
+                    return;
+                }
+
+                cardsGrid.innerHTML = this.filteredCards.map(card => `
+                    <div class="shop-card" data-card-id="${card.id}">
+                        <div class="card-image">
+                            <div class="card-icon">🎮</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${card.title}</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">
+                                <span class="price-amount">${card.price}</span>
+                                <span class="price-currency">TON</span>
+                            </div>
+                            <button class="buy-button" onclick="inventorySystem.showPurchaseModal(${card.id})">
+                                Купить
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            setupEventListeners() {
+                // Сортировка
+                document.querySelectorAll('.sort-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentSort = e.target.dataset.sort;
+                        this.sortCards();
+                        this.generateShopCards();
+                    });
+                });
+
+                // Фильтрация по категориям
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentCategory = e.target.dataset.category;
+                        this.filterCardsByCategory(this.currentCategory);
+                    });
+                });
+
+                // Обработчики модального окна
+                document.getElementById('confirmPurchase').addEventListener('click', () => this.purchaseItem());
+                document.getElementById('cancelPurchase').addEventListener('click', () => this.closeModal());
+
+                // Закрытие модального окна при клике вне его
+                window.addEventListener('click', (event) => {
+                    const modal = document.getElementById('purchaseModal');
+                    if (event.target === modal) {
+                        this.closeModal();
+                    }
+                });
+
+                // Обработка кнопки пополнения
+                document.querySelector('.deposit-btn').addEventListener('click', () => {
+                    const amount = prompt('Введите сумму пополнения в TON:');
+                    if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                        const parsedAmount = parseFloat(amount);
+                        this.updateBalance(parsedAmount);
+                        this.showNotification(`Баланс пополнен на ${parsedAmount} TON`);
+                    }
+                });
+            }
+
+            // Переменные для модального окна
+            currentCardId = null;
+
+            // Показать уведомление
+            showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.classList.add('show');
+
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            // Показать модальное окно покупки
+            showPurchaseModal(cardId) {
+                const card = cardSystem.getCard(cardId);
+                const modal = document.getElementById('purchaseModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDescription = document.getElementById('modalDescription');
+
+                this.currentCardId = cardId;
+                modalTitle.textContent = `Купить: ${card.title}`;
+                modalDescription.textContent = `Цена: ${card.price} TON`;
+                modal.style.display = 'block';
+            }
+
+            // Купить предмет
+            purchaseItem() {
+                const card = cardSystem.getCard(this.currentCardId);
+                const balance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+
+                if (balance >= card.price) {
+                    this.updateBalance(-card.price);
+                    this.addItem(card);
+                    this.showNotification(`Успешно куплено: ${card.title}`);
+                    this.closeModal();
+                } else {
+                    this.showNotification('Недостаточно средств!');
+                    this.closeModal();
+                }
+            }
+
+            // Закрыть модальное окно
+            closeModal() {
+                document.getElementById('purchaseModal').style.display = 'none';
+                this.currentCardId = null;
             }
 
             addItem(card) {
@@ -654,187 +874,65 @@
             save() {
                 localStorage.setItem('userInventory', JSON.stringify(this.items));
             }
-        }
 
-        // Создаем глобальные экземпляры
-        const cardSystem = new CardSystem();
-        const inventorySystem = new InventorySystem();
-
-        // Переменные для модального окна
-        let currentCardId = null;
-
-        // Показать уведомление
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Генерация карточек в магазине
-        function generateShopCards(category = 'all') {
-            const cardsGrid = document.getElementById('cardsGrid');
-            const cards = cardSystem.getCardsByCategory(category);
-
-            cardsGrid.innerHTML = cards.map(card => `
-                <div class="shop-card" data-card-id="${card.id}">
-                    <div class="card-image">
-                        <div class="card-icon">🎮</div>
-                        <div class="card-rarity rarity-${card.rarity}">
-                            ${cardSystem.getRarityText(card.rarity)}
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${card.title}</h3>
-                        <p class="card-description">${card.description}</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-price">
-                            <span class="price-amount">${card.price}</span>
-                            <span class="price-currency">TON</span>
-                        </div>
-                        <button class="buy-button" onclick="showPurchaseModal(${card.id})">
-                            Купить
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Показать модальное окно покупки
-        function showPurchaseModal(cardId) {
-            const card = cardSystem.getCard(cardId);
-            const modal = document.getElementById('purchaseModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalDescription = document.getElementById('modalDescription');
-
-            currentCardId = cardId;
-            modalTitle.textContent = `Купить: ${card.title}`;
-            modalDescription.textContent = `Цена: ${card.price} TON\n\n${card.description}`;
-            modal.style.display = 'block';
-        }
-
-        // Купить предмет
-        function purchaseItem() {
-            const card = cardSystem.getCard(currentCardId);
-            const balance = parseFloat(localStorage.getItem('userBalance') || '10.5');
-
-            if (balance >= card.price) {
-                updateBalance(-card.price);
-                inventorySystem.addItem(card);
-                showNotification(`Успешно куплено: ${card.title}`);
-                closeModal();
-            } else {
-                showNotification('Недостаточно средств!');
-                closeModal();
-            }
-        }
-
-        // Закрыть модальное окно
-        function closeModal() {
-            document.getElementById('purchaseModal').style.display = 'none';
-            currentCardId = null;
-        }
-
-        // Фильтрация по категориям
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                generateShopCards(this.dataset.category);
-            });
-        });
-
-        // Инициализация баланса
-        function initializeBalance() {
-            let balance = localStorage.getItem('userBalance');
-            if (!balance) {
-                balance = '10.5';
-                localStorage.setItem('userBalance', balance);
-            }
-            document.getElementById('balanceAmount').textContent = balance + ' TON';
-            return parseFloat(balance);
-        }
-
-        // Обновление баланса
-        function updateBalance(amount) {
-            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
-            currentBalance += amount;
-            currentBalance = Math.round(currentBalance * 100) / 100;
-            localStorage.setItem('userBalance', currentBalance.toFixed(2));
-            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
-            return currentBalance;
-        }
-
-        // Обработка кнопки пополнения
-        document.querySelector('.deposit-btn').addEventListener('click', function() {
-            const amount = prompt('Введите сумму пополнения в TON:');
-            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                const parsedAmount = parseFloat(amount);
-                updateBalance(parsedAmount);
-                showNotification(`Баланс пополнен на ${parsedAmount} TON`);
-            }
-        });
-
-        // Сохранение баланса
-        function setupBalancePersistence() {
-            window.addEventListener('beforeunload', function() {
-                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-                localStorage.setItem('userBalance', currentBalance);
-            });
-
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-                    localStorage.setItem('userBalance', currentBalance);
+            // Инициализация баланса
+            initializeBalance() {
+                let balance = localStorage.getItem('userBalance');
+                if (!balance) {
+                    balance = '10.5';
+                    localStorage.setItem('userBalance', balance);
                 }
-            });
+                document.getElementById('balanceAmount').textContent = balance + ' TON';
+                return parseFloat(balance);
+            }
 
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.onEvent('viewportChanged', function() {
+            // Обновление баланса
+            updateBalance(amount) {
+                let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+                currentBalance += amount;
+                currentBalance = Math.round(currentBalance * 100) / 100;
+                localStorage.setItem('userBalance', currentBalance.toFixed(2));
+                document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+                return currentBalance;
+            }
+
+            // Сохранение баланса
+            setupBalancePersistence() {
+                window.addEventListener('beforeunload', () => {
                     const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
                     localStorage.setItem('userBalance', currentBalance);
+                });
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                        localStorage.setItem('userBalance', currentBalance);
+                    }
                 });
             }
         }
 
-        // Обработчики модального окна
-        document.getElementById('confirmPurchase').addEventListener('click', purchaseItem);
-        document.getElementById('cancelPurchase').addEventListener('click', closeModal);
-
-        // Закрытие модального окна при клике вне его
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('purchaseModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
+        // Создаем глобальный экземпляр системы инвентаря
+        const inventorySystem = new InventorySystem();
 
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            initializeBalance();
-            setupBalancePersistence();
-            generateShopCards();
-        });
-
-        // Telegram Web App
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.expand();
-            Telegram.WebApp.enableClosingConfirmation();
-            Telegram.WebApp.ready();
-        }
-
-        // Периодическое сохранение
-        setInterval(function() {
-            const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-            const savedBalance = localStorage.getItem('userBalance');
-            if (currentBalance !== savedBalance) {
-                localStorage.setItem('userBalance', currentBalance);
+            // Telegram Web App
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.expand();
+                Telegram.WebApp.enableClosingConfirmation();
+                Telegram.WebApp.ready();
             }
-        }, 1000);
+
+            // Периодическое сохранение
+            setInterval(function() {
+                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                const savedBalance = localStorage.getItem('userBalance');
+                if (currentBalance !== savedBalance) {
+                    localStorage.setItem('userBalance', currentBalance);
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>
