@@ -267,20 +267,20 @@
             right: 20px;
             bottom: 20px;
             border-radius: 50%;
-            box-shadow: 
+            box-shadow:
                 0 0 40px rgba(76, 175, 80, 0.5),
                 0 0 40px rgba(255, 68, 68, 0.5);
             animation: trackGlow 3s ease-in-out infinite alternate;
         }
 
         @keyframes trackGlow {
-            0% { 
-                box-shadow: 
+            0% {
+                box-shadow:
                     0 0 30px rgba(76, 175, 80, 0.4),
                     0 0 30px rgba(255, 68, 68, 0.4);
             }
-            100% { 
-                box-shadow: 
+            100% {
+                box-shadow:
                     0 0 60px rgba(76, 175, 80, 0.7),
                     0 0 60px rgba(255, 68, 68, 0.7);
             }
@@ -332,7 +332,7 @@
             border-radius: 50%;
             position: relative;
             transition: transform 7s cubic-bezier(0.1, 0.8, 0.2, 1);
-            box-shadow: 
+            box-shadow:
                 0 0 80px rgba(45, 43, 85, 0.8),
                 0 0 150px rgba(74, 63, 122, 0.6),
                 inset 0 0 100px rgba(0, 0, 0, 0.8);
@@ -356,11 +356,11 @@
         }
 
         @keyframes wheelGlow {
-            0% { 
+            0% {
                 opacity: 0.5;
                 transform: scale(0.98);
             }
-            100% { 
+            100% {
                 opacity: 1;
                 transform: scale(1.02);
             }
@@ -375,7 +375,7 @@
             right: 15px;
             bottom: 15px;
             border-radius: 50%;
-            background: 
+            background:
                 radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
                 radial-gradient(circle at 70% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
             border: 2px solid rgba(255, 255, 255, 0.08);
@@ -392,7 +392,7 @@
             height: 80px;
             background: radial-gradient(circle, #ffa36c, #ff6b6b);
             border-radius: 50%;
-            box-shadow: 
+            box-shadow:
                 0 0 30px rgba(255, 163, 108, 0.6),
                 inset 0 0 20px rgba(255, 255, 255, 0.2);
             z-index: 10;
@@ -414,7 +414,7 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(255, 255, 255, 0.8),
                 0 0 40px rgba(255, 163, 108, 0.6);
             z-index: 25;
@@ -457,7 +457,7 @@
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 
+            box-shadow:
                 0 8px 30px rgba(255, 107, 107, 0.4),
                 0 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -482,7 +482,7 @@
 
         .start-upgrade-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 
+            box-shadow:
                 0 12px 40px rgba(255, 107, 107, 0.6),
                 0 6px 20px rgba(0, 0, 0, 0.4);
         }
@@ -675,7 +675,9 @@
 
         <div class="upgrade-header">
             <h2 class="upgrade-title">Система Апгрейда</h2>
-            <p class="upgrade-subtitle">Улучшайте карты с умной системой шансов</p>
+            <p class="upgrade-subtitle">Улучшайте подарки с умной системой шансов</p>
+            <p class="upgrade-subtitle">Для выбора NFT нажмите на него дважды!</p>
+
         </div>
 
         <div class="upgrade-container">
@@ -751,10 +753,6 @@
             <a href="shop.html" class="nav-item">
                 <div class="nav-icon">🛒</div>
                 <div class="nav-text">Магазин</div>
-            </a>
-            <a href="upgrade.html" class="nav-item active">
-                <div class="nav-icon">⚡</div>
-                <div class="nav-text">Апгрейд</div>
             </a>
         </div>
     </nav>
@@ -926,7 +924,7 @@
             notification.classList.remove('error');
             if (isError) notification.classList.add('error');
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
@@ -937,17 +935,17 @@
             if (targetPrice <= upgradePrice) {
                 return 0; // Нельзя улучшать на более дешевые предметы
             }
-            
+
             // Рассчитываем коэффициент: upgradePrice / targetPrice
             const ratio = upgradePrice / targetPrice;
-            
+
             // Реалистичная формула: шанс = (upgradePrice / targetPrice) * 100%
             // Но с ограничениями: минимум 1%, максимум 95%
             let chance = Math.round(ratio * 100);
-            
+
             // Минимальный шанс 1%, максимальный 95%
             chance = Math.max(1, Math.min(95, chance));
-            
+
             return chance;
         }
 
@@ -955,14 +953,14 @@
         function updateWheelChance(successChance) {
             const circularTrack = document.getElementById('circularTrack');
             const loseChance = 100 - successChance;
-            
+
             // Обновляем градиент круга
             circularTrack.style.background = `conic-gradient(
                 from 0deg,
                 #4CAF50 0deg ${successChance * 3.6}deg,    /* Зеленая зона успеха */
                 #ff4444 ${successChance * 3.6}deg 360deg   /* Красная зона поражения */
             )`;
-            
+
             // Обновляем отображение шансов
             document.getElementById('chancePercent').textContent = `${successChance}%`;
             document.getElementById('chanceInfo').style.display = 'block';
@@ -974,7 +972,7 @@
             const inventoryGrid = document.getElementById('upgradeInventory');
             const showMoreBtn = document.getElementById('showMoreInventory');
             const pagination = document.getElementById('inventoryPagination');
-            
+
             if (inventory.length === 0) {
                 inventoryGrid.innerHTML = `
                     <div style="text-align: center; padding: 30px; opacity: 0.7; grid-column: 1 / -1;">
@@ -998,7 +996,7 @@
                 itemsToShow = inventory.slice(startIndex, startIndex + itemsPerPage);
                 showMoreBtn.style.display = 'none';
                 pagination.style.display = inventory.length > itemsPerPage ? 'flex' : 'none';
-                
+
                 // Обновляем информацию о странице
                 const totalPages = Math.ceil(inventory.length / itemsPerPage);
                 document.getElementById('inventoryPageInfo').textContent = `${inventoryPage}/${totalPages}`;
@@ -1028,21 +1026,21 @@
             const allCards = Array.from(cardSystem.cards.values());
             const selectionGrid = document.getElementById('cardSelection');
             const pagination = document.getElementById('selectionPagination');
-            
+
             let availableCards = allCards;
-            
+
             // Если выбрана карта для апгрейда, фильтруем доступные карты
             if (selectedUpgradeCard) {
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const upgradeItem = inventory.find(item => item.id === selectedUpgradeCard);
-                
+
                 if (upgradeItem) {
                     const upgradePrice = upgradeItem.purchasePrice || upgradeItem.sellPrice * 1.4;
                     // ПОКАЗЫВАЕМ ТОЛЬКО КАРТЫ ДОРОЖЕ ТЕКУЩЕЙ
                     availableCards = allCards.filter(card => card.price > upgradePrice);
                 }
             }
-            
+
             // Если нет доступных карт
             if (availableCards.length === 0) {
                 selectionGrid.innerHTML = `
@@ -1055,13 +1053,13 @@
                 pagination.style.display = 'none';
                 return;
             }
-            
+
             const startIndex = (selectionPage - 1) * itemsPerPage;
             const itemsToShow = availableCards.slice(startIndex, startIndex + itemsPerPage);
-            
+
             selectionGrid.innerHTML = itemsToShow.map(card => `
-                <div class="card-item" 
-                     data-card-id="${card.id}" 
+                <div class="card-item"
+                     data-card-id="${card.id}"
                      data-price="${card.price}"
                      onclick="selectTargetCard(${card.id})">
                     <div class="item-icon">🎮</div>
@@ -1069,13 +1067,13 @@
                     <div class="item-price">${card.price} TON</div>
                 </div>
             `).join('');
-            
+
             // Обновляем информацию о странице
             const totalPages = Math.ceil(availableCards.length / itemsPerPage);
             document.getElementById('selectionPageInfo').textContent = `${selectionPage}/${totalPages}`;
             document.getElementById('prevSelectionPage').disabled = selectionPage === 1;
             document.getElementById('nextSelectionPage').disabled = selectionPage === totalPages;
-            
+
             pagination.style.display = availableCards.length > itemsPerPage ? 'flex' : 'none';
 
             // Если выбрана карта, восстанавливаем выделение
@@ -1098,11 +1096,11 @@
         function changeInventoryPage(direction) {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const totalPages = Math.ceil(inventory.length / itemsPerPage);
-            
+
             inventoryPage += direction;
             if (inventoryPage < 1) inventoryPage = 1;
             if (inventoryPage > totalPages) inventoryPage = totalPages;
-            
+
             loadUpgradeInventory();
         }
 
@@ -1110,7 +1108,7 @@
         function changeSelectionPage(direction) {
             const allCards = Array.from(cardSystem.cards.values());
             let availableCards = allCards;
-            
+
             // Фильтруем карты если выбрана апгрейд-карта
             if (selectedUpgradeCard) {
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
@@ -1120,42 +1118,42 @@
                     availableCards = allCards.filter(card => card.price > upgradePrice);
                 }
             }
-            
+
             const totalPages = Math.ceil(availableCards.length / itemsPerPage);
-            
+
             selectionPage += direction;
             if (selectionPage < 1) selectionPage = 1;
             if (selectionPage > totalPages) selectionPage = totalPages;
-            
+
             loadCardSelection();
         }
 
         // Выбор карты для апгрейда
         function selectUpgradeCard(itemId) {
             if (isUpgrading) return;
-            
+
             document.querySelectorAll('.inventory-item').forEach(item => {
                 item.classList.remove('selected');
             });
-            
+
             const selectedItem = document.querySelector(`[data-item-id="${itemId}"]`);
             if (selectedItem) {
                 selectedItem.classList.add('selected');
                 selectedUpgradeCard = itemId;
-                
+
                 // Сбрасываем выбор целевой карты при смене апгрейд-карты
                 selectedTargetCard = null;
                 document.querySelectorAll('.card-item').forEach(item => {
                     item.classList.remove('selected');
                 });
-                
+
                 // Сбрасываем страницу выбора
                 selectionPage = 1;
-                
+
                 // Перезагружаем список карт для выбора (ТОЛЬКО ДОСТУПНЫЕ)
                 loadCardSelection();
             }
-            
+
             updateStartButton();
             updateChanceInfo();
         }
@@ -1163,17 +1161,17 @@
         // Выбор целевой карты
         function selectTargetCard(cardId) {
             if (isUpgrading) return;
-            
+
             document.querySelectorAll('.card-item').forEach(item => {
                 item.classList.remove('selected');
             });
-            
+
             const selectedCard = document.querySelector(`[data-card-id="${cardId}"]`);
             if (selectedCard) {
                 selectedCard.classList.add('selected');
                 selectedTargetCard = cardId;
             }
-            
+
             updateStartButton();
             updateChanceInfo();
         }
@@ -1184,12 +1182,12 @@
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const upgradeItem = inventory.find(item => item.id === selectedUpgradeCard);
                 const targetCard = cardSystem.getCard(selectedTargetCard);
-                
+
                 if (upgradeItem && targetCard) {
                     const upgradePrice = upgradeItem.purchasePrice || upgradeItem.sellPrice * 1.4;
                     currentSuccessChance = calculateSuccessChance(upgradePrice, targetCard.price);
                     updateWheelChance(currentSuccessChance);
-                    
+
                     // Показываем информацию о шансах
                     console.log(`Апгрейд: ${upgradePrice} TON -> Цель: ${targetCard.price} TON = ${currentSuccessChance}% шанс`);
                 }
@@ -1208,16 +1206,16 @@
         // Запуск апгрейда
         function startUpgrade() {
             if (!selectedUpgradeCard || !selectedTargetCard || isUpgrading || currentSuccessChance === 0) return;
-            
+
             isUpgrading = true;
             updateStartButton();
-            
+
             const wheel = document.getElementById('upgradeWheel');
             const button = document.getElementById('startUpgrade');
-            
+
             // Случайный результат на основе шансов
             const isSuccess = Math.random() * 100 < currentSuccessChance;
-            
+
             // Вычисляем финальный угол на основе шансов
             let finalRotation;
             if (isSuccess) {
@@ -1230,17 +1228,17 @@
                 const failRange = 360 - successRange;
                 finalRotation = successRange + (failRange / 2) + (Math.random() - 0.5) * failRange * 0.8;
             }
-            
+
             // 4 полных оборота + финальный угол
             const totalRotation = 4 * 360 + finalRotation;
-            
+
             // Запускаем вращение круга
             wheel.style.transition = 'transform 7s cubic-bezier(0.1, 0.8, 0.2, 1)';
             wheel.style.transform = `rotate(${totalRotation}deg)`;
-            
+
             button.textContent = '🌀 Запущено...';
             button.disabled = true;
-            
+
             // Результат через 7 секунд
             setTimeout(() => {
                 showResult(isSuccess);
@@ -1250,15 +1248,15 @@
         // Показать результат
         function showResult(isSuccess) {
             const button = document.getElementById('startUpgrade');
-            
+
             if (isSuccess) {
                 // Успех - добавляем новую карту, удаляем старую
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const targetCard = cardSystem.getCard(selectedTargetCard);
-                
+
                 // Удаляем карту для апгрейда
                 const newInventory = inventory.filter(item => item.id !== selectedUpgradeCard);
-                
+
                 // Добавляем новую карту
                 const newCard = {
                     id: Date.now(),
@@ -1269,20 +1267,20 @@
                     purchasePrice: targetCard.price,
                     sellPrice: Math.floor(targetCard.price * 0.7)
                 };
-                
+
                 newInventory.push(newCard);
                 localStorage.setItem('userInventory', JSON.stringify(newInventory));
-                
+
                 showNotification(`🎉 Успех! Вы получили: ${targetCard.title}`);
             } else {
                 // Провал - удаляем карту для апгрейда
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const newInventory = inventory.filter(item => item.id !== selectedUpgradeCard);
                 localStorage.setItem('userInventory', JSON.stringify(newInventory));
-                
+
                 showNotification(`❌ Апгрейд не удался! Карта потеряна.`, true);
             }
-            
+
             // Сброс состояния
             setTimeout(() => {
                 resetUpgrade();
@@ -1293,28 +1291,28 @@
         function resetUpgrade() {
             const wheel = document.getElementById('upgradeWheel');
             const button = document.getElementById('startUpgrade');
-            
+
             wheel.style.transition = 'none';
             wheel.style.transform = 'rotate(0deg)';
-            
+
             // Восстанавливаем плавный переход после сброса
             setTimeout(() => {
                 wheel.style.transition = 'transform 7s cubic-bezier(0.1, 0.8, 0.2, 1)';
             }, 50);
-            
+
             button.textContent = '🚀 Запустить Апгрейд';
-            
+
             selectedUpgradeCard = null;
             selectedTargetCard = null;
             isUpgrading = false;
             currentSuccessChance = 0;
-            
+
             document.querySelectorAll('.inventory-item, .card-item').forEach(item => {
                 item.classList.remove('selected');
             });
-            
+
             document.getElementById('chanceInfo').style.display = 'none';
-            
+
             loadUpgradeInventory();
             loadCardSelection();
             updateStartButton();
@@ -1335,7 +1333,7 @@
             initializeBalance();
             loadUpgradeInventory();
             loadCardSelection();
-            
+
             // Назначаем обработчики кнопок
             document.getElementById('startUpgrade').addEventListener('click', startUpgrade);
             document.getElementById('showMoreInventory').addEventListener('click', showAllInventoryCards);
@@ -1345,8 +1343,6 @@
             document.getElementById('nextSelectionPage').addEventListener('click', () => changeSelectionPage(1));
         });
     </script>
-</body>
-</html>
 </body>
 </html>
 
