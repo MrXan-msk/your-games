@@ -3,54 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casino WebApp</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Xanchik Bet - Главное меню</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .balance {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .game-card-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .game-card p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .crash {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mines {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .upgrades {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .cases {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .contracts {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .shop {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .full-image-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover .full-image-btn {
+            opacity: 1;
+        }
+
+        .full-image-btn:hover {
+            background: rgba(255, 107, 107, 0.7);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffa36c;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Верхняя панель -->
-<header class="top-bar">
-    <div class="logo">Xanchik Bet</div>
-    <div class="balance-container">
-        <span class="balance">TON: 0</span>
-        <span class="balance">⭐: 0</span>
-        <button class="deposit-btn">Пополнить</button>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Xanchik Bet</h1>
+            </div>
+            <div class="user-info">
+                <div class="balance">10,000 ₽</div>
+                <div class="avatar">U</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <a href="crash.html" style="text-decoration: none;">
+                <div class="game-card crash">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Краш</h3>
+                        <p>Следите за графиком и вовремя забирайте выигрыш!</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="mines.html" style="text-decoration: none;">
+                <div class="game-card mines">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Мины</h3>
+                        <p>Найдите все алмазы, избегая мин!</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="upgrade.html" style="text-decoration: none;">
+                <div class="game-card upgrades">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Апгрейды</h3>
+                        <p>Улучшайте свои возможности и увеличивайте доход!</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="cases.html" style="text-decoration: none;">
+                <div class="game-card cases">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Кейсы</h3>
+                        <p>Откройте кейсы и получите ценные призы!</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="contract.html" style="text-decoration: none;">
+                <div class="game-card contracts">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Контракты</h3>
+                        <p>Заключайте контракты и получайте прибыль!</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="shop.html" style="text-decoration: none;">
+                <div class="game-card shop">
+                    <button class="full-image-btn" title="Полноэкранное изображение">⛶</button>
+                    <div class="game-card-content">
+                        <h3>Магазин</h3>
+                        <p>Покупайте уникальные предметы и улучшения!</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <h4>Онлайн игроков</h4>
+                <p>1,247</p>
+            </div>
+            <div class="stat-card">
+                <h4>Выиграно сегодня</h4>
+                <p>542,890 ₽</p>
+            </div>
+            <div class="stat-card">
+                <h4>Новых игроков</h4>
+                <p>87</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Xanchik Bet © 2023. Все права защищены. Играйте ответственно.</p>
+        </footer>
     </div>
-</header>
 
-
-    <!-- Центральная панель с кнопками -->
-    <main class="main-buttons">
-        <a href="crash.html" class="game-btn">
-            <img src="images/crash.png" alt="Crash">
-            <span>Краш</span>
-        </a>
-        <a href="mines.html" class="game-btn">
-            <img src="images/mines.png" alt="Mines">
-            <span>Мины</span>
-        </a>
-        <a href="upgrade.html" class="game-btn">
-            <img src="images/upgrade.png" alt="Upgrades">
-            <span>Апгрейды</span>
-        </a>
-        <a href="cases.html" class="game-btn">
-            <img src="images/cases.png" alt="Cases">
-            <span>Кейсы</span>
-        </a>
-        <a href="#" class="game-btn">
-            <img src="images/contracts.png" alt="Contracts">
-            <span>Контракты</span>
-        </a>
-        <a href="#" class="game-btn">
-            <img src="images/p2p.png" alt="P2P">
-            <span>P2P</span>
-        </a>
-    </main>
-
-    <!-- Нижняя панель -->
-    <footer class="bottom-bar">
-        <button>Профиль</button>
-        <button>Инвентарь</button>
-        <button>Вывод</button>
-    </footer>
+    <script>
+        // Функция для полноэкранного просмотра изображения
+        document.querySelectorAll('.full-image-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const card = this.closest('.game-card');
+                const bgImage = window.getComputedStyle(card).backgroundImage;
+                const imageUrl = bgImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+                
+                // Создаем модальное окно с полноэкранным изображением
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                modal.style.display = 'flex';
+                modal.style.alignItems = 'center';
+                modal.style.justifyContent = 'center';
+                modal.style.zIndex = '1000';
+                modal.style.cursor = 'pointer';
+                
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.style.maxWidth = '90%';
+                img.style.maxHeight = '90%';
+                img.style.objectFit = 'contain';
+                img.style.borderRadius = '10px';
+                
+                modal.appendChild(img);
+                document.body.appendChild(modal);
+                
+                // Закрытие модального окна при клике
+                modal.addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
