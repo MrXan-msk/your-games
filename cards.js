@@ -8,638 +8,860 @@ class CardSystem {
     }
 
     initializeCards() {
-        // Апгрейды (25 карточек)
+        // Все карточки с новыми названиями и ценами
         this.addCard(1, {
-            title: "Увеличение ставки",
-            description: "Максимальная ставка +100 TON",
-            price: 50,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/boost.png"
+            title: "B-Day Candle",
+            description: "",
+            price: 1.65,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_1.png"
         });
 
         this.addCard(2, {
-            title: "Быстрый вывод",
-            description: "Ускоренный вывод средств",
-            price: 75,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/fast_withdraw.png"
+            title: "Lunar Snake",
+            description: "",
+            price: 1.65,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_2.png"
         });
 
         this.addCard(3, {
-            title: "Золотой аккаунт",
-            description: "Особые привилегии",
-            price: 150,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/gold_account.png"
+            title: "Snake Box",
+            description: "",
+            price: 1.65,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_3.png"
         });
 
         this.addCard(4, {
-            title: "Дополнительные слоты",
-            description: "+3 слота для улучшений",
-            price: 40,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/extra_slots.png"
+            title: "Desk Calendar",
+            description: "",
+            price: 1.75,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_4.png"
         });
 
         this.addCard(5, {
-            title: "Защита от проигрыша",
-            description: "Страховка первой ставки",
-            price: 100,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/protection.png"
+            title: "Whip Cupcake",
+            description: "",
+            price: 1.85,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_5.png"
         });
 
         this.addCard(6, {
-            title: "Умный анализ",
-            description: "Аналитика в реальном времени",
-            price: 120,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/analytics.png"
+            title: "lol Pop",
+            description: "",
+            price: 2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_6.png"
         });
 
         this.addCard(7, {
-            title: "VIP статус",
-            description: "Доступ к эксклюзивным играм",
-            price: 200,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/vip.png"
+            title: "Xmas Stocking",
+            description: "",
+            price: 2.1,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_7.png"
         });
 
         this.addCard(8, {
-            title: "Бонусный множитель",
-            description: "+0.1x к множителям",
-            price: 80,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/multiplier.png"
+            title: "Candy Cane",
+            description: "",
+            price: 2.1,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_8.png"
         });
 
         this.addCard(9, {
-            title: "Авто-ставки",
-            description: "Автоматические ставки",
-            price: 90,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/auto_bet.png"
+            title: "Pet Snake",
+            description: "",
+            price: 2.1,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_9.png"
         });
 
         this.addCard(10, {
-            title: "Расширенная история",
-            description: "История за 30 дней",
-            price: 35,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/history.png"
+            title: "Jester Hat",
+            description: "",
+            price: 2.1,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_10.png"
         });
 
         this.addCard(11, {
-            title: "Приватный чат",
-            description: "Закрытый чат с игроками",
-            price: 60,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/private_chat.png"
+            title: "Big Year",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_11.png"
         });
 
         this.addCard(12, {
-            title: "Кастомный аватар",
-            description: "Уникальный аватар",
-            price: 25,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/avatar.png"
+            title: "Holiday Drink",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_12.png"
         });
 
         this.addCard(13, {
-            title: "Расширенный профиль",
-            description: "Доп. информация в профиле",
-            price: 45,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/profile.png"
+            title: "Party Sparkler",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_13.png"
         });
 
         this.addCard(14, {
-            title: "Турнирный доступ",
-            description: "Участие в турнирах",
-            price: 180,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/tournament.png"
+            title: "Cookie Heart",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_14.png"
         });
 
         this.addCard(15, {
-            title: "Быстрая поддержка",
-            description: "Приоритетная поддержка",
-            price: 70,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/support.png"
+            title: "Hypno Lollipop",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_15.png"
         });
 
         this.addCard(16, {
-            title: "Анализ рисков",
-            description: "Оценка рисков в реальном времени",
-            price: 95,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/risk.png"
+            title: "Winter Wreath",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_16.png"
         });
 
         this.addCard(17, {
-            title: "Экспресс-ставки",
-            description: "Быстрые комбинированные ставки",
-            price: 55,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/express.png"
+            title: "Fresh Socks",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_17.png"
         });
 
         this.addCard(18, {
-            title: "Статистика игроков",
-            description: "Подробная статистика",
-            price: 65,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/stats.png"
+            title: "Homemade Cake",
+            description: "",
+            price: 2.2,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_18.png"
         });
 
         this.addCard(19, {
-            title: "Персональный бот",
-            description: "Бот-помощник для игры",
-            price: 300,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/bot.png"
+            title: "Jingle Balls",
+            description: "",
+            price: 2.3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_19.png"
         });
 
         this.addCard(20, {
-            title: "Расширенные уведомления",
-            description: "Детальные уведомления",
-            price: 30,
-            category: "upgrades",
-            rarity: "common",
-            image: "assets/shop/notifications.png"
+            title: "Ginger Cookie",
+            description: "",
+            price: 2.3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_20.png"
         });
 
         this.addCard(21, {
-            title: "Двойной кэшбэк",
-            description: "Удвоенный кэшбэк за игру",
-            price: 110,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/cashback.png"
+            title: "Clover Pin",
+            description: "",
+            price: 2.3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_21.png"
         });
 
         this.addCard(22, {
-            title: "Авто-выход",
-            description: "Автоматический выход по цели",
-            price: 85,
-            category: "upgrades",
-            rarity: "rare",
-            image: "assets/shop/auto_cashout.png"
+            title: "Tama Gadget",
+            description: "",
+            price: 2.4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_22.png"
         });
 
         this.addCard(23, {
-            title: "Расширенный банк",
-            description: "Увеличенный банкролл",
-            price: 130,
-            category: "upgrades",
-            rarity: "epic",
-            image: "assets/shop/bank.png"
+            title: "Spices Wine",
+            description: "",
+            price: 2.45,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_23.png"
         });
 
         this.addCard(24, {
-            title: "Приватный сервер",
-            description: "Личный игровой сервер",
-            price: 250,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/server.png"
+            title: "Stellar Rocket",
+            description: "",
+            price: 2.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_24.png"
         });
 
         this.addCard(25, {
-            title: "Умный советник",
-            description: "AI помощник для ставок",
-            price: 170,
-            category: "upgrades",
-            rarity: "legendary",
-            image: "assets/shop/advisor.png"
+            title: "Snoop Dogg",
+            description: "",
+            price: 2.6,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_25.png"
         });
 
-        // Кейсы (15 карточек)
         this.addCard(26, {
-            title: "Бронзовый кейс",
-            description: "Шанс получить обычные предметы",
-            price: 10,
-            category: "cases",
-            rarity: "common",
-            image: "assets/shop/bronze_case.png"
+            title: "Swag Bag",
+            description: "",
+            price: 2.7,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_26.png"
         });
 
         this.addCard(27, {
-            title: "Серебряный кейс",
-            description: "Шанс получить редкие предметы",
-            price: 25,
-            category: "cases",
-            rarity: "rare",
-            image: "assets/shop/silver_case.png"
+            title: "Moon Pendant",
+            description: "",
+            price: 2.8,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_27.png"
         });
 
         this.addCard(28, {
-            title: "Золотой кейс",
-            description: "Шанс получить эпические предметы",
-            price: 50,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/gold_case.png"
+            title: "Jack-in-the-Box",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_28.png"
         });
 
         this.addCard(29, {
-            title: "Платиновый кейс",
-            description: "Шанс получить легендарные предметы",
-            price: 100,
-            category: "cases",
-            rarity: "legendary",
-            image: "assets/shop/platinum_case.png"
+            title: "Star Notepad",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_29.png"
         });
 
         this.addCard(30, {
-            title: "Мистический кейс",
-            description: "Загадочный кейс с сюрпризом",
-            price: 75,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/mystery_case.png"
+            title: "Easter Egg",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_30.png"
         });
 
         this.addCard(31, {
-            title: "Легендарный кейс",
-            description: "Только легендарные предметы",
-            price: 200,
-            category: "cases",
-            rarity: "legendary",
-            image: "assets/shop/legendary_case.png"
+            title: "Santa Hat",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_31.png"
         });
 
         this.addCard(32, {
-            title: "Новичковый кейс",
-            description: "Идеально для начала игры",
-            price: 5,
-            category: "cases",
-            rarity: "common",
-            image: "assets/shop/beginner_case.png"
+            title: "Restless Jar",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_32.png"
         });
 
         this.addCard(33, {
-            title: "Профессиональный кейс",
-            description: "Для опытных игроков",
-            price: 150,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/pro_case.png"
+            title: "Joyful Bundle",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_33.png"
         });
 
         this.addCard(34, {
-            title: "Удачный кейс",
-            description: "Повышенный шанс на удачу",
-            price: 60,
-            category: "cases",
-            rarity: "rare",
-            image: "assets/shop/lucky_case.png"
+            title: "Light Sword",
+            description: "",
+            price: 3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_34.png"
         });
 
         this.addCard(35, {
-            title: "Боевой кейс",
-            description: "Агрессивные улучшения",
-            price: 90,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/combat_case.png"
+            title: "Lush Bouquet",
+            description: "",
+            price: 3.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_35.png"
         });
 
         this.addCard(36, {
-            title: "Экономичный кейс",
-            description: "Выгодные предложения",
-            price: 40,
-            category: "cases",
-            rarity: "common",
-            image: "assets/shop/economy_case.png"
+            title: "Snow Globe",
+            description: "",
+            price: 3.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_36.png"
         });
 
         this.addCard(37, {
-            title: "Премиум кейс",
-            description: "Эксклюзивные предметы",
-            price: 120,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/premium_case.png"
+            title: "Hex Pot",
+            description: "",
+            price: 3.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_37.png"
         });
 
         this.addCard(38, {
-            title: "Фортуна кейс",
-            description: "Кейс удачи и везения",
-            price: 80,
-            category: "cases",
-            rarity: "rare",
-            image: "assets/shop/fortune_case.png"
+            title: "Bunnt Muffin",
+            description: "",
+            price: 3.75,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_38.png"
         });
 
         this.addCard(39, {
-            title: "Титановый кейс",
-            description: "Невероятно ценные предметы",
-            price: 180,
-            category: "cases",
-            rarity: "legendary",
-            image: "assets/shop/titan_case.png"
+            title: "Witch Hat",
+            description: "",
+            price: 3.8,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_39.png"
         });
 
         this.addCard(40, {
-            title: "Беспроигрышный кейс",
-            description: "Гарантированный выигрыш",
-            price: 95,
-            category: "cases",
-            rarity: "epic",
-            image: "assets/shop/win_case.png"
+            title: "Input Key",
+            description: "",
+            price: 4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_40.png"
         });
 
-        // Контракты (15 карточек)
         this.addCard(41, {
-            title: "Базовый контракт",
-            description: "Простой контракт на 7 дней",
-            price: 20,
-            category: "contracts",
-            rarity: "common",
-            image: "assets/shop/basic_contract.png"
+            title: "Bow Tie",
+            description: "",
+            price: 4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_41.png"
         });
 
         this.addCard(42, {
-            title: "Стандартный контракт",
-            description: "Контракт на 14 дней",
-            price: 35,
-            category: "contracts",
-            rarity: "common",
-            image: "assets/shop/standard_contract.png"
+            title: "Jelly Bunny",
+            description: "",
+            price: 4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_42.png"
         });
 
         this.addCard(43, {
-            title: "Премиум контракт",
-            description: "Контракт на 30 дней",
-            price: 60,
-            category: "contracts",
-            rarity: "rare",
-            image: "assets/shop/premium_contract.png"
+            title: "Eternal Candle",
+            description: "",
+            price: 4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_43.png"
         });
 
         this.addCard(44, {
-            title: "Золотой контракт",
-            description: "Контракт с бонусами",
-            price: 100,
-            category: "contracts",
-            rarity: "epic",
-            image: "assets/shop/gold_contract.png"
+            title: "Spy Agaric",
+            description: "",
+            price: 4.3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_44.png"
         });
 
         this.addCard(45, {
-            title: "Платиновый контракт",
-            description: "Эксклюзивный контракт",
-            price: 150,
-            category: "contracts",
-            rarity: "legendary",
-            image: "assets/shop/platinum_contract.png"
+            title: "Snow Mittens",
+            description: "",
+            price: 4.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_45.png"
         });
 
         this.addCard(46, {
-            title: "Быстрый контракт",
-            description: "Короткий но выгодный",
-            price: 25,
-            category: "contracts",
-            rarity: "common",
-            image: "assets/shop/fast_contract.png"
+            title: "Berry Box",
+            description: "",
+            price: 4.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_46.png"
         });
 
         this.addCard(47, {
-            title: "Долгосрочный контракт",
-            description: "Контракт на 90 дней",
-            price: 200,
-            category: "contracts",
-            rarity: "legendary",
-            image: "assets/shop/long_contract.png"
+            title: "Evil Eye",
+            description: "",
+            price: 5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_47.png"
         });
 
         this.addCard(48, {
-            title: "Прибыльный контракт",
-            description: "Высокая доходность",
-            price: 80,
-            category: "contracts",
-            rarity: "epic",
-            image: "assets/shop/profit_contract.png"
+            title: "Jolly Chimp",
+            description: "",
+            price: 5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_48.png"
         });
 
         this.addCard(49, {
-            title: "Страховой контракт",
-            description: "Защита от потерь",
-            price: 45,
-            category: "contracts",
-            rarity: "rare",
-            image: "assets/shop/insurance_contract.png"
+            title: "Hanging Star",
+            description: "",
+            price: 5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_49.png"
         });
 
         this.addCard(50, {
-            title: "Агрессивный контракт",
-            description: "Высокий риск - высокая награда",
-            price: 120,
-            category: "contracts",
-            rarity: "epic",
-            image: "assets/shop/aggressive_contract.png"
+            title: "Valentine Box",
+            description: "",
+            price: 5.3,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_50.png"
         });
 
         this.addCard(51, {
-            title: "Консервативный контракт",
-            description: "Низкий риск - стабильный доход",
-            price: 70,
-            category: "contracts",
-            rarity: "rare",
-            image: "assets/shop/conservative_contract.png"
+            title: "Sakura Flower",
+            description: "",
+            price: 5.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_51.png"
         });
 
         this.addCard(52, {
-            title: "Экспресс контракт",
-            description: "Быстрое выполнение",
-            price: 30,
-            category: "contracts",
-            rarity: "common",
-            image: "assets/shop/express_contract.png"
+            title: "Snoop Cigar",
+            description: "",
+            price: 6.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_52.png"
         });
 
         this.addCard(53, {
-            title: "VIP контракт",
-            description: "Эксклюзивные условия",
-            price: 180,
-            category: "contracts",
-            rarity: "legendary",
-            image: "assets/shop/vip_contract.png"
+            title: "Slegh Bell",
+            description: "",
+            price: 7.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_53.png"
         });
 
         this.addCard(54, {
-            title: "Стартовый контракт",
-            description: "Идеален для новичков",
-            price: 15,
-            category: "contracts",
-            rarity: "common",
-            image: "assets/shop/start_contract.png"
+            title: "Sky Skitettos",
+            description: "",
+            price: 8,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_54.png"
         });
 
         this.addCard(55, {
-            title: "Профессиональный контракт",
-            description: "Для опытных инвесторов",
-            price: 140,
-            category: "contracts",
-            rarity: "epic",
-            image: "assets/shop/pro_contract.png"
+            title: "Record Player",
+            description: "",
+            price: 8,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_55.png"
         });
 
-        // Бустеры (15 карточек)
         this.addCard(56, {
-            title: "Бустер удачи",
-            description: "Временное увеличение удачи",
-            price: 15,
-            category: "boosters",
-            rarity: "common",
-            image: "assets/shop/luck_booster.png"
+            title: "Crystal Ball",
+            description: "",
+            price: 8.4,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_56.png"
         });
 
         this.addCard(57, {
-            title: "Бустер опыта",
-            description: "Ускоренный набор опыта",
-            price: 20,
-            category: "boosters",
-            rarity: "common",
-            image: "assets/shop/exp_booster.png"
+            title: "Love Candle",
+            description: "",
+            price: 7.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_57.png"
         });
 
         this.addCard(58, {
-            title: "Золотой бустер",
-            description: "Увеличение дохода",
-            price: 50,
-            category: "boosters",
-            rarity: "rare",
-            image: "assets/shop/gold_booster.png"
+            title: "Top Hat",
+            description: "",
+            price: 8.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_58.png"
         });
 
         this.addCard(59, {
-            title: "Скоростной бустер",
-            description: "Ускорение процессов",
-            price: 35,
-            category: "boosters",
-            rarity: "common",
-            image: "assets/shop/speed_booster.png"
+            title: "Skull Flower",
+            description: "",
+            price: 9,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_59.png"
         });
 
         this.addCard(60, {
-            title: "Эпический бустер",
-            description: "Мощное временное усиление",
-            price: 75,
-            category: "boosters",
-            rarity: "epic",
-            image: "assets/shop/epic_booster.png"
+            title: "Trapped Heart",
+            description: "",
+            price: 10,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_60.png"
         });
 
         this.addCard(61, {
-            title: "Легендарный бустер",
-            description: "Максимальное усиление",
-            price: 120,
-            category: "boosters",
-            rarity: "legendary",
-            image: "assets/shop/legendary_booster.png"
+            title: "Love Potion",
+            description: "",
+            price: 11.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_61.png"
         });
 
         this.addCard(62, {
-            title: "Защитный бустер",
-            description: "Снижение рисков",
-            price: 40,
-            category: "boosters",
-            rarity: "rare",
-            image: "assets/shop/defense_booster.png"
+            title: "Flying Broom",
+            description: "",
+            price: 12,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_62.png"
         });
 
         this.addCard(63, {
-            title: "Атакующий бустер",
-            description: "Увеличение выигрышей",
-            price: 55,
-            category: "boosters",
-            rarity: "epic",
-            image: "assets/shop/attack_booster.png"
+            title: "Ionic Dryer",
+            description: "",
+            price: 13,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_63.png"
         });
 
         this.addCard(64, {
-            title: "Энергетический бустер",
-            description: "Восстановление энергии",
-            price: 25,
-            category: "boosters",
-            rarity: "common",
-            image: "assets/shop/energy_booster.png"
+            title: "Cupid Charm",
+            description: "",
+            price: 14,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_64.png"
         });
 
         this.addCard(65, {
-            title: "Магический бустер",
-            description: "Особые способности",
-            price: 90,
-            category: "boosters",
-            rarity: "epic",
-            image: "assets/shop/magic_booster.png"
+            title: "Eternal Rose",
+            description: "",
+            price: 17,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_65.png"
         });
 
         this.addCard(66, {
-            title: "Бустер времени",
-            description: "Продление времени",
-            price: 30,
-            category: "boosters",
-            rarity: "common",
-            image: "assets/shop/time_booster.png"
+            title: "Mad Pumpkin",
+            description: "",
+            price: 18.5,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_66.png"
         });
 
         this.addCard(67, {
-            title: "Критический бустер",
-            description: "Увеличение шанса крита",
-            price: 65,
-            category: "boosters",
-            rarity: "rare",
-            image: "assets/shop/critical_booster.png"
+            title: "Diamond Ring",
+            description: "",
+            price: 20,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_67.png"
         });
 
         this.addCard(68, {
-            title: "Бустер везения",
-            description: "Максимальная удача",
-            price: 100,
-            category: "boosters",
-            rarity: "legendary",
-            image: "assets/shop/lucky_booster.png"
+            title: "Voodoo Doll",
+            description: "",
+            price: 22,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_68.png"
         });
 
         this.addCard(69, {
-            title: "Бустер прогресса",
-            description: "Ускорение развития",
-            price: 45,
-            category: "boosters",
-            rarity: "rare",
-            image: "assets/shop/progress_booster.png"
+            title: "Toy Bear",
+            description: "",
+            price: 24,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_69.png"
         });
 
         this.addCard(70, {
-            title: "Бустер богатства",
-            description: "Приумножение капитала",
+            title: "Vintage Cigar",
+            description: "",
+            price: 25,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_70.png"
+        });
+
+        this.addCard(71, {
+            title: "Signet Ring",
+            description: "",
+            price: 28,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_71.png"
+        });
+
+        this.addCard(72, {
+            title: "Low Rider",
+            description: "",
+            price: 30,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_72.png"
+        });
+
+        this.addCard(73, {
+            title: "Neko Helmet",
+            description: "",
+            price: 33,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_73.png"
+        });
+
+        this.addCard(74, {
+            title: "Kissed Frog",
+            description: "",
+            price: 35,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_74.png"
+        });
+
+        this.addCard(75, {
+            title: "Sharp Tongue",
+            description: "",
+            price: 40,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_75.png"
+        });
+
+        this.addCard(76, {
+            title: "Swiss Watch",
+            description: "",
+            price: 47,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_76.png"
+        });
+
+        this.addCard(77, {
+            title: "Genie Lamp",
+            description: "",
+            price: 50,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_77.png"
+        });
+
+        this.addCard(78, {
+            title: "Bonded Ring",
+            description: "",
+            price: 55,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_78.png"
+        });
+
+        this.addCard(79, {
+            title: "Westside Sign",
+            description: "",
+            price: 58,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_79.png"
+        });
+
+        this.addCard(80, {
+            title: "Scared Cat",
+            description: "",
+            price: 60,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_80.png"
+        });
+
+        this.addCard(81, {
+            title: "Gem Signet",
+            description: "",
+            price: 65,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_81.png"
+        });
+
+        this.addCard(82, {
+            title: "Magic Potion",
+            description: "",
+            price: 77,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_82.png"
+        });
+
+        this.addCard(83, {
+            title: "Ion Gem",
+            description: "",
+            price: 80,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_83.png"
+        });
+
+        this.addCard(84, {
+            title: "Perfume Bottle",
+            description: "",
+            price: 88,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_84.png"
+        });
+
+        this.addCard(85, {
+            title: "Mini Oscar",
+            description: "",
+            price: 90,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_85.png"
+        });
+
+        this.addCard(86, {
+            title: "Loot Bag",
+            description: "",
+            price: 95,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_86.png"
+        });
+
+        this.addCard(87, {
+            title: "Artisan Brick",
+            description: "",
             price: 110,
-            category: "boosters",
-            rarity: "legendary",
-            image: "assets/shop/wealth_booster.png"
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_87.png"
+        });
+
+        this.addCard(88, {
+            title: "Nail Bracelet",
+            description: "",
+            price: 120,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_88.png"
+        });
+
+        this.addCard(89, {
+            title: "Astral Shard",
+            description: "",
+            price: 145,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_89.png"
+        });
+
+        this.addCard(90, {
+            title: "Mighty Arm",
+            description: "",
+            price: 235,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_90.png"
+        });
+
+        this.addCard(91, {
+            title: "Heroic Helmet",
+            description: "",
+            price: 250,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_91.png"
+        });
+
+        this.addCard(92, {
+            title: "Precious Peach",
+            description: "",
+            price: 385,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_92.png"
+        });
+
+        this.addCard(93, {
+            title: "Durov's Cap",
+            description: "",
+            price: 900,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_93.png"
+        });
+
+        this.addCard(94, {
+            title: "Heart Locket",
+            description: "",
+            price: 1300,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_94.png"
+        });
+
+        this.addCard(95, {
+            title: "Plush Pepe",
+            description: "",
+            price: 6000,
+            category: "items",
+            rarity: "",
+            image: "assets/shop/item_95.png"
         });
     }
 
@@ -668,6 +890,16 @@ class CardSystem {
 
     getAllCards() {
         return Array.from(this.cards.values());
+    }
+
+    getRarityText(rarity) {
+        const rarityMap = {
+            'common': 'Обычная',
+            'rare': 'Редкая',
+            'epic': 'Эпическая',
+            'legendary': 'Легендарная'
+        };
+        return rarityMap[rarity] || rarity;
     }
 }
 
