@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xanchik Bet - Инвентарь</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 80px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .balance {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .deposit-btn {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .deposit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .inventory-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .inventory-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .inventory-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* Стили для карточек инвентаря */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .inventory-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inventory-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .card-rarity {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .rarity-common { color: #b0b0b0; }
+        .rarity-rare { color: #4CAF50; }
+        .rarity-epic { color: #9C27B0; }
+        .rarity-legendary { color: #FF9800; }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+
+        .price-amount {
+            font-size: 1.1rem;
+            color: #4CAF50;
+        }
+
+        .price-currency {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sell-button {
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            flex: 1;
+        }
+
+        .withdraw-button {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            flex: 1;
+        }
+
+        .sell-button:hover, .withdraw-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .empty-inventory {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 23px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            margin: auto; /* Центрирование по вертикали и горизонтали */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffa36c;
+        }
+
+        .empty-description {
+            opacity: 0.7;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .go-to-shop {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .go-to-shop:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-confirm {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .modal-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 2000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Нижнее меню */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 12, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 5px 12px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #ffa36c;
+            background: rgba(255, 163, 108, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            .logo h1 {
+                font-size: 1.7rem;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .inventory-title {
+                font-size: 2rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .card-actions {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Xanchik Bet</h1>
+            </div>
+            <div class="user-info">
+                <div class="balance">
+                    <span id="balanceAmount">10.5 TON</span>
+                    <button class="deposit-btn">Пополнить</button>
+                </div>
+                <div class="avatar">U</div>
+            </div>
+        </header>
+
+        <div class="inventory-header">
+            <h2 class="inventory-title">Инвентарь</h2>
+            <p class="inventory-subtitle">Ваши купленные предметы и улучшения</p>
+        </div>
+
+        <div class="cards-grid" id="inventoryGrid">
+            <!-- Купленные предметы будут отображаться здесь -->
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Модальное окно подтверждения продажи -->
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+            <h3 id="sellModalTitle">Подтверждение продажи</h3>
+            <p id="sellModalDescription">Вы уверены, что хотите продать этот предмет?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmSell">Продать</button>
+                <button class="modal-btn modal-cancel" id="cancelSell">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения вывода -->
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <h3 id="withdrawModalTitle">Подтверждение вывода</h3>
+            <p id="withdrawModalDescription">Вы уверены, что хотите вывести этот предмет?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmWithdraw">Вывести</button>
+                <button class="modal-btn modal-cancel" id="cancelWithdraw">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="inv.html" class="nav-item active">
+                <div class="nav-icon">🎒</div>
+                <div class="nav-text">Инвентарь</div>
+            </a>
+            <a href="index.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Главная</div>
+            </a>
+            <a href="shop.html" class="nav-item">
+                <div class="nav-icon">🛒</div>
+                <div class="nav-text">Магазин</div>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Переменные для модальных окон
+        let currentItemId = null;
+        let currentAction = null; // 'sell' или 'withdraw'
+
+        // Показать уведомление
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Генерация инвентаря
+        function generateInventory() {
+            const inventoryGrid = document.getElementById('inventoryGrid');
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+
+            if (inventory.length === 0) {
+                inventoryGrid.innerHTML = `
+                    <div class="empty-inventory">
+                        <div class="empty-icon">🎒</div>
+                        <div class="empty-text">Инвентарь пуст</div>
+                        <div class="empty-description">
+                            Купите предметы в магазине, чтобы они появились здесь!
+                        </div>
+                        <a href="shop.html" class="go-to-shop">Перейти в магазин</a>
+                    </div>
+                `;
+                return;
+            }
+
+            inventoryGrid.innerHTML = inventory.map(item => `
+                <div class="inventory-card" data-item-id="${item.id}">
+                    <div class="card-image">
+                        <div class="card-icon">🎮</div>
+                        <div class="card-rarity rarity-${item.rarity}">
+                            ${getRarityText(item.rarity)}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-description">${item.description}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-price">
+                            <span class="price-amount">${item.sellPrice}</span>
+                            <span class="price-currency">TON</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="sell-button" onclick="showActionModal(${item.id}, 'sell')">
+                                Продать
+                            </button>
+                            <button class="withdraw-button" onclick="showActionModal(${item.id}, 'withdraw')">
+                                Вывод
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Показать модальное окно действия
+        function showActionModal(itemId, action) {
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+            const item = inventory.find(i => i.id === itemId);
+
+            if (item) {
+                currentItemId = itemId;
+                currentAction = action;
+
+                if (action === 'sell') {
+                    const modal = document.getElementById('sellModal');
+                    const modalTitle = document.getElementById('sellModalTitle');
+                    const modalDescription = document.getElementById('sellModalDescription');
+
+                    modalTitle.textContent = `Продать: ${item.title}`;
+                    modalDescription.textContent = `Вы получите: ${item.sellPrice} TON\n\n${item.description}`;
+                    modal.style.display = 'block';
+                } else if (action === 'withdraw') {
+                    const modal = document.getElementById('withdrawModal');
+                    const modalTitle = document.getElementById('withdrawModalTitle');
+                    const modalDescription = document.getElementById('withdrawModalDescription');
+
+                    modalTitle.textContent = `Вывод: ${item.title}`;
+                    modalDescription.textContent = `Вы уверены, что хотите вывести этот предмет?\n\n${item.description}`;
+                    modal.style.display = 'block';
+                }
+            }
+        }
+
+        // Подтверждение действия
+        function confirmAction() {
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+            const itemIndex = inventory.findIndex(i => i.id === currentItemId);
+
+            if (itemIndex !== -1) {
+                const item = inventory[itemIndex];
+
+                if (currentAction === 'sell') {
+                    // Добавляем деньги за продажу
+                    updateBalance(item.sellPrice);
+                    // Удаляем предмет из инвентаря
+                    inventory.splice(itemIndex, 1);
+                    localStorage.setItem('userInventory', JSON.stringify(inventory));
+
+                    // Показываем уведомление о продаже
+                    showNotification(`Предмет "${item.title}" продан за ${item.sellPrice} TON`);
+
+                } else if (currentAction === 'withdraw') {
+                    // Просто удаляем предмет (вывод)
+                    inventory.splice(itemIndex, 1);
+                    localStorage.setItem('userInventory', JSON.stringify(inventory));
+
+                    // Показываем уведомление о выводе
+                    showNotification(`Предмет "${item.title}" выведен`);
+                }
+
+                closeModals();
+                generateInventory(); // Обновляем отображение инвентаря
+            }
+        }
+
+        // Закрыть все модальные окна
+        function closeModals() {
+            document.getElementById('sellModal').style.display = 'none';
+            document.getElementById('withdrawModal').style.display = 'none';
+            currentItemId = null;
+            currentAction = null;
+        }
+
+        // Вспомогательные функции
+        function getRarityText(rarity) {
+            const rarityMap = {
+                'common': 'Обычная',
+                'rare': 'Редкая',
+                'epic': 'Эпическая',
+                'legendary': 'Легендарная'
+            };
+            return rarityMap[rarity] || rarity;
+        }
+
+        // Инициализация баланса
+        function initializeBalance() {
+            let balance = localStorage.getItem('userBalance');
+            if (!balance) {
+                balance = '10.5';
+                localStorage.setItem('userBalance', balance);
+            }
+            document.getElementById('balanceAmount').textContent = balance + ' TON';
+            return parseFloat(balance);
+        }
+
+        // Обновление баланса
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+            currentBalance += amount;
+            currentBalance = Math.round(currentBalance * 100) / 100;
+            localStorage.setItem('userBalance', currentBalance.toFixed(2));
+            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+            return currentBalance;
+        }
+
+        // Обработка кнопки пополнения
+        document.querySelector('.deposit-btn').addEventListener('click', function() {
+            const amount = prompt('Введите сумму пополнения в TON:');
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                const parsedAmount = parseFloat(amount);
+                updateBalance(parsedAmount);
+                showNotification(`Баланс пополнен на ${parsedAmount} TON`);
+            }
+        });
+
+        // Сохранение баланса
+        function setupBalancePersistence() {
+            window.addEventListener('beforeunload', function() {
+                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                localStorage.setItem('userBalance', currentBalance);
+            });
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                }
+            });
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.onEvent('viewportChanged', function() {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                });
+            }
+        }
+
+        // Обработчики модальных окон
+        document.getElementById('confirmSell').addEventListener('click', confirmAction);
+        document.getElementById('cancelSell').addEventListener('click', closeModals);
+        document.getElementById('confirmWithdraw').addEventListener('click', confirmAction);
+        document.getElementById('cancelWithdraw').addEventListener('click', closeModals);
+
+        // Закрытие модальных окон при клике вне их
+        window.addEventListener('click', function(event) {
+            const sellModal = document.getElementById('sellModal');
+            const withdrawModal = document.getElementById('withdrawModal');
+
+            if (event.target === sellModal || event.target === withdrawModal) {
+                closeModals();
+            }
+        });
+
+        // Активация пунктов нижнего меню
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === 'inv.html') {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBalance();
+            setupBalancePersistence();
+            generateInventory();
+        });
+
+        // Telegram Web App
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+            Telegram.WebApp.ready();
+        }
+
+        // Периодическое сохранение
+        setInterval(function() {
+            const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+            const savedBalance = localStorage.getItem('userBalance');
+            if (currentBalance !== savedBalance) {
+                localStorage.setItem('userBalance', currentBalance);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

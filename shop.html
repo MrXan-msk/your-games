@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xanchik Bet - Магазин</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .balance {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .deposit-btn {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .deposit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .shop-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .shop-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .shop-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* Стили для карточек */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .shop-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .card-rarity {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .rarity-common { color: #b0b0b0; }
+        .rarity-rare { color: #4CAF50; }
+        .rarity-epic { color: #9C27B0; }
+        .rarity-legendary { color: #FF9800; }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+
+        .price-amount {
+            font-size: 1.1rem;
+            color: #ffa36c;
+        }
+
+        .price-currency {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .buy-button {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .buy-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border-color: transparent;
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-confirm {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .modal-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Уведомление о покупке */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Нижнее меню */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 12, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 5px 12px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: #ffa36c;
+            background: rgba(255, 163, 108, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            .logo h1 {
+                font-size: 1.7rem;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .shop-title {
+                font-size: 2rem;
+            }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Xanchik Bet</h1>
+            </div>
+            <div class="user-info">
+                <div class="balance">
+                    <span id="balanceAmount">10.5 TON</span>
+                    <button class="deposit-btn">Пополнить</button>
+                </div>
+                <div class="avatar">U</div>
+            </div>
+        </header>
+
+        <div class="shop-header">
+            <h2 class="shop-title">Магазин</h2>
+            <p class="shop-subtitle">Покупайте уникальные предметы и улучшения</p>
+        </div>
+
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">Все</button>
+            <button class="filter-btn" data-category="upgrades">Апгрейды</button>
+            <button class="filter-btn" data-category="cases">Кейсы</button>
+            <button class="filter-btn" data-category="contracts">Контракты</button>
+            <button class="filter-btn" data-category="boosters">Бустеры</button>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid">
+            <!-- Карточки будут сгенерированы через JavaScript -->
+        </div>
+    </div>
+
+    <!-- Уведомление о покупке -->
+    <div class="notification" id="notification">
+        Покупка успешно завершена!
+    </div>
+
+    <!-- Модальное окно подтверждения покупки -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Подтверждение покупки</h3>
+            <p id="modalDescription">Вы уверены, что хотите купить этот предмет?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmPurchase">Купить</button>
+                <button class="modal-btn modal-cancel" id="cancelPurchase">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="inv.html" class="nav-item">
+                <div class="nav-icon">👤</div>
+                <div class="nav-text">Профиль</div>
+            </a>
+            <a href="index.html" class="nav-item">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Главная</div>
+            </a>
+            <a href="shop.html" class="nav-item active">
+                <div class="nav-icon">🛒</div>
+                <div class="nav-text">Магазин</div>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Система карточек
+        class CardSystem {
+            constructor() {
+                this.cards = new Map();
+                this.initializeCards();
+            }
+
+            initializeCards() {
+                // Апгрейды (25 карточек)
+                for (let i = 1; i <= 25; i++) {
+                    this.addCard(i, {
+                        title: `Апгрейд ${i}`,
+                        description: `Мощное улучшение для вашего аккаунта #${i}`,
+                        price: Math.floor(Math.random() * 100) + 50,
+                        category: "upgrades",
+                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
+                        image: `assets/shop/upgrade_${i}.png`
+                    });
+                }
+
+                // Кейсы (15 карточек)
+                for (let i = 26; i <= 40; i++) {
+                    this.addCard(i, {
+                        title: `Кейс ${i-25}`,
+                        description: `Случайный набор предметов #${i-25}`,
+                        price: Math.floor(Math.random() * 80) + 20,
+                        category: "cases",
+                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
+                        image: `assets/shop/case_${i-25}.png`
+                    });
+                }
+
+                // Контракты (15 карточек)
+                for (let i = 41; i <= 55; i++) {
+                    this.addCard(i, {
+                        title: `Контракт ${i-40}`,
+                        description: `Выгодное предложение #${i-40}`,
+                        price: Math.floor(Math.random() * 120) + 30,
+                        category: "contracts",
+                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
+                        image: `assets/shop/contract_${i-40}.png`
+                    });
+                }
+
+                // Бустеры (15 карточек)
+                for (let i = 56; i <= 70; i++) {
+                    this.addCard(i, {
+                        title: `Бустер ${i-55}`,
+                        description: `Временное усиление #${i-55}`,
+                        price: Math.floor(Math.random() * 60) + 10,
+                        category: "boosters",
+                        rarity: ["common", "rare", "epic", "legendary"][Math.floor(Math.random() * 4)],
+                        image: `assets/shop/booster_${i-55}.png`
+                    });
+                }
+            }
+
+            addCard(id, cardData) {
+                this.cards.set(id, {
+                    id,
+                    title: cardData.title,
+                    description: cardData.description,
+                    price: cardData.price,
+                    image: cardData.image,
+                    category: cardData.category,
+                    rarity: cardData.rarity
+                });
+            }
+
+            getCardsByCategory(category) {
+                if (category === 'all') {
+                    return Array.from(this.cards.values());
+                }
+                return Array.from(this.cards.values()).filter(card => card.category === category);
+            }
+
+            getCard(id) {
+                return this.cards.get(id);
+            }
+
+            getRarityText(rarity) {
+                const rarityMap = {
+                    'common': 'Обычная',
+                    'rare': 'Редкая',
+                    'epic': 'Эпическая',
+                    'legendary': 'Легендарная'
+                };
+                return rarityMap[rarity] || rarity;
+            }
+        }
+
+        // Система инвентаря
+        class InventorySystem {
+            constructor() {
+                this.items = JSON.parse(localStorage.getItem('userInventory')) || [];
+            }
+
+            addItem(card) {
+                const inventoryItem = {
+                    id: Date.now(),
+                    cardId: card.id,
+                    title: card.title,
+                    description: card.description,
+                    image: card.image,
+                    rarity: card.rarity,
+                    category: card.category,
+                    purchasePrice: card.price,
+                    sellPrice: Math.floor(card.price * 0.72)
+                };
+
+                this.items.push(inventoryItem);
+                this.save();
+                return inventoryItem;
+            }
+
+            removeItem(itemId) {
+                this.items = this.items.filter(item => item.id !== itemId);
+                this.save();
+            }
+
+            getItems() {
+                return this.items;
+            }
+
+            save() {
+                localStorage.setItem('userInventory', JSON.stringify(this.items));
+            }
+        }
+
+        // Создаем глобальные экземпляры
+        const cardSystem = new CardSystem();
+        const inventorySystem = new InventorySystem();
+
+        // Переменные для модального окна
+        let currentCardId = null;
+
+        // Показать уведомление
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Генерация карточек в магазине
+        function generateShopCards(category = 'all') {
+            const cardsGrid = document.getElementById('cardsGrid');
+            const cards = cardSystem.getCardsByCategory(category);
+
+            cardsGrid.innerHTML = cards.map(card => `
+                <div class="shop-card" data-card-id="${card.id}">
+                    <div class="card-image">
+                        <div class="card-icon">🎮</div>
+                        <div class="card-rarity rarity-${card.rarity}">
+                            ${cardSystem.getRarityText(card.rarity)}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${card.title}</h3>
+                        <p class="card-description">${card.description}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-price">
+                            <span class="price-amount">${card.price}</span>
+                            <span class="price-currency">TON</span>
+                        </div>
+                        <button class="buy-button" onclick="showPurchaseModal(${card.id})">
+                            Купить
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Показать модальное окно покупки
+        function showPurchaseModal(cardId) {
+            const card = cardSystem.getCard(cardId);
+            const modal = document.getElementById('purchaseModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+
+            currentCardId = cardId;
+            modalTitle.textContent = `Купить: ${card.title}`;
+            modalDescription.textContent = `Цена: ${card.price} TON\n\n${card.description}`;
+            modal.style.display = 'block';
+        }
+
+        // Купить предмет
+        function purchaseItem() {
+            const card = cardSystem.getCard(currentCardId);
+            const balance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+
+            if (balance >= card.price) {
+                updateBalance(-card.price);
+                inventorySystem.addItem(card);
+                showNotification(`Успешно куплено: ${card.title}`);
+                closeModal();
+            } else {
+                showNotification('Недостаточно средств!');
+                closeModal();
+            }
+        }
+
+        // Закрыть модальное окно
+        function closeModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            currentCardId = null;
+        }
+
+        // Фильтрация по категориям
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                generateShopCards(this.dataset.category);
+            });
+        });
+
+        // Инициализация баланса
+        function initializeBalance() {
+            let balance = localStorage.getItem('userBalance');
+            if (!balance) {
+                balance = '10.5';
+                localStorage.setItem('userBalance', balance);
+            }
+            document.getElementById('balanceAmount').textContent = balance + ' TON';
+            return parseFloat(balance);
+        }
+
+        // Обновление баланса
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+            currentBalance += amount;
+            currentBalance = Math.round(currentBalance * 100) / 100;
+            localStorage.setItem('userBalance', currentBalance.toFixed(2));
+            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+            return currentBalance;
+        }
+
+        // Обработка кнопки пополнения
+        document.querySelector('.deposit-btn').addEventListener('click', function() {
+            const amount = prompt('Введите сумму пополнения в TON:');
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                const parsedAmount = parseFloat(amount);
+                updateBalance(parsedAmount);
+                showNotification(`Баланс пополнен на ${parsedAmount} TON`);
+            }
+        });
+
+        // Сохранение баланса
+        function setupBalancePersistence() {
+            window.addEventListener('beforeunload', function() {
+                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                localStorage.setItem('userBalance', currentBalance);
+            });
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                }
+            });
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.onEvent('viewportChanged', function() {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                });
+            }
+        }
+
+        // Обработчики модального окна
+        document.getElementById('confirmPurchase').addEventListener('click', purchaseItem);
+        document.getElementById('cancelPurchase').addEventListener('click', closeModal);
+
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('purchaseModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBalance();
+            setupBalancePersistence();
+            generateShopCards();
+        });
+
+        // Telegram Web App
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+            Telegram.WebApp.ready();
+        }
+
+        // Периодическое сохранение
+        setInterval(function() {
+            const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+            const savedBalance = localStorage.getItem('userBalance');
+            if (currentBalance !== savedBalance) {
+                localStorage.setItem('userBalance', currentBalance);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
