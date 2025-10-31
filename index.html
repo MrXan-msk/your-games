@@ -154,48 +154,50 @@
             font-size: 0.8rem;
         }
 
+        /* Стили для PNG картинок из папки assets */
         .crash {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/crash.png');
             background-size: cover;
             background-position: center;
         }
 
         .mines {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/mines.png');
             background-size: cover;
             background-position: center;
         }
 
         .upgrades {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/upgrades.png');
             background-size: cover;
             background-position: center;
         }
 
         .cases {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/cases.png');
             background-size: cover;
             background-position: center;
         }
 
         .contracts {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/contracts.png');
             background-size: cover;
             background-position: center;
         }
 
         .shop {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('assets/shop.png');
             background-size: cover;
             background-position: center;
         }
 
+        /* Градиентные заглушки для PNG */
         .crash::after {
             content: '';
             position: absolute;
@@ -268,6 +270,7 @@
             z-index: 0;
         }
 
+        /* Нижнее меню */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -318,28 +321,39 @@
             .container {
                 padding: 10px;
             }
-
+            
             header {
                 flex-direction: column;
                 gap: 15px;
                 padding: 10px 0;
             }
-
+            
             .logo h1 {
                 font-size: 1.7rem;
             }
-
+            
             .user-info {
                 width: 100%;
                 justify-content: space-between;
             }
-
+            
             .main-content {
                 gap: 12px;
             }
-
+            
             .game-card {
                 height: 130px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .main-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .game-card {
+                height: 150px;
             }
         }
     </style>
@@ -368,7 +382,7 @@
                     </div>
                 </div>
             </a>
-
+            
             <a href="mines.html" style="text-decoration: none;">
                 <div class="game-card mines">
                     <div class="game-card-content">
@@ -377,7 +391,7 @@
                     </div>
                 </div>
             </a>
-
+            
             <a href="upgrade.html" style="text-decoration: none;">
                 <div class="game-card upgrades">
                     <div class="game-card-content">
@@ -386,7 +400,7 @@
                     </div>
                 </div>
             </a>
-
+            
             <a href="cases.html" style="text-decoration: none;">
                 <div class="game-card cases">
                     <div class="game-card-content">
@@ -395,7 +409,7 @@
                     </div>
                 </div>
             </a>
-
+            
             <a href="contract.html" style="text-decoration: none;">
                 <div class="game-card contracts">
                     <div class="game-card-content">
@@ -404,7 +418,7 @@
                     </div>
                 </div>
             </a>
-
+            
             <a href="shop.html" style="text-decoration: none;">
                 <div class="game-card shop">
                     <div class="game-card-content">
@@ -416,6 +430,7 @@
         </div>
     </div>
 
+    <!-- Нижнее меню -->
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="profile.html" class="nav-item">
@@ -434,6 +449,7 @@
     </nav>
 
     <script>
+        // Инициализация баланса
         function initializeBalance() {
             let balance = localStorage.getItem('userBalance');
             if (!balance) {
@@ -441,27 +457,122 @@
                 localStorage.setItem('userBalance', balance);
             }
             document.getElementById('balanceAmount').textContent = balance + ' TON';
+            return parseFloat(balance);
         }
 
+        // Обновление баланса
         function updateBalance(amount) {
             let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
             currentBalance += amount;
+            
+            // Округляем до 2 знаков после запятой
+            currentBalance = Math.round(currentBalance * 100) / 100;
+            
             localStorage.setItem('userBalance', currentBalance.toFixed(2));
             document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
             return currentBalance;
         }
 
+        // Обработка кнопки пополнения
         document.querySelector('.deposit-btn').addEventListener('click', function() {
             const amount = prompt('Введите сумму пополнения в TON:');
             if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                updateBalance(parseFloat(amount));
-                alert('Баланс успешно пополнен на ' + amount + ' TON!');
+                const parsedAmount = parseFloat(amount);
+                updateBalance(parsedAmount);
+                alert('Баланс успешно пополнен на ' + parsedAmount.toFixed(2) + ' TON!');
+            } else if (amount) {
+                alert('Пожалуйста, введите корректную сумму!');
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeBalance();
+        // Функция для принудительного сохранения баланса при закрытии
+        function setupBalancePersistence() {
+            // Сохраняем баланс при закрытии страницы
+            window.addEventListener('beforeunload', function() {
+                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                localStorage.setItem('userBalance', currentBalance);
+            });
+
+            // Также сохраняем при изменении видимости страницы (для мобильных устройств)
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                }
+            });
+
+            // Для Telegram Web App - слушаем события закрытия
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.onEvent('viewportChanged', function() {
+                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                    localStorage.setItem('userBalance', currentBalance);
+                });
+            }
+        }
+
+        // Активация пунктов нижнего меню
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Для главной страницы не перезагружаем, просто обновляем активный элемент
+                if (this.getAttribute('href') === 'index.html') {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
         });
+
+        // Проверка загрузки PNG изображений
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализируем баланс
+            initializeBalance();
+            
+            // Настраиваем сохранение баланса
+            setupBalancePersistence();
+
+            const imageUrls = [
+                'assets/crash.png',
+                'assets/mines.png', 
+                'assets/upgrades.png',
+                'assets/cases.png',
+                'assets/contracts.png',
+                'assets/shop.png'
+            ];
+
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.onerror = function() {
+                    console.log('Изображение не найдено: ' + url);
+                };
+                img.src = url;
+            });
+        });
+
+        // Имитация Telegram Web App с улучшенной обработкой
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+            
+            // Дополнительная обработка для Telegram
+            Telegram.WebApp.ready();
+            
+            // Сохраняем баланс при любом изменении состояния
+            Telegram.WebApp.onEvent('viewportChanged', function(e) {
+                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+                localStorage.setItem('userBalance', currentBalance);
+            });
+        }
+
+        // Дополнительная защита - периодическое сохранение баланса
+        setInterval(function() {
+            const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
+            const savedBalance = localStorage.getItem('userBalance');
+            
+            // Если баланс изменился, сохраняем
+            if (currentBalance !== savedBalance) {
+                localStorage.setItem('userBalance', currentBalance);
+            }
+        }, 1000); // Сохраняем каждую секунду
     </script>
 </body>
 </html>
