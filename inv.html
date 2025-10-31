@@ -259,6 +259,16 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
+        /* ИСПРАВЛЕННЫЙ СТИЛЬ ДЛЯ ПУСТОГО ИНВЕНТАРЯ */
+        .empty-inventory-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+        }
+
         .empty-inventory {
             text-align: center;
             padding: 50px 30px;
@@ -267,12 +277,8 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             max-width: 400px;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .empty-icon {
@@ -476,25 +482,73 @@
             .card-actions {
                 width: 100%;
             }
+
+            /* Дополнительные стили для мобильных */
+            .empty-inventory-container {
+                padding: 10px;
+                min-height: 50vh;
+                display: flex;
+                align-items: center;
+            }
+
+            .empty-inventory {
+                padding: 40px 20px;
+                margin: 0;
+            }
+
+            .empty-icon {
+                font-size: 2.5rem;
+            }
+
+            .empty-text {
+                font-size: 1.1rem;
+            }
+
+            .empty-description {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 480px) {
             .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .card-image {
                 height: 75px;
             }
-            
+
             .card-icon {
                 font-size: 1.8rem;
+            }
+
+            .empty-inventory {
+                padding: 30px 15px;
+            }
+
+            .empty-icon {
+                font-size: 2rem;
+            }
+
+            .empty-text {
+                font-size: 1rem;
             }
         }
 
         @media (max-width: 360px) {
             .cards-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .empty-inventory {
+                padding: 25px 15px;
+            }
+        }
+
+        /* Специальные стили для очень маленьких экранов */
+        @media (max-height: 600px) {
+            .empty-inventory-container {
+                min-height: 40vh;
             }
         }
     </style>
@@ -519,8 +573,8 @@
             <p class="inventory-subtitle">Ваши купленные предметы и улучшения</p>
         </div>
 
-        <div class="cards-grid" id="inventoryGrid">
-            <!-- Купленные предметы будут отображаться здесь -->
+        <div id="inventoryContent">
+            <!-- Контент будет динамически заменяться -->
         </div>
     </div>
 
@@ -579,7 +633,7 @@
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
@@ -587,51 +641,57 @@
 
         // Генерация инвентаря
         function generateInventory() {
-            const inventoryGrid = document.getElementById('inventoryGrid');
+            const inventoryContent = document.getElementById('inventoryContent');
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
 
             if (inventory.length === 0) {
-                inventoryGrid.innerHTML = `
-                    <div class="empty-inventory">
-                        <div class="empty-icon">🎒</div>
-                        <div class="empty-text">Инвентарь пуст</div>
-                        <div class="empty-description">
-                            Купите предметы в магазине, чтобы они появились здесь!
+                inventoryContent.innerHTML = `
+                    <div class="empty-inventory-container">
+                        <div class="empty-inventory">
+                            <div class="empty-icon">🎒</div>
+                            <div class="empty-text">Инвентарь пуст</div>
+                            <div class="empty-description">
+                                Купите предметы в магазине, чтобы они появились здесь!
+                            </div>
+                            <a href="shop.html" class="go-to-shop">Перейти в магазин</a>
                         </div>
-                        <a href="shop.html" class="go-to-shop">Перейти в магазин</a>
                     </div>
                 `;
                 return;
             }
 
-            inventoryGrid.innerHTML = inventory.map(item => `
-                <div class="inventory-card" data-item-id="${item.id}">
-                    <div class="card-image">
-                        <div class="card-icon">${item.icon || '🎮'}</div>
-                        <div class="card-rarity rarity-${item.rarity}">
-                            ${getRarityText(item.rarity)}
+            inventoryContent.innerHTML = `
+                <div class="cards-grid" id="inventoryGrid">
+                    ${inventory.map(item => `
+                        <div class="inventory-card" data-item-id="${item.id}">
+                            <div class="card-image">
+                                <div class="card-icon">${item.icon || '🎮'}</div>
+                                <div class="card-rarity rarity-${item.rarity}">
+                                    ${getRarityText(item.rarity)}
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">${item.title}</h3>
+                                <p class="card-description">${item.description}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-price">
+                                    <span class="price-amount">${item.sellPrice}</span>
+                                    <span class="price-currency">TON</span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="sell-button" onclick="showActionModal(${item.id}, 'sell')">
+                                        Продать
+                                    </button>
+                                    <button class="withdraw-button" onclick="showActionModal(${item.id}, 'withdraw')">
+                                        Вывод
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${item.title}</h3>
-                        <p class="card-description">${item.description}</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-price">
-                            <span class="price-amount">${item.sellPrice}</span>
-                            <span class="price-currency">TON</span>
-                        </div>
-                        <div class="card-actions">
-                            <button class="sell-button" onclick="showActionModal(${item.id}, 'sell')">
-                                Продать
-                            </button>
-                            <button class="withdraw-button" onclick="showActionModal(${item.id}, 'withdraw')">
-                                Вывод
-                            </button>
-                        </div>
-                    </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
         }
 
         // Показать модальное окно действия
