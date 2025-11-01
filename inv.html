@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Инвентарь</title>
     <style>
+        /* СУЩЕСТВУЮЩИЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ */
         * {
             margin: 0;
             padding: 0;
@@ -117,7 +118,109 @@
             opacity: 0.8;
         }
 
-        /* Стили для карточек инвентаря - как в магазине */
+        /* НОВЫЕ СТИЛИ ДЛЯ МАССОВЫХ ОПЕРАЦИЙ */
+        .bulk-actions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .select-all-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .select-all-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .bulk-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bulk-button {
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .bulk-button.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .bulk-button.sell-all {
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+        }
+
+        .bulk-button.withdraw-all {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+        }
+
+        .bulk-button:hover.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .selected-count {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-left: 10px;
+        }
+
+        /* Кастомный чекбокс */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .custom-checkbox.checked {
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border-color: #ff6b6b;
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Стили для карточек инвентаря */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -136,15 +239,27 @@
             overflow: hidden;
         }
 
+        .inventory-card.selected {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+        }
+
         .inventory-card:hover {
             transform: translateY(-5px);
             border-color: rgba(255, 107, 107, 0.4);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
+        .card-checkbox {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 5;
+        }
+
         .card-image {
             width: 100%;
-            height: 140px; /* Увеличено для картинок как в магазине */
+            height: 140px;
             border-radius: 12px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
@@ -213,69 +328,68 @@
             margin-bottom: 10px;
         }
 
-       .card-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.card-price {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-weight: bold;
-}
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
 
-.price-amount {
-    font-size: 1.1rem;
-    color: #4CAF50;
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-}
+        .original-price {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
 
-.price-currency {
-    font-size: 0.8rem;
-    opacity: 0.8;
-}
+        .sell-price {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1rem;
+        }
 
-.card-actions {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
 
-.sell-button {
-    background: linear-gradient(90deg, #ff4444, #cc0000);
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.75rem;
-    flex: 1;
-}
+        .sell-button {
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            flex: 1;
+        }
 
-.withdraw-button {
-    background: linear-gradient(90deg, #2196F3, #1976D2);
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.75rem;
-    flex: 1;
-}
+        .withdraw-button {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            flex: 1;
+        }
 
-.sell-button:hover, .withdraw-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
+        .sell-button:hover, .withdraw-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
 
-        /* Стиль для пустого инвентаря */
+        /* Остальные стили без изменений */
         .empty-inventory-container {
             display: flex;
             justify-content: center;
@@ -335,7 +449,6 @@
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
         }
 
-        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -390,7 +503,6 @@
             color: white;
         }
 
-        /* Уведомление */
         .notification {
             position: fixed;
             top: 20px;
@@ -413,7 +525,6 @@
             transform: translateX(0);
         }
 
-        /* Нижнее меню */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -479,6 +590,26 @@
             .user-info {
                 width: 100%;
                 justify-content: space-between;
+            }
+
+            .bulk-actions {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 15px;
+            }
+
+            .select-all-container {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .bulk-buttons {
+                width: 100%;
+            }
+
+            .bulk-button {
+                flex: 1;
+                text-align: center;
             }
 
             .cards-grid {
@@ -585,6 +716,21 @@
             <p class="inventory-subtitle">Ваши купленные предметы и улучшения</p>
         </div>
 
+        <!-- Блок массовых операций -->
+        <div class="bulk-actions" id="bulkActions" style="display: none;">
+            <div class="select-all-container">
+                <div class="checkbox-container" onclick="toggleSelectAll()">
+                    <div class="custom-checkbox" id="selectAllCheckbox"></div>
+                    <span class="select-all-label">Выбрать все</span>
+                </div>
+                <span class="selected-count" id="selectedCount">Выбрано: 0</span>
+            </div>
+            <div class="bulk-buttons">
+                <button class="bulk-button sell-all" onclick="showBulkActionModal('sell')">Продать Все</button>
+                <button class="bulk-button withdraw-all" onclick="showBulkActionModal('withdraw')">Вывести Все</button>
+            </div>
+        </div>
+
         <div id="inventoryContent">
             <!-- Контент будет динамически заменяться -->
         </div>
@@ -617,6 +763,18 @@
         </div>
     </div>
 
+    <!-- Модальное окно массовых операций -->
+    <div class="modal" id="bulkModal">
+        <div class="modal-content">
+            <h3 id="bulkModalTitle">Массовая операция</h3>
+            <p id="bulkModalDescription">Вы уверены, что хотите выполнить эту операцию?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmBulk">Подтвердить</button>
+                <button class="modal-btn modal-cancel" id="cancelBulk">Отмена</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Нижнее меню -->
     <nav class="bottom-nav">
         <div class="nav-container">
@@ -639,6 +797,14 @@
         // Переменные для модальных окон
         let currentItemId = null;
         let currentAction = null;
+        let selectedItems = new Set();
+        let isSelectAll = false;
+
+        // Функция для расчета цены продажи (22% скидка)
+        function calculateSellPrice(originalPrice) {
+            const sellPrice = originalPrice * 0.78; // 22% скидка
+            return Math.round(sellPrice * 100) / 100; // Округление до 2 знаков
+        }
 
         // Функция для получения пути к изображению
         function getItemImage(item) {
@@ -674,9 +840,11 @@
         // Генерация инвентаря
         function generateInventory() {
             const inventoryContent = document.getElementById('inventoryContent');
+            const bulkActions = document.getElementById('bulkActions');
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
 
             if (inventory.length === 0) {
+                bulkActions.style.display = 'none';
                 inventoryContent.innerHTML = `
                     <div class="empty-inventory-container">
                         <div class="empty-inventory">
@@ -692,12 +860,23 @@
                 return;
             }
 
+            // Показываем блок массовых операций
+            bulkActions.style.display = 'flex';
+
             inventoryContent.innerHTML = `
                 <div class="cards-grid" id="inventoryGrid">
                     ${inventory.map(item => {
                         const imagePath = getItemImage(item);
+                        const sellPrice = calculateSellPrice(item.price);
+                        const isSelected = selectedItems.has(item.id);
+
                         return `
-                        <div class="inventory-card" data-item-id="${item.id}">
+                        <div class="inventory-card ${isSelected ? 'selected' : ''}" data-item-id="${item.id}">
+                            <div class="card-checkbox">
+                                <div class="checkbox-container" onclick="toggleItemSelection(${item.id}, event)">
+                                    <div class="custom-checkbox ${isSelected ? 'checked' : ''}"></div>
+                                </div>
+                            </div>
                             <div class="card-image">
                                 <img src="${imagePath}" alt="${item.title}"
                                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -709,9 +888,9 @@
                                 <p class="card-description">${item.description}</p>
                             </div>
                             <div class="card-footer">
-                                <div class="card-price">
-                                    <span class="price-amount">${item.sellPrice || item.price}</span>
-                                    <span class="price-currency">TON</span>
+                                <div class="price-info">
+                                    <span class="original-price">${item.price} TON</span>
+                                    <span class="sell-price">${sellPrice} TON</span>
                                 </div>
                                 <div class="card-actions">
                                     <button class="sell-button" onclick="showActionModal(${item.id}, 'sell')">
@@ -726,6 +905,88 @@
                     `}).join('')}
                 </div>
             `;
+
+            updateBulkButtons();
+        }
+
+        // Переключение выбора предмета
+        function toggleItemSelection(itemId, event) {
+            event.stopPropagation();
+
+            if (selectedItems.has(itemId)) {
+                selectedItems.delete(itemId);
+            } else {
+                selectedItems.add(itemId);
+            }
+
+            const card = document.querySelector(`[data-item-id="${itemId}"]`);
+            const checkbox = card.querySelector('.custom-checkbox');
+
+            if (selectedItems.has(itemId)) {
+                card.classList.add('selected');
+                checkbox.classList.add('checked');
+            } else {
+                card.classList.remove('selected');
+                checkbox.classList.remove('checked');
+            }
+
+            updateSelectedCount();
+            updateBulkButtons();
+            updateSelectAllCheckbox();
+        }
+
+        // Переключение "Выбрать все"
+        function toggleSelectAll() {
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+
+            if (isSelectAll) {
+                // Снять выделение со всех
+                selectedItems.clear();
+                isSelectAll = false;
+            } else {
+                // Выделить все
+                inventory.forEach(item => {
+                    selectedItems.add(item.id);
+                });
+                isSelectAll = true;
+            }
+
+            generateInventory();
+            updateBulkButtons();
+        }
+
+        // Обновление счетчика выбранных предметов
+        function updateSelectedCount() {
+            const selectedCount = document.getElementById('selectedCount');
+            selectedCount.textContent = `Выбрано: ${selectedItems.size}`;
+        }
+
+        // Обновление чекбокса "Выбрать все"
+        function updateSelectAllCheckbox() {
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+
+            if (selectedItems.size === inventory.length && inventory.length > 0) {
+                selectAllCheckbox.classList.add('checked');
+                isSelectAll = true;
+            } else {
+                selectAllCheckbox.classList.remove('checked');
+                isSelectAll = false;
+            }
+        }
+
+        // Обновление кнопок массовых операций
+        function updateBulkButtons() {
+            const sellAllBtn = document.querySelector('.bulk-button.sell-all');
+            const withdrawAllBtn = document.querySelector('.bulk-button.withdraw-all');
+
+            if (selectedItems.size > 0) {
+                sellAllBtn.classList.add('active');
+                withdrawAllBtn.classList.add('active');
+            } else {
+                sellAllBtn.classList.remove('active');
+                withdrawAllBtn.classList.remove('active');
+            }
         }
 
         // Показать модальное окно действия
@@ -741,9 +1002,10 @@
                     const modal = document.getElementById('sellModal');
                     const modalTitle = document.getElementById('sellModalTitle');
                     const modalDescription = document.getElementById('sellModalDescription');
+                    const sellPrice = calculateSellPrice(item.price);
 
                     modalTitle.textContent = `Продать: ${item.title}`;
-                    modalDescription.textContent = `Вы получите: ${item.sellPrice || item.price} TON\n\n${item.description}`;
+                    modalDescription.textContent = `Вы получите: ${sellPrice} TON\n\n${item.description}`;
                     modal.style.display = 'block';
                 } else if (action === 'withdraw') {
                     const modal = document.getElementById('withdrawModal');
@@ -757,7 +1019,28 @@
             }
         }
 
-        // Подтверждение действия
+        // Показать модальное окно массовых операций
+        function showBulkActionModal(action) {
+            if (selectedItems.size === 0) return;
+
+            const modal = document.getElementById('bulkModal');
+            const modalTitle = document.getElementById('bulkModalTitle');
+            const modalDescription = document.getElementById('bulkModalDescription');
+
+            currentAction = action;
+
+            if (action === 'sell') {
+                modalTitle.textContent = 'Массовая продажа';
+                modalDescription.textContent = `Вы уверены, что хотите продать ${selectedItems.size} предметов?`;
+            } else if (action === 'withdraw') {
+                modalTitle.textContent = 'Массовый вывод';
+                modalDescription.textContent = `Вы уверены, что хотите вывести ${selectedItems.size} предметов?`;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // Подтверждение одиночного действия
         function confirmAction() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const itemIndex = inventory.findIndex(i => i.id === currentItemId);
@@ -766,7 +1049,7 @@
                 const item = inventory[itemIndex];
 
                 if (currentAction === 'sell') {
-                    const sellPrice = item.sellPrice || item.price;
+                    const sellPrice = calculateSellPrice(item.price);
                     updateBalance(parseFloat(sellPrice));
                     inventory.splice(itemIndex, 1);
                     localStorage.setItem('userInventory', JSON.stringify(inventory));
@@ -782,10 +1065,47 @@
             }
         }
 
+        // Подтверждение массового действия
+        function confirmBulkAction() {
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+            let totalEarned = 0;
+            let itemsProcessed = 0;
+
+            // Фильтруем инвентарь, удаляя выбранные предметы
+            const newInventory = inventory.filter(item => {
+                if (selectedItems.has(item.id)) {
+                    if (currentAction === 'sell') {
+                        const sellPrice = calculateSellPrice(item.price);
+                        totalEarned += sellPrice;
+                    }
+                    itemsProcessed++;
+                    return false; // Удаляем предмет
+                }
+                return true; // Сохраняем предмет
+            });
+
+            if (currentAction === 'sell') {
+                updateBalance(totalEarned);
+                showNotification(`Продано ${itemsProcessed} предметов за ${totalEarned.toFixed(2)} TON`);
+            } else if (currentAction === 'withdraw') {
+                showNotification(`Выведено ${itemsProcessed} предметов`);
+            }
+
+            // Сохраняем обновленный инвентарь
+            localStorage.setItem('userInventory', JSON.stringify(newInventory));
+
+            // Очищаем выбранные предметы
+            selectedItems.clear();
+
+            closeModals();
+            generateInventory();
+        }
+
         // Закрыть все модальные окна
         function closeModals() {
             document.getElementById('sellModal').style.display = 'none';
             document.getElementById('withdrawModal').style.display = 'none';
+            document.getElementById('bulkModal').style.display = 'none';
             currentItemId = null;
             currentAction = null;
         }
@@ -837,13 +1157,16 @@
         document.getElementById('cancelSell').addEventListener('click', closeModals);
         document.getElementById('confirmWithdraw').addEventListener('click', confirmAction);
         document.getElementById('cancelWithdraw').addEventListener('click', closeModals);
+        document.getElementById('confirmBulk').addEventListener('click', confirmBulkAction);
+        document.getElementById('cancelBulk').addEventListener('click', closeModals);
 
         // Закрытие модальных окон при клике вне их
         window.addEventListener('click', function(event) {
             const sellModal = document.getElementById('sellModal');
             const withdrawModal = document.getElementById('withdrawModal');
+            const bulkModal = document.getElementById('bulkModal');
 
-            if (event.target === sellModal || event.target === withdrawModal) {
+            if (event.target === sellModal || event.target === withdrawModal || event.target === bulkModal) {
                 closeModals();
             }
         });
