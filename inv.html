@@ -117,18 +117,18 @@
             opacity: 0.8;
         }
 
-        /* Стили для карточек инвентаря - УМЕНЬШЕНЫ */
+        /* Стили для карточек инвентаря - как в магазине */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
         }
 
         .inventory-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
@@ -137,39 +137,53 @@
         }
 
         .inventory-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 107, 107, 0.3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
         .card-image {
             width: 100%;
-            height: 85px; /* Уменьшено с 120px */
-            border-radius: 10px;
+            height: 140px; /* Увеличено для картинок как в магазине */
+            border-radius: 12px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             position: relative;
             overflow: hidden;
         }
 
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .inventory-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
         .card-icon {
-            font-size: 2rem; /* Уменьшено */
+            font-size: 3rem;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .card-rarity {
             position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 3px 8px;
-            border-radius: 8px;
-            font-size: 0.65rem;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
             font-weight: bold;
             backdrop-filter: blur(5px);
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .rarity-common { color: #b0b0b0; }
@@ -178,13 +192,13 @@
         .rarity-legendary { color: #FF9800; }
 
         .card-content {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .card-title {
-            font-size: 0.95rem; /* Уменьшено с 1.1rem */
+            font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
@@ -193,73 +207,75 @@
         }
 
         .card-description {
-            font-size: 0.75rem; /* Уменьшено с 0.8rem */
+            font-size: 0.8rem;
             opacity: 0.8;
-            line-height: 1.3;
-            margin-bottom: 8px;
+            line-height: 1.4;
+            margin-bottom: 10px;
         }
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 6px;
-        }
+       .card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-        .card-price {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: bold;
-        }
+.card-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: bold;
+}
 
-        .price-amount {
-            font-size: 0.95rem; /* Уменьшено с 1.1rem */
-            color: #4CAF50;
-        }
+.price-amount {
+    font-size: 1.1rem;
+    color: #4CAF50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
 
-        .price-currency {
-            font-size: 0.75rem; /* Уменьшено с 0.8rem */
-            opacity: 0.8;
-        }
+.price-currency {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
 
-        .card-actions {
-            display: flex;
-            gap: 6px;
-        }
+.card-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
 
-        .sell-button {
-            background: linear-gradient(90deg, #ff4444, #cc0000);
-            border: none;
-            color: white;
-            padding: 6px 10px; /* Уменьшено */
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.7rem;
-            flex: 1;
-        }
+.sell-button {
+    background: linear-gradient(90deg, #ff4444, #cc0000);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    flex: 1;
+}
 
-        .withdraw-button {
-            background: linear-gradient(90deg, #2196F3, #1976D2);
-            border: none;
-            color: white;
-            padding: 6px 10px; /* Уменьшено */
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.7rem;
-            flex: 1;
-        }
+.withdraw-button {
+    background: linear-gradient(90deg, #2196F3, #1976D2);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    flex: 1;
+}
 
-        .sell-button:hover, .withdraw-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
+.sell-button:hover, .withdraw-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
 
-        /* ИСПРАВЛЕННЫЙ СТИЛЬ ДЛЯ ПУСТОГО ИНВЕНТАРЯ */
+        /* Стиль для пустого инвентаря */
         .empty-inventory-container {
             display: flex;
             justify-content: center;
@@ -466,24 +482,27 @@
             }
 
             .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 12px;
             }
 
             .inventory-title {
                 font-size: 1.7rem;
             }
 
+            .card-image {
+                height: 120px;
+            }
+
             .card-footer {
                 flex-direction: column;
-                gap: 6px;
+                gap: 8px;
             }
 
             .card-actions {
                 width: 100%;
             }
 
-            /* Дополнительные стили для мобильных */
             .empty-inventory-container {
                 padding: 10px;
                 min-height: 50vh;
@@ -515,11 +534,11 @@
             }
 
             .card-image {
-                height: 75px;
+                height: 100px;
             }
 
             .card-icon {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
 
             .empty-inventory {
@@ -542,13 +561,6 @@
 
             .empty-inventory {
                 padding: 25px 15px;
-            }
-        }
-
-        /* Специальные стили для очень маленьких экранов */
-        @media (max-height: 600px) {
-            .empty-inventory-container {
-                min-height: 40vh;
             }
         }
     </style>
@@ -626,7 +638,27 @@
     <script>
         // Переменные для модальных окон
         let currentItemId = null;
-        let currentAction = null; // 'sell' или 'withdraw'
+        let currentAction = null;
+
+        // Функция для получения пути к изображению
+        function getItemImage(item) {
+            const imageMap = {
+                'B-Day Candle': 'assets/item_1.png',
+                'Lunar Snake': 'assets/item_2.png',
+                'Snake Box': 'assets/item_3.png',
+                'Desk Calendar': 'assets/item_4.png',
+                'Whip Cupcake': 'assets/item_5.png',
+                'Iol Pop': 'assets/item_6.png',
+                'Xmas Stocking': 'assets/item_7.png',
+                'Candy Cane': 'assets/item_8.png',
+                'Pet Snake': 'assets/item_9.png',
+                'Jester Hat': 'assets/item_10.png',
+                'Big Year': 'assets/item_11.png',
+                'Holiday Drink': 'assets/item_12.png'
+            };
+
+            return imageMap[item.title] || item.image || `assets/item_${item.id}.png`;
+        }
 
         // Показать уведомление
         function showNotification(message) {
@@ -662,13 +694,15 @@
 
             inventoryContent.innerHTML = `
                 <div class="cards-grid" id="inventoryGrid">
-                    ${inventory.map(item => `
+                    ${inventory.map(item => {
+                        const imagePath = getItemImage(item);
+                        return `
                         <div class="inventory-card" data-item-id="${item.id}">
                             <div class="card-image">
-                                <div class="card-icon">${item.icon || '🎮'}</div>
-                                <div class="card-rarity rarity-${item.rarity}">
-                                    ${getRarityText(item.rarity)}
-                                </div>
+                                <img src="${imagePath}" alt="${item.title}"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="card-icon" style="display: none;">${item.icon || '🎁'}</div>
+                                ${item.rarity ? `<div class="card-rarity rarity-${item.rarity}">${getRarityText(item.rarity)}</div>` : ''}
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">${item.title}</h3>
@@ -676,7 +710,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="card-price">
-                                    <span class="price-amount">${item.sellPrice}</span>
+                                    <span class="price-amount">${item.sellPrice || item.price}</span>
                                     <span class="price-currency">TON</span>
                                 </div>
                                 <div class="card-actions">
@@ -689,7 +723,7 @@
                                 </div>
                             </div>
                         </div>
-                    `).join('')}
+                    `}).join('')}
                 </div>
             `;
         }
@@ -709,7 +743,7 @@
                     const modalDescription = document.getElementById('sellModalDescription');
 
                     modalTitle.textContent = `Продать: ${item.title}`;
-                    modalDescription.textContent = `Вы получите: ${item.sellPrice} TON\n\n${item.description}`;
+                    modalDescription.textContent = `Вы получите: ${item.sellPrice || item.price} TON\n\n${item.description}`;
                     modal.style.display = 'block';
                 } else if (action === 'withdraw') {
                     const modal = document.getElementById('withdrawModal');
@@ -732,26 +766,19 @@
                 const item = inventory[itemIndex];
 
                 if (currentAction === 'sell') {
-                    // Добавляем деньги за продажу
-                    updateBalance(item.sellPrice);
-                    // Удаляем предмет из инвентаря
+                    const sellPrice = item.sellPrice || item.price;
+                    updateBalance(parseFloat(sellPrice));
                     inventory.splice(itemIndex, 1);
                     localStorage.setItem('userInventory', JSON.stringify(inventory));
-
-                    // Показываем уведомление о продаже
-                    showNotification(`Предмет "${item.title}" продан за ${item.sellPrice} TON`);
-
+                    showNotification(`Предмет "${item.title}" продан за ${sellPrice} TON`);
                 } else if (currentAction === 'withdraw') {
-                    // Просто удаляем предмет (вывод)
                     inventory.splice(itemIndex, 1);
                     localStorage.setItem('userInventory', JSON.stringify(inventory));
-
-                    // Показываем уведомление о выводе
                     showNotification(`Предмет "${item.title}" выведен`);
                 }
 
                 closeModals();
-                generateInventory(); // Обновляем отображение инвентаря
+                generateInventory();
             }
         }
 
@@ -805,28 +832,6 @@
             }
         });
 
-        // Сохранение баланса
-        function setupBalancePersistence() {
-            window.addEventListener('beforeunload', function() {
-                const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-                localStorage.setItem('userBalance', currentBalance);
-            });
-
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-                    localStorage.setItem('userBalance', currentBalance);
-                }
-            });
-
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.onEvent('viewportChanged', function() {
-                    const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-                    localStorage.setItem('userBalance', currentBalance);
-                });
-            }
-        }
-
         // Обработчики модальных окон
         document.getElementById('confirmSell').addEventListener('click', confirmAction);
         document.getElementById('cancelSell').addEventListener('click', closeModals);
@@ -843,22 +848,73 @@
             }
         });
 
-        // Активация пунктов нижнего меню
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.getAttribute('href') === 'inv.html') {
-                    e.preventDefault();
-                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
-        });
-
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
-            setupBalancePersistence();
             generateInventory();
+
+            // Демо-данные для тестирования
+            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+            if (inventory.length === 0) {
+                const demoItems = [
+                    {
+                        id: 1,
+                        title: "B-Day Candle",
+                        description: "Праздничная свеча",
+                        price: 1.65,
+                        sellPrice: 1.4,
+                        rarity: "rare",
+                        icon: "🎂"
+                    },
+                    {
+                        id: 2,
+                        title: "Lunar Snake",
+                        description: "Лунная змея",
+                        price: 1.65,
+                        sellPrice: 1.4,
+                        rarity: "rare",
+                        icon: "🐍"
+                    },
+                    {
+                        id: 3,
+                        title: "Snake Box",
+                        description: "Коробка с змеей",
+                        price: 1.65,
+                        sellPrice: 1.4,
+                        rarity: "rare",
+                        icon: "📦"
+                    },
+                    {
+                        id: 4,
+                        title: "Desk Calendar",
+                        description: "Настольный календарь",
+                        price: 1.75,
+                        sellPrice: 1.5,
+                        rarity: "epic",
+                        icon: "🗓️"
+                    },
+                    {
+                        id: 7,
+                        title: "Xmas Stocking",
+                        description: "Рождественский носок",
+                        price: 2.1,
+                        sellPrice: 1.8,
+                        rarity: "legendary",
+                        icon: "🧦"
+                    },
+                    {
+                        id: 8,
+                        title: "Candy Cane",
+                        description: "Карамельная трость",
+                        price: 2.1,
+                        sellPrice: 1.8,
+                        rarity: "legendary",
+                        icon: "🍬"
+                    }
+                ];
+                localStorage.setItem('userInventory', JSON.stringify(demoItems));
+                generateInventory();
+            }
         });
 
         // Telegram Web App
@@ -867,15 +923,6 @@
             Telegram.WebApp.enableClosingConfirmation();
             Telegram.WebApp.ready();
         }
-
-        // Периодическое сохранение
-        setInterval(function() {
-            const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
-            const savedBalance = localStorage.getItem('userBalance');
-            if (currentBalance !== savedBalance) {
-                localStorage.setItem('userBalance', currentBalance);
-            }
-        }, 1000);
     </script>
 </body>
 </html>
