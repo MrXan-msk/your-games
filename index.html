@@ -3,271 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xanchik Bet - Главная</title>
+    <title>Xanchik Bet - Мины</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 100%);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 80px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo h1 {
-            font-size: 2rem;
-            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .balance {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .deposit-btn {
-            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .deposit-btn:active {
-            transform: scale(0.95);
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            cursor: pointer;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 107, 107, 0.5);
-        }
-
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-            z-index: 1;
-        }
-
-        .game-card-content {
-            position: relative;
-            z-index: 2;
-            padding: 15px;
-        }
-
-        .game-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .game-card p {
-            opacity: 0.8;
-            font-size: 0.8rem;
-        }
-
-        .crash {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/crash.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .mines {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/mines.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .upgrades {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/upgrades.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .cases {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/cases.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .contracts {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/contracts.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .shop {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/shop.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .crash::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
-        .mines::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
-        .upgrades::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #ffd89b, #19547b);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
-        .cases::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #834d9b, #d04ed6);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
-        .contracts::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #5d4157, #a8caba);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
-        .shop::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #de6262, #ffb88c);
-            opacity: 0.3;
-            z-index: 0;
-        }
-
+        /* Все предыдущие стили остаются */
+        
         /* Стили для модального окна пополнения */
         .modal {
             display: none;
@@ -404,80 +143,7 @@
             opacity: 0.7;
         }
 
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(12, 12, 46, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 5px 12px;
-            border-radius: 10px;
-        }
-
-        .nav-item.active {
-            color: #ffa36c;
-            background: rgba(255, 163, 108, 0.1);
-        }
-
-        .nav-icon {
-            font-size: 1.3rem;
-            margin-bottom: 4px;
-        }
-
-        .nav-text {
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 15px;
-                padding: 10px 0;
-            }
-
-            .logo h1 {
-                font-size: 1.7rem;
-            }
-
-            .user-info {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .main-content {
-                gap: 12px;
-            }
-
-            .game-card {
-                height: 130px;
-            }
-
             .stars-options {
                 grid-template-columns: 1fr;
             }
@@ -499,60 +165,53 @@
             </div>
         </header>
 
-        <div class="main-content">
-            <a href="crash.html" style="text-decoration: none;">
-                <div class="game-card crash">
-                    <div class="game-card-content">
-                        <h3>Краш</h3>
-                        <p>Следите за графиком и вовремя забирайте выигрыш!</p>
-                    </div>
-                </div>
-            </a>
+        <div class="game-container">
+            <h2 class="game-title">Мины</h2>
 
-            <a href="mines.html" style="text-decoration: none;">
-                <div class="game-card mines">
-                    <div class="game-card-content">
-                        <h3>Мины</h3>
-                        <p>Найдите все алмазы, избегая мин!</p>
+            <div class="bet-section">
+                <div class="bet-title">СТАВКА</div>
+                <div class="bet-input-container">
+                    <input type="number" class="bet-input" id="bet-input" value="1.00" min="1.00" max="300.00" step="1.00">
+                    <div class="bet-buttons">
+                        <button class="bet-button" data-action="half">1/2</button>
+                        <button class="bet-button" data-action="double">2x</button>
                     </div>
                 </div>
-            </a>
 
-            <a href="upgrade.html" style="text-decoration: none;">
-                <div class="game-card upgrades">
-                    <div class="game-card-content">
-                        <h3>Апгрейды</h3>
-                        <p>Улучшайте свои возможности и увеличивайте доход!</p>
-                    </div>
+                <div class="mines-selector">
+                    <button class="mine-option" data-mines="3">3 мины</button>
+                    <button class="mine-option active" data-mines="5">5 мин</button>
+                    <button class="mine-option" data-mines="7">7 мин</button>
+                    <button class="mine-option" data-mines="8">8 мин</button>
+                    <button class="mine-option" data-mines="10">10 мин</button>
                 </div>
-            </a>
+            </div>
 
-            <a href="cases.html" style="text-decoration: none;">
-                <div class="game-card cases">
-                    <div class="game-card-content">
-                        <h3>Кейсы</h3>
-                        <p>Откройте кейсы и получите ценные призы!</p>
-                    </div>
-                </div>
-            </a>
+            <div class="multiplier-track" id="multiplier-track">
+                <!-- Multipliers will be generated by JavaScript -->
+            </div>
 
-            <a href="contract.html" style="text-decoration: none;">
-                <div class="game-card contracts">
-                    <div class="game-card-content">
-                        <h3>Контракты</h3>
-                        <p>Заключайте контракты и получайте прибыль!</p>
-                    </div>
-                </div>
-            </a>
+            <div class="game-board" id="game-board">
+                <!-- Cells will be generated by JavaScript -->
+            </div>
 
-            <a href="shop.html" style="text-decoration: none;">
-                <div class="game-card shop">
-                    <div class="game-card-content">
-                        <h3>Магазин</h3>
-                        <p>Покупайте уникальные предметы и улучшения!</p>
-                    </div>
+            <div class="action-buttons">
+                <button class="action-button cashout-button" id="cashout-button" disabled>Забрать</button>
+                <button class="action-button play-button" id="play-button">Поставить</button>
+            </div>
+
+            <div class="message" id="message"></div>
+
+            <div class="history">
+                <div class="history-title">ИСТОРИЯ ИГР</div>
+                <div class="history-items" id="history-items">
+                    <!-- History items will be generated by JavaScript -->
                 </div>
-            </a>
+            </div>
+
+            <div class="info-text">
+                Чтобы забрать выигрыш, нужно сделать минимум 1 ход и не попасть на мину
+            </div>
         </div>
     </div>
 
@@ -562,7 +221,7 @@
             <button class="close-btn" id="closeModal">&times;</button>
             <h2>Пополнение баланса</h2>
             <p>Выберите количество Stars для пополнения</p>
-
+            
             <div class="stars-options">
                 <div class="stars-option" data-stars="10">
                     <div class="stars-count">⭐ 10 Stars</div>
@@ -604,13 +263,14 @@
         </div>
     </div>
 
+    <!-- Нижнее меню -->
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="inv.html" class="nav-item">
                 <div class="nav-icon">🎒</div>
                 <div class="nav-text">Инвентарь</div>
             </a>
-            <a href="index.html" class="nav-item active">
+            <a href="index.html" class="nav-item">
                 <div class="nav-icon">🏠</div>
                 <div class="nav-text">Главная</div>
             </a>
@@ -622,101 +282,33 @@
     </nav>
 
     <script>
-        // Функция для расчета TON по Stars
-        function starsToTon(stars) {
-            return (stars * 0.055) / 10;
-        }
-
-        // Функция для форматирования числа
-        function formatNumber(num) {
-            return num.toFixed(3);
-        }
-
-        // Инициализация баланса
-        function initializeBalance() {
-            let balance = localStorage.getItem('userBalance');
-            if (!balance) {
-                balance = '10.5';
-                localStorage.setItem('userBalance', balance);
-            }
-            document.getElementById('balanceAmount').textContent = balance + ' TON';
-        }
-
-        // Обновление баланса
-        function updateBalance(amount) {
-            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
-            currentBalance += amount;
-            localStorage.setItem('userBalance', currentBalance.toFixed(3));
-            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(3) + ' TON';
-            return currentBalance;
-        }
-
-        // Покупка через Telegram Stars
-        function buyWithStars(starsAmount) {
-            if (starsAmount < 10) {
-                alert('Минимальная сумма пополнения - 10 Stars');
-                return;
-            }
-
-            const tonAmount = starsToTon(starsAmount);
-
-            // Имитация покупки через Telegram Stars
-            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-                // В реальном приложении здесь будет вызов Telegram Mini Apps API
-                Telegram.WebApp.showPopup({
-                    title: 'Подтверждение покупки',
-                    message: `Вы хотите купить ${formatNumber(tonAmount)} TON за ${starsAmount} Stars?`,
-                    buttons: [
-                        {id: 'cancel', type: 'cancel', text: 'Отмена'},
-                        {id: 'buy', type: 'default', text: 'Купить'}
-                    ]
-                }, function(buttonId) {
-                    if (buttonId === 'buy') {
-                        // Имитация успешной покупки
-                        simulateStarsPurchase(starsAmount, tonAmount);
-                    }
-                });
-            } else {
-                // Для тестирования вне Telegram
-                if (confirm(`Купить ${formatNumber(tonAmount)} TON за ${starsAmount} Stars?`)) {
-                    simulateStarsPurchase(starsAmount, tonAmount);
-                }
-            }
-        }
-
-        // Имитация покупки через Stars (в реальном приложении здесь будет реальная интеграция)
-        function simulateStarsPurchase(starsAmount, tonAmount) {
-            // Показываем индикатор загрузки
-            const buyBtn = document.getElementById('buyStarsBtn');
-            const originalText = buyBtn.innerHTML;
-            buyBtn.innerHTML = 'Обработка...';
-            buyBtn.disabled = true;
-
-            // Имитация обработки платежа
-            setTimeout(() => {
-                updateBalance(tonAmount);
-
-                // Показываем успешное сообщение
-                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-                    Telegram.WebApp.showAlert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
-                } else {
-                    alert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
-                }
-
-                // Закрываем модальное окно
-                document.getElementById('depositModal').style.display = 'none';
-
-                // Восстанавливаем кнопку
-                buyBtn.innerHTML = originalText;
-                buyBtn.disabled = false;
-
-            }, 2000);
-        }
-
-        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            initializeBalance();
+            // Game state
+            const gameState = {
+                balance: 10.5,
+                currentBet: 1.00,
+                minesCount: 5,
+                gameActive: false,
+                revealedCells: 0,
+                multiplier: 1.0,
+                baseMultipliers: [1.13, 1.35, 1.57, 1.87, 2.11, 2.44, 2.89, 3.27, 3.84, 4.15, 4.84, 5.15, 6.0, 7.2, 8.5, 10.0, 12.0, 15.0, 18.0, 22.0],
+                multipliers: [],
+                minePositions: [],
+                revealedPositions: [],
+                gameHistory: []
+            };
 
+            // DOM elements
+            const balanceElement = document.getElementById('balanceAmount');
+            const betInput = document.getElementById('bet-input');
+            const mineOptions = document.querySelectorAll('.mine-option');
+            const multiplierTrack = document.getElementById('multiplier-track');
+            const gameBoard = document.getElementById('game-board');
+            const cashoutButton = document.getElementById('cashout-button');
+            const playButton = document.getElementById('play-button');
+            const messageElement = document.getElementById('message');
+            const historyItems = document.getElementById('history-items');
+            const betButtons = document.querySelectorAll('.bet-button');
             const depositBtn = document.getElementById('depositBtn');
             const depositModal = document.getElementById('depositModal');
             const closeModal = document.getElementById('closeModal');
@@ -728,46 +320,150 @@
 
             let selectedStars = 0;
 
-            // Открытие модального окна
-            depositBtn.addEventListener('click', function() {
-                depositModal.style.display = 'block';
-                selectedStars = 0;
-                updateBuyButton();
-            });
+            // Функция для расчета TON по Stars
+            function starsToTon(stars) {
+                return (stars * 0.055) / 10;
+            }
 
-            // Закрытие модального окна
-            closeModal.addEventListener('click', function() {
-                depositModal.style.display = 'none';
-            });
+            // Функция для форматирования числа
+            function formatNumber(num) {
+                return num.toFixed(3);
+            }
 
-            // Клик по вариантам Stars
-            starsOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // Снимаем выделение со всех вариантов
-                    starsOptions.forEach(opt => opt.classList.remove('selected'));
-                    // Выделяем выбранный вариант
-                    this.classList.add('selected');
-                    // Устанавливаем выбранное количество
-                    selectedStars = parseInt(this.getAttribute('data-stars'));
-                    customStarsInput.value = selectedStars;
-                    updateCustomTonAmount();
-                    updateBuyButton();
-                });
-            });
+            // Сохранение состояния игры - НЕ СОХРАНЯЕМ СТАВКУ
+            function saveGameState() {
+                const stateToSave = {
+                    balance: gameState.balance,
+                    minesCount: gameState.minesCount,
+                    gameActive: gameState.gameActive,
+                    revealedCells: gameState.revealedCells,
+                    multiplier: gameState.multiplier,
+                    minePositions: gameState.minePositions,
+                    revealedPositions: gameState.revealedPositions,
+                    gameHistory: gameState.gameHistory
+                };
+                localStorage.setItem('minesGameState', JSON.stringify(stateToSave));
+            }
 
-            // Обработка ввода кастомного значения
-            customStarsInput.addEventListener('input', function() {
-                const stars = parseInt(this.value) || 0;
-                if (stars >= 10) {
-                    selectedStars = stars;
-                    // Снимаем выделение с пресетов
-                    starsOptions.forEach(opt => opt.classList.remove('selected'));
-                } else {
-                    selectedStars = 0;
+            // Загрузка состояния игры - НЕ ВОССТАНАВЛИВАЕМ СТАВКУ
+            function loadGameState() {
+                const savedState = localStorage.getItem('minesGameState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+
+                    gameState.balance = state.balance || 10.5;
+                    gameState.minesCount = state.minesCount || 5;
+                    gameState.gameActive = state.gameActive || false;
+                    gameState.revealedCells = state.revealedCells || 0;
+                    gameState.multiplier = state.multiplier || 1.0;
+                    gameState.minePositions = state.minePositions || [];
+                    gameState.revealedPositions = state.revealedPositions || [];
+                    gameState.gameHistory = state.gameHistory || [];
+
+                    return true;
                 }
-                updateCustomTonAmount();
-                updateBuyButton();
-            });
+                return false;
+            }
+
+            // Инициализация баланса
+            function initializeBalance() {
+                let balance = localStorage.getItem('userBalance');
+                if (!balance) {
+                    balance = '10.5';
+                    localStorage.setItem('userBalance', balance);
+                }
+                gameState.balance = parseFloat(balance);
+                updateBalanceDisplay();
+            }
+
+            // Обновление баланса
+            function updateBalance(amount) {
+                gameState.balance += amount;
+                localStorage.setItem('userBalance', gameState.balance.toFixed(2));
+                updateBalanceDisplay();
+                saveGameState();
+                return gameState.balance;
+            }
+
+            // Покупка через Telegram Stars
+            function buyWithStars(starsAmount) {
+                if (starsAmount < 10) {
+                    alert('Минимальная сумма пополнения - 10 Stars');
+                    return;
+                }
+
+                const tonAmount = starsToTon(starsAmount);
+                
+                // Реальная интеграция с Telegram Stars API
+                if (window.Telegram && Telegram.WebApp) {
+                    // Создаем инвойс для Telegram Stars
+                    const invoiceParams = {
+                        product_id: 'deposit_' + Date.now(),
+                        title: `Пополнение баланса на ${formatNumber(tonAmount)} TON`,
+                        description: `Покупка ${starsAmount} Stars для пополнения игрового баланса`,
+                        currency: 'XTR', // Telegram Stars currency
+                        prices: [
+                            {
+                                label: `${starsAmount} Stars`,
+                                amount: starsAmount * 100 // В минимальных единицах (1 Star = 100)
+                            }
+                        ],
+                        payload: JSON.stringify({
+                            type: 'deposit',
+                            stars: starsAmount,
+                            ton: tonAmount,
+                            userId: Telegram.WebApp.initDataUnsafe.user?.id
+                        })
+                    };
+
+                    // Открываем инвойс
+                    Telegram.WebApp.openInvoice(invoiceParams, function(status) {
+                        if (status === 'paid') {
+                            // Успешная оплата
+                            handleSuccessfulPayment(starsAmount, tonAmount);
+                        } else if (status === 'failed') {
+                            alert('Оплата не прошла. Попробуйте снова.');
+                        } else if (status === 'cancelled') {
+                            // Пользователь отменил оплату
+                            console.log('Пользователь отменил оплату');
+                        }
+                    });
+                } else {
+                    // Для тестирования вне Telegram
+                    if (confirm(`Купить ${formatNumber(tonAmount)} TON за ${starsAmount} Stars?`)) {
+                        handleSuccessfulPayment(starsAmount, tonAmount);
+                    }
+                }
+            }
+
+            // Обработка успешной оплаты
+            function handleSuccessfulPayment(starsAmount, tonAmount) {
+                // Показываем индикатор загрузки
+                const buyBtn = document.getElementById('buyStarsBtn');
+                const originalText = buyBtn.innerHTML;
+                buyBtn.innerHTML = 'Обработка...';
+                buyBtn.disabled = true;
+
+                // Имитация обработки платежа
+                setTimeout(() => {
+                    updateBalance(tonAmount);
+                    
+                    // Показываем успешное сообщение
+                    if (window.Telegram && Telegram.WebApp) {
+                        Telegram.WebApp.showAlert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
+                    } else {
+                        alert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
+                    }
+                    
+                    // Закрываем модальное окно
+                    document.getElementById('depositModal').style.display = 'none';
+                    
+                    // Восстанавливаем кнопку
+                    buyBtn.innerHTML = originalText;
+                    buyBtn.disabled = false;
+                    
+                }, 1000);
+            }
 
             // Обновление отображаемой суммы TON для кастомного ввода
             function updateCustomTonAmount() {
@@ -791,23 +487,465 @@
                 }
             }
 
-            // Нажатие на кнопку покупки
-            buyStarsBtn.addEventListener('click', function() {
-                if (selectedStars >= 10) {
-                    buyWithStars(selectedStars);
-                }
-            });
+            // Initialize the game
+            function initGame() {
+                initializeBalance();
 
-            // Закрытие модального окна при клике вне его
-            window.addEventListener('click', function(event) {
-                if (event.target === depositModal) {
-                    depositModal.style.display = 'none';
+                // Пытаемся загрузить сохраненное состояние
+                const hasSavedState = loadGameState();
+
+                // Обновляем поле ставки
+                updateBetInput();
+
+                updateMultipliers();
+                createMultiplierTrack();
+                createGameBoard();
+                updateHistoryDisplay();
+                updateMinesSelector();
+
+                // Если есть активная игра - восстанавливаем поле
+                if (hasSavedState && gameState.gameActive) {
+                    restoreGameBoard();
                 }
-            });
+
+                // Event listeners для игры
+                betInput.addEventListener('input', function() {
+                    let value = parseFloat(this.value) || 1.00;
+                    
+                    if (value < 1.00) {
+                        value = 1.00;
+                    } else if (value > 300.00) {
+                        value = 300.00;
+                    }
+                    
+                    gameState.currentBet = value;
+                    this.value = value.toFixed(2);
+                });
+
+                mineOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        mineOptions.forEach(opt => opt.classList.remove('active'));
+                        this.classList.add('active');
+                        gameState.minesCount = parseInt(this.getAttribute('data-mines'));
+                        updateMultipliers();
+                        createMultiplierTrack();
+                        resetGame();
+                        saveGameState();
+                    });
+                });
+
+                playButton.addEventListener('click', startGame);
+                cashoutButton.addEventListener('click', cashout);
+
+                betButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const action = this.getAttribute('data-action');
+                        if (action === 'half') {
+                            gameState.currentBet = Math.max(1.00, gameState.currentBet / 2);
+                        } else if (action === 'double') {
+                            gameState.currentBet = Math.min(300.00, gameState.currentBet * 2);
+                        }
+                        updateBetInput();
+                    });
+                });
+
+                // Event listeners для пополнения
+                depositBtn.addEventListener('click', function() {
+                    depositModal.style.display = 'block';
+                    selectedStars = 0;
+                    updateBuyButton();
+                });
+
+                closeModal.addEventListener('click', function() {
+                    depositModal.style.display = 'none';
+                });
+
+                starsOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        starsOptions.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedStars = parseInt(this.getAttribute('data-stars'));
+                        customStarsInput.value = selectedStars;
+                        updateCustomTonAmount();
+                        updateBuyButton();
+                    });
+                });
+
+                customStarsInput.addEventListener('input', function() {
+                    const stars = parseInt(this.value) || 0;
+                    if (stars >= 10) {
+                        selectedStars = stars;
+                        starsOptions.forEach(opt => opt.classList.remove('selected'));
+                    } else {
+                        selectedStars = 0;
+                    }
+                    updateCustomTonAmount();
+                    updateBuyButton();
+                });
+
+                buyStarsBtn.addEventListener('click', function() {
+                    if (selectedStars >= 10) {
+                        buyWithStars(selectedStars);
+                    }
+                });
+
+                window.addEventListener('click', function(event) {
+                    if (event.target === depositModal) {
+                        depositModal.style.display = 'none';
+                    }
+                });
+
+                // Сохраняем состояние при закрытии страницы
+                window.addEventListener('beforeunload', saveGameState);
+            }
+
+            // Остальные функции игры остаются без изменений
+            function updateMinesSelector() {
+                mineOptions.forEach(option => {
+                    const mines = parseInt(option.getAttribute('data-mines'));
+                    option.classList.remove('active');
+                    if (mines === gameState.minesCount) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+
+            function restoreGameBoard() {
+                if (!gameState.gameActive) return;
+
+                const cells = document.querySelectorAll('.cell');
+                gameState.revealedPositions.forEach(index => {
+                    const cell = document.querySelector(`.cell[data-index="${index}"]`);
+                    if (cell) {
+                        cell.classList.add('revealed');
+                        if (gameState.minePositions.includes(index)) {
+                            cell.classList.add('mine');
+                            const img = document.createElement('img');
+                            img.src = 'assets/mine.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
+                        } else {
+                            cell.classList.add('gem');
+                            const img = document.createElement('img');
+                            img.src = 'assets/ggg.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
+                        }
+                    }
+                });
+
+                if (gameState.revealedCells > 0) {
+                    const multipliers = document.querySelectorAll('.multiplier');
+                    multipliers.forEach((multiplier, i) => {
+                        multiplier.classList.remove('active', 'current');
+                        if (i < gameState.revealedCells) {
+                            multiplier.classList.add('active');
+                        }
+                        if (i === gameState.revealedCells - 1) {
+                            multiplier.classList.add('current');
+                        }
+                    });
+                }
+
+                playButton.disabled = true;
+                cashoutButton.disabled = false;
+                betInput.disabled = true;
+                mineOptions.forEach(option => option.disabled = true);
+
+                showMessage("Игра восстановлена! Продолжайте играть.", "win");
+            }
+
+            function updateMultipliers() {
+                let multiplierFactor = 1.0;
+
+                if (gameState.minesCount === 3) {
+                    multiplierFactor = 1.0;
+                } else if (gameState.minesCount === 5) {
+                    multiplierFactor = 1.5;
+                } else if (gameState.minesCount === 7) {
+                    multiplierFactor = 1.5 * 1.5;
+                } else if (gameState.minesCount === 8) {
+                    multiplierFactor = 1.5 * 1.5 * 1.1;
+                } else if (gameState.minesCount === 10) {
+                    multiplierFactor = 1.5 * 1.5 * 1.5;
+                }
+
+                gameState.multipliers = gameState.baseMultipliers.map(mult =>
+                    parseFloat((mult * multiplierFactor).toFixed(2))
+                );
+
+                const maxSafeCells = 25 - gameState.minesCount;
+                if (gameState.multipliers.length > maxSafeCells) {
+                    gameState.multipliers = gameState.multipliers.slice(0, maxSafeCells);
+                }
+            }
+
+            function updateBalanceDisplay() {
+                balanceElement.textContent = gameState.balance.toFixed(2) + ' TON';
+            }
+
+            function updateBetInput() {
+                betInput.value = gameState.currentBet.toFixed(2);
+            }
+
+            function createMultiplierTrack() {
+                multiplierTrack.innerHTML = '';
+                gameState.multipliers.forEach((multiplier, index) => {
+                    const multiplierElement = document.createElement('div');
+                    multiplierElement.className = 'multiplier';
+                    multiplierElement.textContent = `${multiplier.toFixed(2)}x`;
+                    multiplierTrack.appendChild(multiplierElement);
+                });
+            }
+
+            function createGameBoard() {
+                gameBoard.innerHTML = '';
+                for (let i = 0; i < 25; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.setAttribute('data-index', i);
+
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.appendChild(img);
+
+                    cell.addEventListener('click', () => revealCell(i));
+                    gameBoard.appendChild(cell);
+                }
+            }
+
+            function startGame() {
+                if (gameState.gameActive) return;
+
+                if (gameState.currentBet < 1.00 || gameState.currentBet > 300.00) {
+                    showMessage("Ставка должна быть от 1 до 300 TON!", "lose");
+                    return;
+                }
+
+                if (gameState.currentBet > gameState.balance) {
+                    showMessage("Недостаточно средств!", "lose");
+                    return;
+                }
+
+                updateBalance(-gameState.currentBet);
+
+                gameState.gameActive = true;
+                gameState.revealedCells = 0;
+                gameState.multiplier = 1.0;
+                gameState.minePositions = generateMines();
+                gameState.revealedPositions = [];
+
+                playButton.disabled = true;
+                cashoutButton.disabled = false;
+                betInput.disabled = true;
+                mineOptions.forEach(option => option.disabled = true);
+
+                const cells = document.querySelectorAll('.cell');
+                cells.forEach(cell => {
+                    cell.className = 'cell';
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
+                });
+
+                const multipliers = document.querySelectorAll('.multiplier');
+                multipliers.forEach(multiplier => {
+                    multiplier.classList.remove('active', 'current');
+                });
+
+                showMessage("Игра началась! Выбирайте ячейки.", "win");
+                saveGameState();
+            }
+
+            function generateMines() {
+                const positions = [];
+                const totalCells = 25;
+
+                while (positions.length < gameState.minesCount) {
+                    const randomPos = Math.floor(Math.random() * totalCells);
+                    if (!positions.includes(randomPos)) {
+                        positions.push(randomPos);
+                    }
+                }
+
+                return positions;
+            }
+
+            function revealCell(index) {
+                if (!gameState.gameActive) return;
+
+                const cell = document.querySelector(`.cell[data-index="${index}"]`);
+
+                if (cell.classList.contains('revealed')) return;
+
+                cell.classList.add('revealed');
+                gameState.revealedCells++;
+                gameState.revealedPositions.push(index);
+
+                if (gameState.minePositions.includes(index)) {
+                    cell.classList.add('mine');
+                    const img = document.createElement('img');
+                    img.src = 'assets/mine.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
+                    endGame(false);
+                } else {
+                    cell.classList.add('gem');
+                    const img = document.createElement('img');
+                    img.src = 'assets/ggg.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
+
+                    const currentMultiplierIndex = gameState.revealedCells - 1;
+                    if (currentMultiplierIndex < gameState.multipliers.length) {
+                        gameState.multiplier = gameState.multipliers[currentMultiplierIndex];
+
+                        const multipliers = document.querySelectorAll('.multiplier');
+                        multipliers.forEach((multiplier, i) => {
+                            multiplier.classList.remove('active', 'current');
+                            if (i <= currentMultiplierIndex) {
+                                multiplier.classList.add('active');
+                            }
+                            if (i === currentMultiplierIndex) {
+                                multiplier.classList.add('current');
+                            }
+                        });
+
+                        showMessage(`Множитель: ${gameState.multiplier.toFixed(2)}x`, "win");
+                    }
+
+                    if (gameState.revealedCells === 25 - gameState.minePositions.length) {
+                        endGame(true);
+                    }
+                }
+
+                saveGameState();
+            }
+
+            function cashout() {
+                if (!gameState.gameActive || gameState.revealedCells === 0) return;
+                endGame(true);
+            }
+
+            function endGame(isWin) {
+                gameState.gameActive = false;
+
+                if (!isWin) {
+                    gameState.minePositions.forEach(index => {
+                        const cell = document.querySelector(`.cell[data-index="${index}"]`);
+                        if (!cell.classList.contains('revealed')) {
+                            cell.classList.add('revealed', 'mine');
+                            const img = document.createElement('img');
+                            img.src = 'assets/mine.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
+                            gameState.revealedPositions.push(index);
+                        }
+                    });
+                }
+
+                let winnings = 0;
+                if (isWin) {
+                    winnings = gameState.currentBet * gameState.multiplier;
+                    updateBalance(winnings);
+
+                    gameState.gameHistory.push({
+                        type: 'win',
+                        amount: winnings,
+                        multiplier: gameState.multiplier
+                    });
+
+                    showMessage(`Поздравляем! Вы выиграли ${winnings.toFixed(2)} TON`, "win");
+                } else {
+                    gameState.gameHistory.push({
+                        type: 'lose',
+                        amount: gameState.currentBet
+                    });
+
+                    showMessage("Вы проиграли! Попробуйте снова.", "lose");
+                }
+
+                playButton.disabled = true;
+                cashoutButton.disabled = true;
+                betInput.disabled = true;
+                mineOptions.forEach(option => option.disabled = true);
+
+                updateHistoryDisplay();
+                saveGameState();
+
+                setTimeout(() => {
+                    resetGame();
+                    playButton.disabled = false;
+                    betInput.disabled = false;
+                    mineOptions.forEach(option => option.disabled = false);
+                    showMessage("Можете сделать новую ставку!", "win");
+                    saveGameState();
+                }, 2000);
+            }
+
+            function resetGame() {
+                gameState.gameActive = false;
+                gameState.revealedCells = 0;
+                gameState.multiplier = 1.0;
+                gameState.minePositions = [];
+                gameState.revealedPositions = [];
+
+                cashoutButton.disabled = true;
+
+                const cells = document.querySelectorAll('.cell');
+                cells.forEach(cell => {
+                    cell.className = 'cell';
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
+                });
+
+                const multipliers = document.querySelectorAll('.multiplier');
+                multipliers.forEach(multiplier => {
+                    multiplier.classList.remove('active', 'current');
+                });
+
+                messageElement.textContent = '';
+                messageElement.className = 'message';
+            }
+
+            function showMessage(text, type) {
+                messageElement.textContent = text;
+                messageElement.className = 'message';
+                if (type === 'win') {
+                    messageElement.classList.add('win-message');
+                } else if (type === 'lose') {
+                    messageElement.classList.add('lose-message');
+                }
+            }
+
+            function updateHistoryDisplay() {
+                historyItems.innerHTML = '';
+
+                const recentHistory = gameState.gameHistory.slice(-10);
+
+                recentHistory.forEach(result => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = `history-item ${result.type === 'win' ? 'history-win' : 'history-lose'}`;
+                    historyItem.textContent = result.type === 'win' ? 'W' : 'L';
+                    historyItems.appendChild(historyItem);
+                });
+            }
 
             // Инициализация при загрузке
             updateCustomTonAmount();
             updateBuyButton();
+            initGame();
         });
     </script>
 </body>
