@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Главная</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -314,6 +315,135 @@
             font-weight: 500;
         }
 
+        /* Стили для модального окна пополнения */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1a4a 0%, #0c0c2e 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .deposit-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .deposit-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .deposit-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .deposit-option.active {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.8);
+        }
+
+        .stars-amount {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .ton-amount {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .custom-amount {
+            margin-bottom: 20px;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .confirm-deposit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .confirm-deposit:active {
+            transform: scale(0.98);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -353,7 +483,7 @@
             <div class="user-info">
                 <div class="balance">
                     <span id="balanceAmount">10.5 TON</span>
-                    <button class="deposit-btn">Пополнить</button>
+                    <button class="deposit-btn" id="openDepositModal">Пополнить</button>
                 </div>
                 <div class="avatar">U</div>
             </div>
@@ -416,6 +546,41 @@
         </div>
     </div>
 
+    <!-- Модальное окно пополнения -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Пополнение баланса</h2>
+                <button class="close-modal" id="closeDepositModal">×</button>
+            </div>
+            
+            <div class="deposit-options">
+                <div class="deposit-option" data-stars="10" data-ton="1.0">
+                    <div class="stars-amount">10 ⭐</div>
+                    <div class="ton-amount">1.0 TON</div>
+                </div>
+                <div class="deposit-option" data-stars="50" data-ton="5.0">
+                    <div class="stars-amount">50 ⭐</div>
+                    <div class="ton-amount">5.0 TON</div>
+                </div>
+                <div class="deposit-option" data-stars="100" data-ton="10.0">
+                    <div class="stars-amount">100 ⭐</div>
+                    <div class="ton-amount">10.0 TON</div>
+                </div>
+                <div class="deposit-option" data-stars="500" data-ton="50.0">
+                    <div class="stars-amount">500 ⭐</div>
+                    <div class="ton-amount">50.0 TON</div>
+                </div>
+            </div>
+
+            <div class="custom-amount">
+                <input type="number" class="custom-input" id="customAmount" placeholder="Введите сумму в TON" min="1" step="0.1">
+            </div>
+
+            <button class="confirm-deposit" id="confirmDeposit">Пополнить через Telegram Stars</button>
+        </div>
+    </div>
+
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="inv.html" class="nav-item">
@@ -434,6 +599,17 @@
     </nav>
 
     <script>
+        // Инициализация Telegram Web App
+        let tg = window.Telegram.WebApp;
+        
+        // Инициализация приложения
+        tg.expand();
+        tg.enableClosingConfirmation();
+        tg.BackButton.hide();
+
+        // Конфигурация курса обмена
+        const EXCHANGE_RATE = 0.1; // 1 TON = 10 Stars (1 Star = 0.1 TON)
+
         function initializeBalance() {
             let balance = localStorage.getItem('userBalance');
             if (!balance) {
@@ -451,16 +627,137 @@
             return currentBalance;
         }
 
-        document.querySelector('.deposit-btn').addEventListener('click', function() {
-            const amount = prompt('Введите сумму пополнения в TON:');
-            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                updateBalance(parseFloat(amount));
-                alert('Баланс успешно пополнен на ' + amount + ' TON!');
+        // Модальное окно пополнения
+        const depositModal = document.getElementById('depositModal');
+        const openDepositModalBtn = document.getElementById('openDepositModal');
+        const closeDepositModalBtn = document.getElementById('closeDepositModal');
+        const depositOptions = document.querySelectorAll('.deposit-option');
+        const customAmountInput = document.getElementById('customAmount');
+        const confirmDepositBtn = document.getElementById('confirmDeposit');
+
+        let selectedStars = 0;
+        let selectedTon = 0;
+
+        // Открытие модального окна
+        openDepositModalBtn.addEventListener('click', function() {
+            depositModal.style.display = 'block';
+            selectedStars = 0;
+            selectedTon = 0;
+            customAmountInput.value = '';
+            depositOptions.forEach(option => option.classList.remove('active'));
+        });
+
+        // Закрытие модального окна
+        closeDepositModalBtn.addEventListener('click', function() {
+            depositModal.style.display = 'none';
+        });
+
+        // Выбор опции пополнения
+        depositOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                depositOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                selectedStars = parseInt(this.getAttribute('data-stars'));
+                selectedTon = parseFloat(this.getAttribute('data-ton'));
+                customAmountInput.value = '';
+            });
+        });
+
+        // Ввод кастомной суммы
+        customAmountInput.addEventListener('input', function() {
+            if (this.value) {
+                depositOptions.forEach(option => option.classList.remove('active'));
+                selectedTon = parseFloat(this.value) || 0;
+                selectedStars = Math.round(selectedTon / EXCHANGE_RATE);
             }
         });
 
+        // Подтверждение пополнения через Telegram Stars
+        confirmDepositBtn.addEventListener('click', function() {
+            if (selectedTon <= 0) {
+                alert('Пожалуйста, выберите сумму для пополнения');
+                return;
+            }
+
+            // Создание инвойса для Telegram Stars
+            const invoiceParams = {
+                title: `Пополнение баланса на ${selectedTon} TON`,
+                description: `Вы получите ${selectedTon} TON на ваш игровой баланс`,
+                payload: `deposit_${Date.now()}`,
+                currency: 'XTR', // Telegram Stars
+                prices: [
+                    {
+                        label: `${selectedTon} TON`,
+                        amount: selectedStars * 100 // В копейках (1 Star = 100)
+                    }
+                ]
+            };
+
+            // Отправка инвойса через Telegram
+            tg.showInvoice(invoiceParams, (status) => {
+                if (status === 'paid') {
+                    // Успешная оплата
+                    updateBalance(selectedTon);
+                    depositModal.style.display = 'none';
+                    
+                    // Показываем уведомление об успехе
+                    tg.showAlert(`Баланс успешно пополнен на ${selectedTon} TON!`);
+                    
+                    // Можно отправить данные на сервер
+                    sendPaymentConfirmation(selectedStars, selectedTon);
+                } else if (status === 'failed') {
+                    tg.showAlert('Оплата не прошла. Пожалуйста, попробуйте снова.');
+                } else if (status === 'cancelled') {
+                    // Пользователь отменил оплату
+                }
+            });
+        });
+
+        // Функция для отправки подтверждения платежа на сервер
+        function sendPaymentConfirmation(stars, ton) {
+            // Здесь должна быть реализация отправки данных на ваш сервер
+            const paymentData = {
+                userId: tg.initDataUnsafe.user?.id,
+                stars: stars,
+                ton: ton,
+                timestamp: Date.now(),
+                payload: `deposit_${Date.now()}`
+            };
+            
+            // Пример отправки на сервер
+            fetch('/api/payment/confirm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Payment confirmed on server:', data);
+            })
+            .catch(error => {
+                console.error('Error confirming payment:', error);
+            });
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
+            if (event.target === depositModal) {
+                depositModal.style.display = 'none';
+            }
+        });
+
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
+            
+            // Показываем информацию о пользователе если доступна
+            if (tg.initDataUnsafe.user) {
+                const user = tg.initDataUnsafe.user;
+                document.querySelector('.avatar').textContent = user.first_name ? user.first_name[0] : 'U';
+            }
         });
     </script>
 </body>
