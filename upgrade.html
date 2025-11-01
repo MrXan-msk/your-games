@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Апгрейд</title>
     <style>
-        /* Все предыдущие стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -143,18 +142,19 @@
             color: #ffa36c;
         }
 
+        /* Стили для карточек инвентаря - увеличенные */
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 15px;
             flex: 1;
         }
 
         .inventory-item {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -172,19 +172,40 @@
             box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
         }
 
+        .item-image {
+            width: 100%;
+            height: 100px; /* Увеличено с 80px */
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
         .item-icon {
             font-size: 2rem;
-            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .item-name {
-            font-size: 0.8rem;
+            font-size: 0.85rem; /* Увеличено */
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            line-height: 1.2;
         }
 
         .item-price {
-            font-size: 0.7rem;
+            font-size: 0.75rem; /* Увеличено */
             color: #ffa36c;
         }
 
@@ -512,18 +533,19 @@
             color: #ffa36c;
         }
 
+        /* Стили для карточек выбора - увеличенные */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 15px;
             flex: 1;
         }
 
         .card-item {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -539,6 +561,38 @@
             border-color: #2196F3;
             background: rgba(33, 150, 243, 0.1);
             box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100px; /* Увеличено с 80px */
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card-name {
+            font-size: 0.85rem; /* Увеличено */
+            font-weight: bold;
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .card-price {
+            font-size: 0.75rem; /* Увеличено */
+            color: #ffa36c;
         }
 
         /* Кнопка в магазин */
@@ -677,7 +731,6 @@
             <h2 class="upgrade-title">Система Апгрейда</h2>
             <p class="upgrade-subtitle">Улучшайте подарки с умной системой шансов</p>
             <p class="upgrade-subtitle">Для выбора NFT нажмите на него дважды!</p>
-
         </div>
 
         <div class="upgrade-container">
@@ -773,7 +826,7 @@
                     { id: 3, title: "Snake Box", price: 1.65, category: "items" },
                     { id: 4, title: "Desk Calendar", price: 1.75, category: "items" },
                     { id: 5, title: "Whip Cupcake", price: 1.85, category: "items" },
-                    { id: 6, title: "lol Pop", price: 2, category: "items" },
+                    { id: 6, title: "Iol Pop", price: 2, category: "items" },
                     { id: 7, title: "Xmas Stocking", price: 2.1, category: "items" },
                     { id: 8, title: "Candy Cane", price: 2.1, category: "items" },
                     { id: 9, title: "Pet Snake", price: 2.1, category: "items" },
@@ -872,7 +925,7 @@
                         price: card.price,
                         category: card.category,
                         rarity: "",
-                        image: `assets/shop/item_${card.id}.png`
+                        image: `assets/item_${card.id}.png`
                     });
                 });
             }
@@ -1004,13 +1057,19 @@
                 document.getElementById('nextInventoryPage').disabled = inventoryPage === totalPages;
             }
 
-            inventoryGrid.innerHTML = itemsToShow.map(item => `
+            inventoryGrid.innerHTML = itemsToShow.map(item => {
+                const imagePath = `assets/item_${item.id}.png`;
+                return `
                 <div class="inventory-item" data-item-id="${item.id}" onclick="selectUpgradeCard(${item.id})">
-                    <div class="item-icon">🎮</div>
+                    <div class="item-image">
+                        <img src="${imagePath}" alt="${item.title}"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="item-icon" style="display: none;">🎮</div>
+                    </div>
                     <div class="item-name">${item.title}</div>
                     <div class="item-price">${item.purchasePrice || item.sellPrice * 1.4} TON</div>
                 </div>
-            `).join('');
+            `}).join('');
 
             // Если выбрана карта, восстанавливаем выделение
             if (selectedUpgradeCard) {
@@ -1057,16 +1116,22 @@
             const startIndex = (selectionPage - 1) * itemsPerPage;
             const itemsToShow = availableCards.slice(startIndex, startIndex + itemsPerPage);
 
-            selectionGrid.innerHTML = itemsToShow.map(card => `
+            selectionGrid.innerHTML = itemsToShow.map(card => {
+                const imagePath = `assets/item_${card.id}.png`;
+                return `
                 <div class="card-item"
                      data-card-id="${card.id}"
                      data-price="${card.price}"
                      onclick="selectTargetCard(${card.id})">
-                    <div class="item-icon">🎮</div>
-                    <div class="item-name">${card.title}</div>
-                    <div class="item-price">${card.price} TON</div>
+                    <div class="card-image">
+                        <img src="${imagePath}" alt="${card.title}"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="item-icon" style="display: none;">🎮</div>
+                    </div>
+                    <div class="card-name">${card.title}</div>
+                    <div class="card-price">${card.price} TON</div>
                 </div>
-            `).join('');
+            `}).join('');
 
             // Обновляем информацию о странице
             const totalPages = Math.ceil(availableCards.length / itemsPerPage);
@@ -1257,15 +1322,16 @@
                 // Удаляем карту для апгрейда
                 const newInventory = inventory.filter(item => item.id !== selectedUpgradeCard);
 
-                // Добавляем новую карту
+                // Добавляем новую карту С КАРТИНКОЙ
                 const newCard = {
-                    id: Date.now(),
+                    id: targetCard.id, // Сохраняем оригинальный ID для картинки
                     title: targetCard.title,
                     description: targetCard.description,
                     rarity: targetCard.rarity,
                     category: targetCard.category,
                     purchasePrice: targetCard.price,
-                    sellPrice: Math.floor(targetCard.price * 0.7)
+                    sellPrice: Math.floor(targetCard.price * 0.7),
+                    image: `assets/item_${targetCard.id}.png` // Добавляем путь к картинке
                 };
 
                 newInventory.push(newCard);
@@ -1345,4 +1411,3 @@
     </script>
 </body>
 </html>
-
