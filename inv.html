@@ -852,69 +852,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
             generateInventory();
-
-            // Демо-данные для тестирования
-            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
-            if (inventory.length === 0) {
-                const demoItems = [
-                    {
-                        id: 1,
-                        title: "B-Day Candle",
-                        description: "Праздничная свеча",
-                        price: 1.65,
-                        sellPrice: 1.4,
-                        rarity: "rare",
-                        icon: "🎂"
-                    },
-                    {
-                        id: 2,
-                        title: "Lunar Snake",
-                        description: "Лунная змея",
-                        price: 1.65,
-                        sellPrice: 1.4,
-                        rarity: "rare",
-                        icon: "🐍"
-                    },
-                    {
-                        id: 3,
-                        title: "Snake Box",
-                        description: "Коробка с змеей",
-                        price: 1.65,
-                        sellPrice: 1.4,
-                        rarity: "rare",
-                        icon: "📦"
-                    },
-                    {
-                        id: 4,
-                        title: "Desk Calendar",
-                        description: "Настольный календарь",
-                        price: 1.75,
-                        sellPrice: 1.5,
-                        rarity: "epic",
-                        icon: "🗓️"
-                    },
-                    {
-                        id: 7,
-                        title: "Xmas Stocking",
-                        description: "Рождественский носок",
-                        price: 2.1,
-                        sellPrice: 1.8,
-                        rarity: "legendary",
-                        icon: "🧦"
-                    },
-                    {
-                        id: 8,
-                        title: "Candy Cane",
-                        description: "Карамельная трость",
-                        price: 2.1,
-                        sellPrice: 1.8,
-                        rarity: "legendary",
-                        icon: "🍬"
-                    }
-                ];
-                localStorage.setItem('userInventory', JSON.stringify(demoItems));
-                generateInventory();
-            }
         });
 
         // Telegram Web App
