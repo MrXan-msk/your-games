@@ -268,6 +268,142 @@
             z-index: 0;
         }
 
+        /* Стили для модального окна пополнения */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1a4a, #0c0c2e);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 320px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stars-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .stars-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stars-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .stars-option.selected {
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            border-color: #ff6b6b;
+        }
+
+        .stars-count {
+            font-size: 18px;
+            font-weight: bold;
+            color: gold;
+            margin-bottom: 5px;
+        }
+
+        .ton-amount {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa36c);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .buy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .exchange-rate {
+            margin-top: 15px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -341,6 +477,10 @@
             .game-card {
                 height: 130px;
             }
+
+            .stars-options {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -353,7 +493,7 @@
             <div class="user-info">
                 <div class="balance">
                     <span id="balanceAmount">10.5 TON</span>
-                    <button class="deposit-btn">Пополнить</button>
+                    <button class="deposit-btn" id="depositBtn">Пополнить</button>
                 </div>
                 <div class="avatar">U</div>
             </div>
@@ -416,6 +556,54 @@
         </div>
     </div>
 
+    <!-- Модальное окно пополнения -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">&times;</button>
+            <h2>Пополнение баланса</h2>
+            <p>Выберите количество Stars для пополнения</p>
+
+            <div class="stars-options">
+                <div class="stars-option" data-stars="10">
+                    <div class="stars-count">⭐ 10 Stars</div>
+                    <div class="ton-amount">0.055 TON</div>
+                </div>
+                <div class="stars-option" data-stars="50">
+                    <div class="stars-count">⭐ 50 Stars</div>
+                    <div class="ton-amount">0.275 TON</div>
+                </div>
+                <div class="stars-option" data-stars="100">
+                    <div class="stars-count">⭐ 100 Stars</div>
+                    <div class="ton-amount">0.555 TON</div>
+                </div>
+                <div class="stars-option" data-stars="500">
+                    <div class="stars-count">⭐ 500 Stars</div>
+                    <div class="ton-amount">2.775 TON</div>
+                </div>
+                <div class="stars-option" data-stars="1000">
+                    <div class="stars-count">⭐ 1000 Stars</div>
+                    <div class="ton-amount">5.555 TON</div>
+                </div>
+                <div class="stars-option" data-stars="5000">
+                    <div class="stars-count">⭐ 5000 Stars</div>
+                    <div class="ton-amount">27.775 TON</div>
+                </div>
+            </div>
+
+            <p>Или введите своё количество:</p>
+            <input type="number" class="custom-input" id="customStars" placeholder="Минимум 10 Stars" min="10">
+            <div class="ton-amount" id="customTonAmount">~ 0 TON</div>
+
+            <button class="buy-btn" id="buyStarsBtn" disabled>
+                Купить за <span id="selectedStars">0</span> Stars
+            </button>
+
+            <div class="exchange-rate">
+                Курс: 10 Stars = 0.055 TON
+            </div>
+        </div>
+    </div>
+
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="inv.html" class="nav-item">
@@ -434,6 +622,17 @@
     </nav>
 
     <script>
+        // Функция для расчета TON по Stars
+        function starsToTon(stars) {
+            return (stars * 0.055) / 10;
+        }
+
+        // Функция для форматирования числа
+        function formatNumber(num) {
+            return num.toFixed(3);
+        }
+
+        // Инициализация баланса
         function initializeBalance() {
             let balance = localStorage.getItem('userBalance');
             if (!balance) {
@@ -443,26 +642,173 @@
             document.getElementById('balanceAmount').textContent = balance + ' TON';
         }
 
+        // Обновление баланса
         function updateBalance(amount) {
             let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
             currentBalance += amount;
-            localStorage.setItem('userBalance', currentBalance.toFixed(2));
-            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+            localStorage.setItem('userBalance', currentBalance.toFixed(3));
+            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(3) + ' TON';
             return currentBalance;
         }
 
-        document.querySelector('.deposit-btn').addEventListener('click', function() {
-            const amount = prompt('Введите сумму пополнения в TON:');
-            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                updateBalance(parseFloat(amount));
-                alert('Баланс успешно пополнен на ' + amount + ' TON!');
+        // Покупка через Telegram Stars
+        function buyWithStars(starsAmount) {
+            if (starsAmount < 10) {
+                alert('Минимальная сумма пополнения - 10 Stars');
+                return;
             }
-        });
 
+            const tonAmount = starsToTon(starsAmount);
+
+            // Имитация покупки через Telegram Stars
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                // В реальном приложении здесь будет вызов Telegram Mini Apps API
+                Telegram.WebApp.showPopup({
+                    title: 'Подтверждение покупки',
+                    message: `Вы хотите купить ${formatNumber(tonAmount)} TON за ${starsAmount} Stars?`,
+                    buttons: [
+                        {id: 'cancel', type: 'cancel', text: 'Отмена'},
+                        {id: 'buy', type: 'default', text: 'Купить'}
+                    ]
+                }, function(buttonId) {
+                    if (buttonId === 'buy') {
+                        // Имитация успешной покупки
+                        simulateStarsPurchase(starsAmount, tonAmount);
+                    }
+                });
+            } else {
+                // Для тестирования вне Telegram
+                if (confirm(`Купить ${formatNumber(tonAmount)} TON за ${starsAmount} Stars?`)) {
+                    simulateStarsPurchase(starsAmount, tonAmount);
+                }
+            }
+        }
+
+        // Имитация покупки через Stars (в реальном приложении здесь будет реальная интеграция)
+        function simulateStarsPurchase(starsAmount, tonAmount) {
+            // Показываем индикатор загрузки
+            const buyBtn = document.getElementById('buyStarsBtn');
+            const originalText = buyBtn.innerHTML;
+            buyBtn.innerHTML = 'Обработка...';
+            buyBtn.disabled = true;
+
+            // Имитация обработки платежа
+            setTimeout(() => {
+                updateBalance(tonAmount);
+
+                // Показываем успешное сообщение
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    Telegram.WebApp.showAlert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
+                } else {
+                    alert(`Успешно! Баланс пополнен на ${formatNumber(tonAmount)} TON`);
+                }
+
+                // Закрываем модальное окно
+                document.getElementById('depositModal').style.display = 'none';
+
+                // Восстанавливаем кнопку
+                buyBtn.innerHTML = originalText;
+                buyBtn.disabled = false;
+
+            }, 2000);
+        }
+
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
+
+            const depositBtn = document.getElementById('depositBtn');
+            const depositModal = document.getElementById('depositModal');
+            const closeModal = document.getElementById('closeModal');
+            const starsOptions = document.querySelectorAll('.stars-option');
+            const customStarsInput = document.getElementById('customStars');
+            const customTonAmount = document.getElementById('customTonAmount');
+            const buyStarsBtn = document.getElementById('buyStarsBtn');
+            const selectedStarsSpan = document.getElementById('selectedStars');
+
+            let selectedStars = 0;
+
+            // Открытие модального окна
+            depositBtn.addEventListener('click', function() {
+                depositModal.style.display = 'block';
+                selectedStars = 0;
+                updateBuyButton();
+            });
+
+            // Закрытие модального окна
+            closeModal.addEventListener('click', function() {
+                depositModal.style.display = 'none';
+            });
+
+            // Клик по вариантам Stars
+            starsOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Снимаем выделение со всех вариантов
+                    starsOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Выделяем выбранный вариант
+                    this.classList.add('selected');
+                    // Устанавливаем выбранное количество
+                    selectedStars = parseInt(this.getAttribute('data-stars'));
+                    customStarsInput.value = selectedStars;
+                    updateCustomTonAmount();
+                    updateBuyButton();
+                });
+            });
+
+            // Обработка ввода кастомного значения
+            customStarsInput.addEventListener('input', function() {
+                const stars = parseInt(this.value) || 0;
+                if (stars >= 10) {
+                    selectedStars = stars;
+                    // Снимаем выделение с пресетов
+                    starsOptions.forEach(opt => opt.classList.remove('selected'));
+                } else {
+                    selectedStars = 0;
+                }
+                updateCustomTonAmount();
+                updateBuyButton();
+            });
+
+            // Обновление отображаемой суммы TON для кастомного ввода
+            function updateCustomTonAmount() {
+                const stars = parseInt(customStarsInput.value) || 0;
+                if (stars >= 10) {
+                    const ton = starsToTon(stars);
+                    customTonAmount.textContent = `~ ${formatNumber(ton)} TON`;
+                } else {
+                    customTonAmount.textContent = '~ 0 TON';
+                }
+            }
+
+            // Обновление кнопки покупки
+            function updateBuyButton() {
+                if (selectedStars >= 10) {
+                    buyStarsBtn.disabled = false;
+                    selectedStarsSpan.textContent = selectedStars;
+                } else {
+                    buyStarsBtn.disabled = true;
+                    selectedStarsSpan.textContent = '0';
+                }
+            }
+
+            // Нажатие на кнопку покупки
+            buyStarsBtn.addEventListener('click', function() {
+                if (selectedStars >= 10) {
+                    buyWithStars(selectedStars);
+                }
+            });
+
+            // Закрытие модального окна при клике вне его
+            window.addEventListener('click', function(event) {
+                if (event.target === depositModal) {
+                    depositModal.style.display = 'none';
+                }
+            });
+
+            // Инициализация при загрузке
+            updateCustomTonAmount();
+            updateBuyButton();
         });
     </script>
 </body>
 </html>
-
