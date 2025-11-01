@@ -683,10 +683,10 @@
                 const now = Date.now();
                 // Сохраняем не чаще чем раз в 100мс
                 if (now - gameState.lastSaveTime < 100) return;
-                
+
                 gameState.lastSaveTime = now;
                 gameState.lastUpdateTime = now; // Сохраняем время последнего обновления
-                
+
                 const stateToSave = {
                     balance: gameState.balance,
                     currentBet: gameState.currentBet,
@@ -714,7 +714,7 @@
                 const savedState = localStorage.getItem('crashGameState');
                 if (savedState) {
                     const state = JSON.parse(savedState);
-                    
+
                     // Восстанавливаем все данные
                     gameState.balance = state.balance || 10.5;
                     gameState.currentBet = state.currentBet || 1.0;
@@ -732,7 +732,7 @@
                     gameState.autoCashoutEnabled = state.autoCashoutEnabled || false;
                     gameState.betPlacedInCurrentRound = state.betPlacedInCurrentRound || false;
                     gameState.lastUpdateTime = state.lastUpdateTime || Date.now();
-                    
+
                     return true;
                 }
                 return false;
@@ -752,7 +752,7 @@
                     // В режиме ожидания уменьшаем таймер
                     const secondsPassed = Math.floor(elapsed / 1000);
                     gameState.nextRoundTimer = Math.max(0, gameState.nextRoundTimer - secondsPassed);
-                    
+
                     if (gameState.nextRoundTimer <= 0) {
                         startGameRound();
                     }
@@ -761,15 +761,15 @@
                     const timePassed = elapsed / 1000; // в секундах
                     const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
                     gameState.currentMultiplier += growthSpeed * timePassed * 60; // Ускорение для компенсации
-                    
+
                     // Добавляем точки на график
                     if (Math.random() < 0.3) {
                         gameState.graphPoints.push(gameState.currentMultiplier);
                     }
-                    
+
                     // Проверяем автовывод
                     checkAutoCashout();
-                    
+
                     // Проверяем краш
                     if (gameState.currentMultiplier >= gameState.crashPoint) {
                         endGameRound();
@@ -802,18 +802,18 @@
             function restoreUIFromState() {
                 // Обновляем поле ставки
                 betInput.value = gameState.currentBet.toFixed(1);
-                
+
                 // Обновляем автовывод
                 autoCashoutInput.value = gameState.autoCashoutMultiplier.toFixed(2);
                 autoCashoutToggle.checked = gameState.autoCashoutEnabled;
-                
+
                 // Обновляем историю
                 updateHistoryDisplay();
-                
+
                 // Рассчитываем прошедшее время и обновляем состояние
                 const elapsed = calculateElapsedTime();
                 updateGameStateFromElapsedTime(elapsed);
-                
+
                 // Восстанавливаем фазу игры
                 if (gameState.roundPhase === 'waiting') {
                     restoreWaitingPhase();
@@ -830,7 +830,7 @@
             // Восстановление фазы ожидания
             function restoreWaitingPhase() {
                 gameState.roundPhase = 'waiting';
-                
+
                 phaseIndicator.textContent = "Ожидание ставок";
                 multiplierDisplay.textContent = "1.00x";
                 multiplierDisplay.style.color = "#00ff88";
@@ -895,7 +895,7 @@
                 // Восстанавливаем состояние кнопок
                 playButton.disabled = true;
                 playButton.textContent = "Поставить";
-                
+
                 if (gameState.playerInGame) {
                     cashoutButton.disabled = false;
                     if (gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
@@ -980,16 +980,16 @@
             }
 
             // Generate crash point with exact chances
-            function generateCrashPoint() {
-                const random = Math.random() * 100;
+// ЗАМЕНИТЬ эту функцию в коде:
+function generateCrashPoint() {
+    const random = Math.random() * 100;
 
-                if (random < 60) return 1.00 + Math.random() * 0.70;
-                else if (random < 80) return 1.70 + Math.random() * 1.74;
-                else if (random < 90) return 3.44 + Math.random() * 1.56;
-                else if (random < 95) return 5.00 + Math.random() * 7.00;
-                else if (random < 98.5) return 12.00 + Math.random() * 8.00;
-                else return 20.00 + Math.random() * 80.00;
-            }
+    if (random < 65) return 1.00 + Math.random() * 0.65;      // 65% шанс краха до 1.65x
+    else if (random < 85) return 1.65 + Math.random() * 1.35; // 20% шанс до 3x
+    else if (random < 95) return 3.00 + Math.random() * 2.00; // 10% шанс до 5x
+    else if (random < 99.5) return 5.00 + Math.random() * 15.00; // 4.5% шанс до 20x
+    else return 20.00 + Math.random() * 30.00;               // 0.5% шанс до 50x
+}
 
             // Calculate growth speed
             function getGrowthSpeed(currentMultiplier) {
@@ -1132,7 +1132,7 @@
             function endGameRound() {
                 gameState.roundPhase = 'crashed';
                 gameState.lastUpdateTime = Date.now();
-                
+
                 if (gameState.animationId) {
                     cancelAnimationFrame(gameState.animationId);
                 }
@@ -1332,9 +1332,9 @@
                 window.addEventListener('resize', initCanvas);
                 initCanvas();
                 updateBalanceDisplay();
-                
+
                 const hasSavedState = loadGameState();
-                
+
                 if (hasSavedState) {
                     restoreUIFromState();
                 } else {
