@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Краш</title>
     <style>
+        /* Стили остаются без изменений */
         :root {
             --primary-color: #0f0f23;
             --secondary-color: #1a1a2e;
@@ -545,7 +546,7 @@
             }
 
             .logo h1 {
-                font-size: 1.7rem;
+                fontSize: 1.7rem;
             }
 
             .user-info {
@@ -653,7 +654,11 @@
                 playerInGame: false,
                 autoCashoutMultiplier: 2.00,
                 autoCashoutActive: false,
-                autoCashoutEnabled: false
+                autoCashoutEnabled: false,
+                countdownInterval: null,
+                lastSaveTime: 0,
+                betPlacedInCurrentRound: false,
+                lastUpdateTime: Date.now() // Время последнего обновления для расчета прошедшего времени
             };
 
             // DOM elements
@@ -673,6 +678,106 @@
             const depositBtn = document.querySelector('.deposit-btn');
             const ctx = graphCanvas.getContext('2d');
 
+            // Сохранение состояния игры
+            function saveGameState() {
+                const now = Date.now();
+                // Сохраняем не чаще чем раз в 100мс
+                if (now - gameState.lastSaveTime < 100) return;
+                
+                gameState.lastSaveTime = now;
+                gameState.lastUpdateTime = now; // Сохраняем время последнего обновления
+                
+                const stateToSave = {
+                    balance: gameState.balance,
+                    currentBet: gameState.currentBet,
+                    currentMultiplier: gameState.currentMultiplier,
+                    crashPoint: gameState.crashPoint,
+                    roundPhase: gameState.roundPhase,
+                    nextRoundTimer: gameState.nextRoundTimer,
+                    gameHistory: gameState.gameHistory,
+                    graphPoints: gameState.graphPoints,
+                    startTime: gameState.startTime,
+                    playerBet: gameState.playerBet,
+                    playerInGame: gameState.playerInGame,
+                    autoCashoutMultiplier: gameState.autoCashoutMultiplier,
+                    autoCashoutActive: gameState.autoCashoutActive,
+                    autoCashoutEnabled: gameState.autoCashoutEnabled,
+                    betPlacedInCurrentRound: gameState.betPlacedInCurrentRound,
+                    lastUpdateTime: gameState.lastUpdateTime,
+                    timestamp: now
+                };
+                localStorage.setItem('crashGameState', JSON.stringify(stateToSave));
+            }
+
+            // Загрузка состояния игры
+            function loadGameState() {
+                const savedState = localStorage.getItem('crashGameState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    
+                    // Восстанавливаем все данные
+                    gameState.balance = state.balance || 10.5;
+                    gameState.currentBet = state.currentBet || 1.0;
+                    gameState.currentMultiplier = state.currentMultiplier || 1.00;
+                    gameState.crashPoint = state.crashPoint || 1.00;
+                    gameState.roundPhase = state.roundPhase || 'waiting';
+                    gameState.nextRoundTimer = state.nextRoundTimer || 5;
+                    gameState.gameHistory = state.gameHistory || [];
+                    gameState.graphPoints = state.graphPoints || [];
+                    gameState.startTime = state.startTime || 0;
+                    gameState.playerBet = state.playerBet || 0;
+                    gameState.playerInGame = state.playerInGame || false;
+                    gameState.autoCashoutMultiplier = state.autoCashoutMultiplier || 2.00;
+                    gameState.autoCashoutActive = state.autoCashoutActive || false;
+                    gameState.autoCashoutEnabled = state.autoCashoutEnabled || false;
+                    gameState.betPlacedInCurrentRound = state.betPlacedInCurrentRound || false;
+                    gameState.lastUpdateTime = state.lastUpdateTime || Date.now();
+                    
+                    return true;
+                }
+                return false;
+            }
+
+            // Расчет прошедшего времени с момента последнего сохранения
+            function calculateElapsedTime() {
+                const now = Date.now();
+                const elapsed = now - gameState.lastUpdateTime;
+                gameState.lastUpdateTime = now;
+                return elapsed;
+            }
+
+            // Обновление состояния игры на основе прошедшего времени
+            function updateGameStateFromElapsedTime(elapsed) {
+                if (gameState.roundPhase === 'waiting') {
+                    // В режиме ожидания уменьшаем таймер
+                    const secondsPassed = Math.floor(elapsed / 1000);
+                    gameState.nextRoundTimer = Math.max(0, gameState.nextRoundTimer - secondsPassed);
+                    
+                    if (gameState.nextRoundTimer <= 0) {
+                        startGameRound();
+                    }
+                } else if (gameState.roundPhase === 'playing') {
+                    // В режиме игры увеличиваем множитель
+                    const timePassed = elapsed / 1000; // в секундах
+                    const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
+                    gameState.currentMultiplier += growthSpeed * timePassed * 60; // Ускорение для компенсации
+                    
+                    // Добавляем точки на график
+                    if (Math.random() < 0.3) {
+                        gameState.graphPoints.push(gameState.currentMultiplier);
+                    }
+                    
+                    // Проверяем автовывод
+                    checkAutoCashout();
+                    
+                    // Проверяем краш
+                    if (gameState.currentMultiplier >= gameState.crashPoint) {
+                        endGameRound();
+                    }
+                }
+                // Для crashed ничего не делаем - ждем перехода в waiting
+            }
+
             // Инициализация баланса
             function initializeBalance() {
                 let balance = localStorage.getItem('userBalance');
@@ -689,22 +794,134 @@
                 gameState.balance += amount;
                 localStorage.setItem('userBalance', gameState.balance.toFixed(2));
                 updateBalanceDisplay();
+                saveGameState();
                 return gameState.balance;
+            }
+
+            // Обновление UI из сохраненного состояния
+            function restoreUIFromState() {
+                // Обновляем поле ставки
+                betInput.value = gameState.currentBet.toFixed(1);
+                
+                // Обновляем автовывод
+                autoCashoutInput.value = gameState.autoCashoutMultiplier.toFixed(2);
+                autoCashoutToggle.checked = gameState.autoCashoutEnabled;
+                
+                // Обновляем историю
+                updateHistoryDisplay();
+                
+                // Рассчитываем прошедшее время и обновляем состояние
+                const elapsed = calculateElapsedTime();
+                updateGameStateFromElapsedTime(elapsed);
+                
+                // Восстанавливаем фазу игры
+                if (gameState.roundPhase === 'waiting') {
+                    restoreWaitingPhase();
+                } else if (gameState.roundPhase === 'playing') {
+                    restoreGameRound();
+                } else if (gameState.roundPhase === 'crashed') {
+                    // Если игра крашнулась, начинаем новую через 2 секунды
+                    setTimeout(() => {
+                        startWaitingPhase();
+                    }, 2000);
+                }
+            }
+
+            // Восстановление фазы ожидания
+            function restoreWaitingPhase() {
+                gameState.roundPhase = 'waiting';
+                
+                phaseIndicator.textContent = "Ожидание ставок";
+                multiplierDisplay.textContent = "1.00x";
+                multiplierDisplay.style.color = "#00ff88";
+                roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+                autoCashoutIndicator.style.display = 'none';
+
+                // Восстанавливаем состояние кнопок
+                updatePlayButtonState();
+                cashoutButton.disabled = true;
+
+                // Разблокировать элементы ставки
+                setBetControlsEnabled(true);
+
+                drawGraph();
+
+                // Запускаем таймер
+                startCountdownTimer();
+            }
+
+            // Обновление состояния кнопки "Поставить"
+            function updatePlayButtonState() {
+                if (gameState.betPlacedInCurrentRound && gameState.roundPhase === 'waiting') {
+                    playButton.disabled = true;
+                    playButton.textContent = "Ставка сделана";
+                } else if (gameState.roundPhase === 'waiting') {
+                    playButton.disabled = false;
+                    playButton.textContent = "Поставить";
+                } else {
+                    playButton.disabled = true;
+                    playButton.textContent = "Поставить";
+                }
+            }
+
+            // Запуск таймера обратного отсчета
+            function startCountdownTimer() {
+                // Очищаем предыдущий интервал
+                if (gameState.countdownInterval) {
+                    clearInterval(gameState.countdownInterval);
+                }
+
+                gameState.countdownInterval = setInterval(() => {
+                    gameState.nextRoundTimer--;
+                    roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+                    saveGameState();
+
+                    if (gameState.nextRoundTimer <= 0) {
+                        clearInterval(gameState.countdownInterval);
+                        startGameRound();
+                    }
+                }, 1000);
+            }
+
+            // Восстановление игрового раунда
+            function restoreGameRound() {
+                gameState.roundPhase = 'playing';
+                phaseIndicator.textContent = "Раунд идет";
+                roundInfo.textContent = "Множитель растет...";
+
+                // Заблокировать элементы ставки во время игры
+                setBetControlsEnabled(false);
+
+                // Восстанавливаем состояние кнопок
+                playButton.disabled = true;
+                playButton.textContent = "Поставить";
+                
+                if (gameState.playerInGame) {
+                    cashoutButton.disabled = false;
+                    if (gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
+                        autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
+                        autoCashoutIndicator.style.display = 'block';
+                    }
+                } else {
+                    cashoutButton.disabled = true;
+                    autoCashoutIndicator.style.display = 'none';
+                }
+
+                // Пересчитываем время для плавного продолжения
+                const elapsed = (Date.now() - gameState.startTime) / 1000;
+                gameState.startTime = Date.now() - (elapsed * 1000);
+
+                // Продолжаем анимацию
+                animateGame();
             }
 
             // Функция для определения цвета по множителю
             function getMultiplierColor(multiplier) {
-                if (multiplier < 1.50) {
-                    return 'history-red';      // 1.00 - 1.49
-                } else if (multiplier < 2.50) {
-                    return 'history-yellow';   // 1.50 - 2.49
-                } else if (multiplier < 4.01) {
-                    return 'history-orange';   // 2.50 - 4.00
-                } else if (multiplier < 10.01) {
-                    return 'history-green';    // 4.01 - 10.00
-                } else {
-                    return 'history-blue';     // 10.01 - 100.00
-                }
+                if (multiplier < 1.50) return 'history-red';
+                else if (multiplier < 2.50) return 'history-yellow';
+                else if (multiplier < 4.01) return 'history-orange';
+                else if (multiplier < 10.01) return 'history-green';
+                else return 'history-blue';
             }
 
             // Функция для блокировки/разблокировки элементов ставки
@@ -766,40 +983,21 @@
             function generateCrashPoint() {
                 const random = Math.random() * 100;
 
-                if (random < 60) {
-                    // 60% - 1.00x - 1.70x
-                    return 1.00 + Math.random() * 0.70;
-                } else if (random < 80) {
-                    // 20% - 1.70x - 3.44x
-                    return 1.70 + Math.random() * 1.74;
-                } else if (random < 90) {
-                    // 10% - 3.44x - 5.00x
-                    return 3.44 + Math.random() * 1.56;
-                } else if (random < 95) {
-                    // 5% - 5.00x - 12.00x
-                    return 5.00 + Math.random() * 7.00;
-                } else if (random < 98.5) {
-                    // 3.5% - 12.00x - 20.00x
-                    return 12.00 + Math.random() * 8.00;
-                } else {
-                    // 1.5% - 20.00x - 100.00x
-                    return 20.00 + Math.random() * 80.00;
-                }
+                if (random < 60) return 1.00 + Math.random() * 0.70;
+                else if (random < 80) return 1.70 + Math.random() * 1.74;
+                else if (random < 90) return 3.44 + Math.random() * 1.56;
+                else if (random < 95) return 5.00 + Math.random() * 7.00;
+                else if (random < 98.5) return 12.00 + Math.random() * 8.00;
+                else return 20.00 + Math.random() * 80.00;
             }
 
-            // Calculate growth speed - сильно замедляем
+            // Calculate growth speed
             function getGrowthSpeed(currentMultiplier) {
-                if (currentMultiplier < 2.0) {
-                    return 0.003; // Очень медленно до 2x
-                } else if (currentMultiplier < 5.0) {
-                    return 0.005; // Медленно до 5x
-                } else if (currentMultiplier < 10.0) {
-                    return 0.008; // Средне до 10x
-                } else if (currentMultiplier < 20.0) {
-                    return 0.012; // Быстрее до 20x
-                } else {
-                    return 0.018; // Быстро после 20x
-                }
+                if (currentMultiplier < 2.0) return 0.003;
+                else if (currentMultiplier < 5.0) return 0.005;
+                else if (currentMultiplier < 10.0) return 0.008;
+                else if (currentMultiplier < 20.0) return 0.012;
+                else return 0.018;
             }
 
             // Show result message
@@ -833,6 +1031,11 @@
                 gameState.nextRoundTimer = 5;
                 gameState.graphPoints = [];
                 gameState.autoCashoutActive = false;
+                gameState.currentMultiplier = 1.00;
+                gameState.playerInGame = false;
+                gameState.playerBet = 0;
+                gameState.betPlacedInCurrentRound = false;
+                gameState.lastUpdateTime = Date.now();
 
                 phaseIndicator.textContent = "Ожидание ставок";
                 multiplierDisplay.textContent = "1.00x";
@@ -840,24 +1043,16 @@
                 roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
                 autoCashoutIndicator.style.display = 'none';
 
-                playButton.disabled = false;
+                updatePlayButtonState();
                 cashoutButton.disabled = true;
 
-                // Разблокировать элементы ставки
                 setBetControlsEnabled(true);
 
                 drawGraph();
 
-                // Start countdown
-                const countdown = setInterval(() => {
-                    gameState.nextRoundTimer--;
-                    roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+                saveGameState();
 
-                    if (gameState.nextRoundTimer <= 0) {
-                        clearInterval(countdown);
-                        startGameRound();
-                    }
-                }, 1000);
+                startCountdownTimer();
             }
 
             // Start game round
@@ -867,6 +1062,7 @@
                 gameState.crashPoint = generateCrashPoint();
                 gameState.graphPoints = [1.00];
                 gameState.startTime = Date.now();
+                gameState.lastUpdateTime = Date.now();
 
                 phaseIndicator.textContent = "Раунд идет";
                 roundInfo.textContent = "Множитель растет...";
@@ -874,10 +1070,8 @@
                 multiplierDisplay.textContent = "1.00x";
                 multiplierDisplay.style.color = "#00ff88";
 
-                // Заблокировать элементы ставки во время игры
                 setBetControlsEnabled(false);
 
-                // Show auto cashout indicator if active
                 if (gameState.playerInGame && gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
                     autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
                     autoCashoutIndicator.style.display = 'block';
@@ -885,15 +1079,16 @@
                     autoCashoutIndicator.style.display = 'none';
                 }
 
-                // Enable cashout for players in game
                 if (gameState.playerInGame) {
                     cashoutButton.disabled = false;
                     gameState.autoCashoutActive = true;
                 }
 
                 playButton.disabled = true;
+                playButton.textContent = "Поставить";
 
-                // Start animation
+                saveGameState();
+
                 animateGame();
             }
 
@@ -901,22 +1096,17 @@
             function animateGame() {
                 const elapsed = (Date.now() - gameState.startTime) / 1000;
 
-                // Calculate multiplier growth with dynamic speed
                 const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
                 gameState.currentMultiplier += growthSpeed;
 
-                // Add point to graph (реже для плавности)
                 if (Math.random() < 0.08) {
                     gameState.graphPoints.push(gameState.currentMultiplier);
                 }
 
-                // Update display
                 multiplierDisplay.textContent = gameState.currentMultiplier.toFixed(2) + "x";
 
-                // Check auto cashout
                 checkAutoCashout();
 
-                // Color transition when approaching crash
                 const progress = gameState.currentMultiplier / gameState.crashPoint;
                 if (progress > 0.7) {
                     const red = Math.min(255, Math.floor(255 * (progress - 0.7) * 3.33));
@@ -926,27 +1116,31 @@
 
                 drawGraph();
 
-                // Check for crash
                 if (gameState.currentMultiplier >= gameState.crashPoint) {
                     endGameRound();
                     return;
                 }
 
-                // Continue animation
+                if (Date.now() % 500 < 16) {
+                    saveGameState();
+                }
+
                 gameState.animationId = requestAnimationFrame(animateGame);
             }
 
             // End game round
             function endGameRound() {
                 gameState.roundPhase = 'crashed';
-                cancelAnimationFrame(gameState.animationId);
+                gameState.lastUpdateTime = Date.now();
+                
+                if (gameState.animationId) {
+                    cancelAnimationFrame(gameState.animationId);
+                }
 
-                // Show crash
                 multiplierDisplay.textContent = "CRASH! " + gameState.currentMultiplier.toFixed(2) + "x";
                 multiplierDisplay.style.color = "#ff4444";
                 createCrashAnimation();
 
-                // Handle player crash
                 if (gameState.playerInGame) {
                     gameState.playerInGame = false;
                     gameState.autoCashoutActive = false;
@@ -956,14 +1150,14 @@
                 cashoutButton.disabled = true;
                 autoCashoutIndicator.style.display = 'none';
 
-                // Add to history - всегда добавляем краш множитель
                 gameState.gameHistory.unshift({
                     multiplier: gameState.currentMultiplier.toFixed(2),
                     crashed: true
                 });
                 updateHistoryDisplay();
 
-                // Start next round after delay
+                saveGameState();
+
                 setTimeout(() => {
                     startWaitingPhase();
                 }, 2000);
@@ -972,6 +1166,10 @@
             // Place bet
             function placeBet() {
                 if (gameState.roundPhase !== 'waiting') return;
+                if (gameState.betPlacedInCurrentRound) {
+                    alert("Вы уже сделали ставку в этом раунде!");
+                    return;
+                }
 
                 if (gameState.currentBet > gameState.balance) {
                     alert("Недостаточно средств!");
@@ -981,14 +1179,15 @@
                 gameState.playerBet = gameState.currentBet;
                 gameState.playerInGame = true;
                 gameState.autoCashoutActive = true;
+                gameState.betPlacedInCurrentRound = true;
 
-                // Вычитаем ставку из баланса
                 updateBalance(-gameState.currentBet);
 
                 updateBalanceDisplay();
-                playButton.disabled = true;
+                updatePlayButtonState();
 
                 createParticles(8, '#00ff88');
+                saveGameState();
             }
 
             // Cash out
@@ -999,7 +1198,6 @@
                 gameState.playerInGame = false;
                 gameState.autoCashoutActive = false;
 
-                // Добавляем выигрыш к балансу
                 updateBalance(winnings);
 
                 updateBalanceDisplay();
@@ -1009,7 +1207,7 @@
                 showResultMessage("Успели!", "#00ff88");
                 createParticles(15, '#00ff88');
 
-                // При кэшауте не добавляем в историю, только при краше
+                saveGameState();
             }
 
             // Create particles
@@ -1076,6 +1274,7 @@
                     gameState.currentBet = 1.0;
                     this.value = '1.0';
                 }
+                saveGameState();
             });
 
             autoCashoutInput.addEventListener('input', function() {
@@ -1084,10 +1283,12 @@
                     gameState.autoCashoutMultiplier = 1.1;
                     this.value = '1.10';
                 }
+                saveGameState();
             });
 
             autoCashoutToggle.addEventListener('change', function() {
                 gameState.autoCashoutEnabled = this.checked;
+                saveGameState();
             });
 
             betButtons.forEach(button => {
@@ -1099,6 +1300,7 @@
                         gameState.currentBet = gameState.currentBet * 2;
                     }
                     betInput.value = gameState.currentBet.toFixed(1);
+                    saveGameState();
                 });
             });
 
@@ -1111,16 +1313,34 @@
                 }
             });
 
+            // Сохраняем состояние при закрытии страницы
+            window.addEventListener('beforeunload', saveGameState);
+
+            // Очистка интервалов при разгрузке страницы
+            window.addEventListener('unload', function() {
+                if (gameState.countdownInterval) {
+                    clearInterval(gameState.countdownInterval);
+                }
+                if (gameState.animationId) {
+                    cancelAnimationFrame(gameState.animationId);
+                }
+            });
+
             // Initialize game
             function initGame() {
                 initializeBalance();
                 window.addEventListener('resize', initCanvas);
                 initCanvas();
                 updateBalanceDisplay();
-                updateHistoryDisplay();
-
-                // Start first round
-                startWaitingPhase();
+                
+                const hasSavedState = loadGameState();
+                
+                if (hasSavedState) {
+                    restoreUIFromState();
+                } else {
+                    updateHistoryDisplay();
+                    startWaitingPhase();
+                }
             }
 
             // Start the game
