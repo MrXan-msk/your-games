@@ -143,18 +143,18 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Стили для карточек - УМЕНЬШЕНЫ как в inv.html */
+        /* Стили для карточек - УВЕЛИЧЕНЫ */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
         }
 
         .shop-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
@@ -170,30 +170,37 @@
 
         .card-image {
             width: 100%;
-            height: 85px; /* Уменьшено с 120px */
-            border-radius: 10px;
+            height: 110px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             position: relative;
             overflow: hidden;
         }
 
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
         .card-icon {
-            font-size: 2rem; /* Уменьшено */
+            font-size: 2.5rem;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .card-content {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .card-title {
-            font-size: 0.95rem; /* Уменьшено с 1.1rem */
+            font-size: 1.05rem;
             font-weight: bold;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
@@ -206,23 +213,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .card-price {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             font-weight: bold;
         }
 
         .price-amount {
-            font-size: 0.95rem; /* Уменьшено с 1.1rem */
+            font-size: 1.05rem;
             color: #ffa36c;
         }
 
         .price-currency {
-            font-size: 0.75rem; /* Уменьшено с 0.8rem */
+            font-size: 0.8rem;
             opacity: 0.8;
         }
 
@@ -230,12 +237,12 @@
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             border: none;
             color: white;
-            padding: 6px 10px; /* Уменьшено */
+            padding: 7px 12px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
         }
 
         .buy-button:hover {
@@ -424,8 +431,8 @@
             }
 
             .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+                gap: 12px;
             }
 
             .shop-title {
@@ -449,11 +456,11 @@
             }
 
             .card-image {
-                height: 75px;
+                height: 100px;
             }
 
             .card-icon {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
         }
 
@@ -643,7 +650,7 @@
                         price: card.price,
                         category: "items",
                         rarity: "",
-                        image: `assets/shop/item_${card.id}.png`
+                        image: `assets/item_${card.id}.png`
                     });
                 });
             }
@@ -697,7 +704,6 @@
             }
 
             loadCardsFromSystem() {
-                // Загружаем карточки из cardSystem
                 this.allCards = cardSystem.getAllCards();
                 this.filteredCards = [...this.allCards];
                 console.log('Загружено карточек:', this.allCards.length);
@@ -732,7 +738,7 @@
                 cardsGrid.innerHTML = this.filteredCards.map(card => `
                     <div class="shop-card" data-card-id="${card.id}">
                         <div class="card-image">
-                            <div class="card-icon">🎮</div>
+                            <img src="${card.image}" alt="${card.title}" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\\'card-icon\\'>🎮</div>';">
                         </div>
                         <div class="card-content">
                             <h3 class="card-title">${card.title}</h3>
@@ -751,7 +757,6 @@
             }
 
             setupEventListeners() {
-                // Сортировка
                 document.querySelectorAll('.sort-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
@@ -762,7 +767,6 @@
                     });
                 });
 
-                // Фильтрация по категориям
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -772,11 +776,9 @@
                     });
                 });
 
-                // Обработчики модального окна
                 document.getElementById('confirmPurchase').addEventListener('click', () => this.purchaseItem());
                 document.getElementById('cancelPurchase').addEventListener('click', () => this.closeModal());
 
-                // Закрытие модального окна при клике вне его
                 window.addEventListener('click', (event) => {
                     const modal = document.getElementById('purchaseModal');
                     if (event.target === modal) {
@@ -784,7 +786,6 @@
                     }
                 });
 
-                // Обработка кнопки пополнения
                 document.querySelector('.deposit-btn').addEventListener('click', () => {
                     const amount = prompt('Введите сумму пополнения в TON:');
                     if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
@@ -795,10 +796,8 @@
                 });
             }
 
-            // Переменные для модального окна
             currentCardId = null;
 
-            // Показать уведомление
             showNotification(message) {
                 const notification = document.getElementById('notification');
                 notification.textContent = message;
@@ -809,7 +808,6 @@
                 }, 3000);
             }
 
-            // Показать модальное окно покупки
             showPurchaseModal(cardId) {
                 const card = cardSystem.getCard(cardId);
                 const modal = document.getElementById('purchaseModal');
@@ -822,15 +820,15 @@
                 modal.style.display = 'block';
             }
 
-            // Купить предмет
             purchaseItem() {
                 const card = cardSystem.getCard(this.currentCardId);
                 const balance = parseFloat(localStorage.getItem('userBalance') || '10.5');
 
                 if (balance >= card.price) {
                     this.updateBalance(-card.price);
-                    this.addItem(card);
+                    const purchasedItem = this.addItem(card);
                     this.showNotification(`Успешно куплено: ${card.title}`);
+                    console.log('Куплен предмет с картинкой:', purchasedItem.image);
                     this.closeModal();
                 } else {
                     this.showNotification('Недостаточно средств!');
@@ -838,7 +836,6 @@
                 }
             }
 
-            // Закрыть модальное окно
             closeModal() {
                 document.getElementById('purchaseModal').style.display = 'none';
                 this.currentCardId = null;
@@ -850,7 +847,7 @@
                     cardId: card.id,
                     title: card.title,
                     description: card.description,
-                    image: card.image,
+                    image: card.image,  // Сохраняем картинку
                     rarity: card.rarity,
                     category: card.category,
                     purchasePrice: card.price,
@@ -875,7 +872,6 @@
                 localStorage.setItem('userInventory', JSON.stringify(this.items));
             }
 
-            // Инициализация баланса
             initializeBalance() {
                 let balance = localStorage.getItem('userBalance');
                 if (!balance) {
@@ -886,7 +882,6 @@
                 return parseFloat(balance);
             }
 
-            // Обновление баланса
             updateBalance(amount) {
                 let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
                 currentBalance += amount;
@@ -896,7 +891,6 @@
                 return currentBalance;
             }
 
-            // Сохранение баланса
             setupBalancePersistence() {
                 window.addEventListener('beforeunload', () => {
                     const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
@@ -912,19 +906,15 @@
             }
         }
 
-        // Создаем глобальный экземпляр системы инвентаря
         const inventorySystem = new InventorySystem();
 
-        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            // Telegram Web App
             if (window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.expand();
                 Telegram.WebApp.enableClosingConfirmation();
                 Telegram.WebApp.ready();
             }
 
-            // Периодическое сохранение
             setInterval(function() {
                 const currentBalance = document.getElementById('balanceAmount').textContent.split(' ')[0];
                 const savedBalance = localStorage.getItem('userBalance');
