@@ -174,7 +174,7 @@
 
         .item-image {
             width: 100%;
-            height: 100px; /* Увеличено с 80px */
+            height: 100px;
             border-radius: 10px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
@@ -198,14 +198,14 @@
         }
 
         .item-name {
-            font-size: 0.85rem; /* Увеличено */
+            font-size: 0.85rem;
             font-weight: bold;
             margin-bottom: 6px;
             line-height: 1.2;
         }
 
         .item-price {
-            font-size: 0.75rem; /* Увеличено */
+            font-size: 0.75rem;
             color: #ffa36c;
         }
 
@@ -565,7 +565,7 @@
 
         .card-image {
             width: 100%;
-            height: 100px; /* Увеличено с 80px */
+            height: 100px;
             border-radius: 10px;
             background: linear-gradient(135deg, #1a1a4a, #2d2d6e);
             display: flex;
@@ -584,14 +584,14 @@
         }
 
         .card-name {
-            font-size: 0.85rem; /* Увеличено */
+            font-size: 0.85rem;
             font-weight: bold;
             margin-bottom: 6px;
             line-height: 1.2;
         }
 
         .card-price {
-            font-size: 0.75rem; /* Увеличено */
+            font-size: 0.75rem;
             color: #ffa36c;
         }
 
@@ -752,10 +752,6 @@
             <div class="upgrade-wheel">
                 <div class="wheel-track">
                     <div class="circular-track" id="circularTrack"></div>
-                    <div class="track-labels">
-                        <div class="win-label">ПОБЕДА</div>
-                        <div class="lose-label">ПОРАЖЕНИЕ</div>
-                    </div>
                     <div class="wheel-container">
                         <div class="wheel" id="upgradeWheel">
                             <div class="wheel-center"></div>
@@ -1019,7 +1015,7 @@
             document.getElementById('chanceInfo').style.display = 'block';
         }
 
-        // Загрузка инвентаря для апгрейда
+        // Загрузка инвентаря для апгрейда - ИСПРАВЛЕННАЯ
         function loadUpgradeInventory() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const inventoryGrid = document.getElementById('upgradeInventory');
@@ -1058,7 +1054,8 @@
             }
 
             inventoryGrid.innerHTML = itemsToShow.map(item => {
-                const imagePath = `assets/item_${item.id}.png`;
+                // ИСПРАВЛЕНИЕ: Используем правильный путь к картинке из сохраненных данных
+                const imagePath = item.image || `assets/item_${item.id}.png`;
                 return `
                 <div class="inventory-item" data-item-id="${item.id}" onclick="selectUpgradeCard(${item.id})">
                     <div class="item-image">
@@ -1268,7 +1265,28 @@
             button.disabled = !(selectedUpgradeCard && selectedTargetCard) || isUpgrading || currentSuccessChance === 0;
         }
 
-        // Запуск апгрейда
+        // Проверка незавершенного апгрейда при загрузке страницы
+        function checkPendingUpgrade() {
+            const pendingUpgrade = localStorage.getItem('pendingUpgrade');
+            if (pendingUpgrade) {
+                const upgradeData = JSON.parse(pendingUpgrade);
+
+                // Восстанавливаем состояние
+                selectedUpgradeCard = upgradeData.selectedUpgradeCard;
+                selectedTargetCard = upgradeData.selectedTargetCard;
+                isUpgrading = true;
+
+                // Показываем уведомление о незавершенном апгрейде
+                showNotification('🌀 Завершаем предыдущий апгрейд...');
+
+                // Завершаем апгрейд
+                setTimeout(() => {
+                    showResult(upgradeData.isSuccess, true);
+                }, 2000);
+            }
+        }
+
+        // Запуск апгрейда - ИСПРАВЛЕННАЯ
         function startUpgrade() {
             if (!selectedUpgradeCard || !selectedTargetCard || isUpgrading || currentSuccessChance === 0) return;
 
@@ -1278,8 +1296,17 @@
             const wheel = document.getElementById('upgradeWheel');
             const button = document.getElementById('startUpgrade');
 
-            // Случайный результат на основе шансов
+            // Случайный результат на основе шансов - ОПРЕДЕЛЯЕМ СРАЗУ
             const isSuccess = Math.random() * 100 < currentSuccessChance;
+
+            // Сохраняем результат в localStorage НЕЗАВИСИМО от того, завершится ли процесс
+            const upgradeData = {
+                selectedUpgradeCard,
+                selectedTargetCard,
+                isSuccess,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('pendingUpgrade', JSON.stringify(upgradeData));
 
             // Вычисляем финальный угол на основе шансов
             let finalRotation;
@@ -1306,13 +1333,16 @@
 
             // Результат через 7 секунд
             setTimeout(() => {
-                showResult(isSuccess);
+                showResult(isSuccess, false);
             }, 7000);
         }
 
-        // Показать результат
-        function showResult(isSuccess) {
+        // Показать результат - ИСПРАВЛЕННАЯ
+        function showResult(isSuccess, fromPending = false) {
             const button = document.getElementById('startUpgrade');
+
+            // Удаляем запись о незавершенном апгрейде
+            localStorage.removeItem('pendingUpgrade');
 
             if (isSuccess) {
                 // Успех - добавляем новую карту, удаляем старую
@@ -1322,29 +1352,37 @@
                 // Удаляем карту для апгрейда
                 const newInventory = inventory.filter(item => item.id !== selectedUpgradeCard);
 
-                // Добавляем новую карту С КАРТИНКОЙ
+                // Добавляем новую карту С КАРТИНКОЙ (сохраняем все данные)
                 const newCard = {
-                    id: targetCard.id, // Сохраняем оригинальный ID для картинки
+                    id: targetCard.id,
                     title: targetCard.title,
                     description: targetCard.description,
                     rarity: targetCard.rarity,
                     category: targetCard.category,
                     purchasePrice: targetCard.price,
                     sellPrice: Math.floor(targetCard.price * 0.7),
-                    image: `assets/item_${targetCard.id}.png` // Добавляем путь к картинке
+                    image: targetCard.image // Сохраняем путь к картинке
                 };
 
                 newInventory.push(newCard);
                 localStorage.setItem('userInventory', JSON.stringify(newInventory));
 
-                showNotification(`🎉 Успех! Вы получили: ${targetCard.title}`);
+                if (!fromPending) {
+                    showNotification(`🎉 Успех! Вы получили: ${targetCard.title}`);
+                } else {
+                    showNotification(`🎉 Предыдущий апгрейд успешен! Вы получили: ${targetCard.title}`);
+                }
             } else {
                 // Провал - удаляем карту для апгрейда
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const newInventory = inventory.filter(item => item.id !== selectedUpgradeCard);
                 localStorage.setItem('userInventory', JSON.stringify(newInventory));
 
-                showNotification(`❌ Апгрейд не удался! Карта потеряна.`, true);
+                if (!fromPending) {
+                    showNotification(`❌ Апгрейд не удался! Карта потеряна.`, true);
+                } else {
+                    showNotification(`❌ Предыдущий апгрейд не удался! Карта потеряна.`, true);
+                }
             }
 
             // Сброс состояния
@@ -1399,6 +1437,9 @@
             initializeBalance();
             loadUpgradeInventory();
             loadCardSelection();
+
+            // Проверяем незавершенный апгрейд
+            checkPendingUpgrade();
 
             // Назначаем обработчики кнопок
             document.getElementById('startUpgrade').addEventListener('click', startUpgrade);
