@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Мины</title>
     <style>
+        /* Стили остаются без изменений */
         :root {
             --primary-color: #0d1421;
             --secondary-color: #131d32;
@@ -580,6 +581,7 @@
                 baseMultipliers: [1.13, 1.35, 1.57, 1.87, 2.11, 2.44, 2.89, 3.27, 3.84, 4.15, 4.84, 5.15, 6.0, 7.2, 8.5, 10.0, 12.0, 15.0, 18.0, 22.0],
                 multipliers: [],
                 minePositions: [],
+                revealedPositions: [],
                 gameHistory: []
             };
 
@@ -595,6 +597,44 @@
             const historyItems = document.getElementById('history-items');
             const betButtons = document.querySelectorAll('.bet-button');
             const depositBtn = document.querySelector('.deposit-btn');
+
+            // Сохранение состояния игры
+            function saveGameState() {
+                const stateToSave = {
+                    balance: gameState.balance,
+                    currentBet: gameState.currentBet,
+                    minesCount: gameState.minesCount,
+                    gameActive: gameState.gameActive,
+                    revealedCells: gameState.revealedCells,
+                    multiplier: gameState.multiplier,
+                    minePositions: gameState.minePositions,
+                    revealedPositions: gameState.revealedPositions,
+                    gameHistory: gameState.gameHistory
+                };
+                localStorage.setItem('minesGameState', JSON.stringify(stateToSave));
+            }
+
+            // Загрузка состояния игры
+            function loadGameState() {
+                const savedState = localStorage.getItem('minesGameState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    
+                    // Восстанавливаем все данные
+                    gameState.balance = state.balance || 10.5;
+                    gameState.currentBet = state.currentBet || 1.00;
+                    gameState.minesCount = state.minesCount || 5;
+                    gameState.gameActive = state.gameActive || false;
+                    gameState.revealedCells = state.revealedCells || 0;
+                    gameState.multiplier = state.multiplier || 1.0;
+                    gameState.minePositions = state.minePositions || [];
+                    gameState.revealedPositions = state.revealedPositions || [];
+                    gameState.gameHistory = state.gameHistory || [];
+                    
+                    return true;
+                }
+                return false;
+            }
 
             // Инициализация баланса
             function initializeBalance() {
@@ -612,20 +652,96 @@
                 gameState.balance += amount;
                 localStorage.setItem('userBalance', gameState.balance.toFixed(2));
                 updateBalanceDisplay();
+                saveGameState(); // Сохраняем состояние при изменении баланса
                 return gameState.balance;
+            }
+
+            // Обновление выбора мин при загрузке
+            function updateMinesSelector() {
+                mineOptions.forEach(option => {
+                    const mines = parseInt(option.getAttribute('data-mines'));
+                    option.classList.remove('active');
+                    if (mines === gameState.minesCount) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+
+            // Восстановление игрового поля из сохраненного состояния
+            function restoreGameBoard() {
+                if (!gameState.gameActive) return;
+
+                const cells = document.querySelectorAll('.cell');
+                
+                // Восстанавливаем все открытые ячейки
+                gameState.revealedPositions.forEach(index => {
+                    const cell = document.querySelector(`.cell[data-index="${index}"]`);
+                    if (cell) {
+                        cell.classList.add('revealed');
+                        if (gameState.minePositions.includes(index)) {
+                            cell.classList.add('mine');
+                            cell.textContent = '💣';
+                        } else {
+                            cell.classList.add('gem');
+                            cell.textContent = '💎';
+                        }
+                    }
+                });
+
+                // Обновляем трек множителей
+                if (gameState.revealedCells > 0) {
+                    const multipliers = document.querySelectorAll('.multiplier');
+                    multipliers.forEach((multiplier, i) => {
+                        multiplier.classList.remove('active', 'current');
+                        if (i < gameState.revealedCells) {
+                            multiplier.classList.add('active');
+                        }
+                        if (i === gameState.revealedCells - 1) {
+                            multiplier.classList.add('current');
+                        }
+                    });
+                }
+
+                // Обновляем UI
+                playButton.disabled = true;
+                cashoutButton.disabled = false;
+                betInput.disabled = true;
+                mineOptions.forEach(option => option.disabled = true);
+
+                showMessage("Игра восстановлена! Продолжайте играть.", "win");
             }
 
             // Initialize the game
             function initGame() {
                 initializeBalance();
+                
+                // Пытаемся загрузить сохраненное состояние
+                const hasSavedState = loadGameState();
+                
+                // ОБНОВЛЯЕМ ПОЛЕ СТАВКИ ПЕРЕД ОТОБРАЖЕНИЕМ
+                updateBetInput();
+                
                 updateMultipliers();
                 createMultiplierTrack();
                 createGameBoard();
                 updateBetButtons();
                 updateHistoryDisplay();
+                updateMinesSelector(); // Обновляем выбор мин
+
+                // Если есть активная игра - восстанавливаем поле
+                if (hasSavedState && gameState.gameActive) {
+                    restoreGameBoard();
+                }
 
                 // Event listeners
-                betInput.addEventListener('input', updateCurrentBet);
+                betInput.addEventListener('input', function() {
+                    gameState.currentBet = parseFloat(this.value) || 1.00;
+                    if (gameState.currentBet < 1.00) {
+                        gameState.currentBet = 1.00;
+                        updateBetInput();
+                    }
+                    saveGameState();
+                });
 
                 mineOptions.forEach(option => {
                     option.addEventListener('click', function() {
@@ -635,6 +751,7 @@
                         updateMultipliers();
                         createMultiplierTrack();
                         resetGame();
+                        saveGameState();
                     });
                 });
 
@@ -650,6 +767,7 @@
                             gameState.currentBet = gameState.currentBet * 2;
                         }
                         updateBetInput();
+                        saveGameState();
                     });
                 });
 
@@ -661,6 +779,9 @@
                         alert('Баланс успешно пополнен на ' + amount + ' TON!');
                     }
                 });
+
+                // Сохраняем состояние при закрытии страницы
+                window.addEventListener('beforeunload', saveGameState);
             }
 
             // Update multipliers based on mine count
@@ -697,18 +818,9 @@
                 balanceElement.textContent = gameState.balance.toFixed(2) + ' TON';
             }
 
-            // Update bet input
+            // Update bet input - ВАЖНОЕ ИСПРАВЛЕНИЕ
             function updateBetInput() {
                 betInput.value = gameState.currentBet.toFixed(2);
-            }
-
-            // Update current bet from input
-            function updateCurrentBet() {
-                gameState.currentBet = parseFloat(betInput.value) || 1.00;
-                if (gameState.currentBet < 1.00) {
-                    gameState.currentBet = 1.00;
-                    updateBetInput();
-                }
             }
 
             // Update bet buttons state
@@ -756,6 +868,7 @@
                 gameState.revealedCells = 0;
                 gameState.multiplier = 1.0;
                 gameState.minePositions = generateMines();
+                gameState.revealedPositions = [];
 
                 // Update UI
                 playButton.disabled = true;
@@ -777,6 +890,9 @@
                 });
 
                 showMessage("Игра началась! Выбирайте ячейки.", "win");
+                
+                // Сохраняем состояние
+                saveGameState();
             }
 
             // Generate mine positions
@@ -806,6 +922,7 @@
                 // Mark cell as revealed
                 cell.classList.add('revealed');
                 gameState.revealedCells++;
+                gameState.revealedPositions.push(index);
 
                 // Check if it's a mine
                 if (gameState.minePositions.includes(index)) {
@@ -843,6 +960,9 @@
                         endGame(true);
                     }
                 }
+                
+                // Сохраняем состояние после каждого хода
+                saveGameState();
             }
 
             // Cash out
@@ -863,6 +983,7 @@
                         if (!cell.classList.contains('revealed')) {
                             cell.classList.add('revealed', 'mine');
                             cell.textContent = '💣';
+                            gameState.revealedPositions.push(index);
                         }
                     });
                 }
@@ -899,6 +1020,9 @@
 
                 updateHistoryDisplay();
 
+                // Сохраняем состояние
+                saveGameState();
+
                 // Разблокируем кнопку через 2 секунды и обновляем поле
                 setTimeout(() => {
                     resetGame();
@@ -906,6 +1030,9 @@
                     betInput.disabled = false;
                     mineOptions.forEach(option => option.disabled = false);
                     showMessage("Можете сделать новую ставку!", "win");
+                    
+                    // Сохраняем состояние после сброса
+                    saveGameState();
                 }, 2000);
             }
 
@@ -914,6 +1041,8 @@
                 gameState.gameActive = false;
                 gameState.revealedCells = 0;
                 gameState.multiplier = 1.0;
+                gameState.minePositions = [];
+                gameState.revealedPositions = [];
 
                 // Reset UI (НЕ разблокируем кнопки здесь!)
                 cashoutButton.disabled = true;
