@@ -278,6 +278,7 @@
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
+            overflow: hidden;
         }
 
         .cell:hover {
@@ -294,6 +295,12 @@
 
         .cell.gem {
             background-color: var(--success-color);
+        }
+
+        .cell-image {
+            width: 103%;
+            height: 103%;
+            object-fit: contain;
         }
 
         .action-buttons {
@@ -619,7 +626,7 @@
                 const savedState = localStorage.getItem('minesGameState');
                 if (savedState) {
                     const state = JSON.parse(savedState);
-                    
+
                     // Восстанавливаем все данные
                     gameState.balance = state.balance || 10.5;
                     gameState.currentBet = state.currentBet || 1.00;
@@ -630,7 +637,7 @@
                     gameState.minePositions = state.minePositions || [];
                     gameState.revealedPositions = state.revealedPositions || [];
                     gameState.gameHistory = state.gameHistory || [];
-                    
+
                     return true;
                 }
                 return false;
@@ -672,7 +679,7 @@
                 if (!gameState.gameActive) return;
 
                 const cells = document.querySelectorAll('.cell');
-                
+
                 // Восстанавливаем все открытые ячейки
                 gameState.revealedPositions.forEach(index => {
                     const cell = document.querySelector(`.cell[data-index="${index}"]`);
@@ -680,10 +687,20 @@
                         cell.classList.add('revealed');
                         if (gameState.minePositions.includes(index)) {
                             cell.classList.add('mine');
-                            cell.textContent = '💣';
+                            // Устанавливаем изображение мины
+                            const img = document.createElement('img');
+                            img.src = 'assets/mine.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
                         } else {
                             cell.classList.add('gem');
-                            cell.textContent = '💎';
+                            // Устанавливаем изображение алмаза
+                            const img = document.createElement('img');
+                            img.src = 'assets/ggg.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
                         }
                     }
                 });
@@ -714,13 +731,13 @@
             // Initialize the game
             function initGame() {
                 initializeBalance();
-                
+
                 // Пытаемся загрузить сохраненное состояние
                 const hasSavedState = loadGameState();
-                
+
                 // ОБНОВЛЯЕМ ПОЛЕ СТАВКИ ПЕРЕД ОТОБРАЖЕНИЕМ
                 updateBetInput();
-                
+
                 updateMultipliers();
                 createMultiplierTrack();
                 createGameBoard();
@@ -846,6 +863,13 @@
                     const cell = document.createElement('div');
                     cell.className = 'cell';
                     cell.setAttribute('data-index', i);
+
+                    // Добавляем изображение notr для неоткрытых ячеек
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.appendChild(img);
+
                     cell.addEventListener('click', () => revealCell(i));
                     gameBoard.appendChild(cell);
                 }
@@ -876,11 +900,15 @@
                 betInput.disabled = true;
                 mineOptions.forEach(option => option.disabled = true);
 
-                // Reset board
+                // Reset board - устанавливаем изображение notr для всех ячеек
                 const cells = document.querySelectorAll('.cell');
                 cells.forEach(cell => {
                     cell.className = 'cell';
-                    cell.textContent = '';
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
                 });
 
                 // Reset multiplier track
@@ -890,7 +918,7 @@
                 });
 
                 showMessage("Игра началась! Выбирайте ячейки.", "win");
-                
+
                 // Сохраняем состояние
                 saveGameState();
             }
@@ -928,12 +956,22 @@
                 if (gameState.minePositions.includes(index)) {
                     // Game over - hit a mine
                     cell.classList.add('mine');
-                    cell.textContent = '💣';
+                    // Устанавливаем изображение мины
+                    const img = document.createElement('img');
+                    img.src = 'assets/mine.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
                     endGame(false);
                 } else {
                     // Safe cell
                     cell.classList.add('gem');
-                    cell.textContent = '💎';
+                    // Устанавливаем изображение алмаза
+                    const img = document.createElement('img');
+                    img.src = 'assets/ggg.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
 
                     // Update multiplier
                     const currentMultiplierIndex = gameState.revealedCells - 1;
@@ -960,7 +998,7 @@
                         endGame(true);
                     }
                 }
-                
+
                 // Сохраняем состояние после каждого хода
                 saveGameState();
             }
@@ -982,7 +1020,12 @@
                         const cell = document.querySelector(`.cell[data-index="${index}"]`);
                         if (!cell.classList.contains('revealed')) {
                             cell.classList.add('revealed', 'mine');
-                            cell.textContent = '💣';
+                            // Устанавливаем изображение мины
+                            const img = document.createElement('img');
+                            img.src = 'assets/mine.png';
+                            img.className = 'cell-image';
+                            cell.innerHTML = '';
+                            cell.appendChild(img);
                             gameState.revealedPositions.push(index);
                         }
                     });
@@ -1030,7 +1073,7 @@
                     betInput.disabled = false;
                     mineOptions.forEach(option => option.disabled = false);
                     showMessage("Можете сделать новую ставку!", "win");
-                    
+
                     // Сохраняем состояние после сброса
                     saveGameState();
                 }, 2000);
@@ -1047,11 +1090,15 @@
                 // Reset UI (НЕ разблокируем кнопки здесь!)
                 cashoutButton.disabled = true;
 
-                // Reset board
+                // Reset board - устанавливаем изображение notr для всех ячеек
                 const cells = document.querySelectorAll('.cell');
                 cells.forEach(cell => {
                     cell.className = 'cell';
-                    cell.textContent = '';
+                    const img = document.createElement('img');
+                    img.src = 'assets/notr.png';
+                    img.className = 'cell-image';
+                    cell.innerHTML = '';
+                    cell.appendChild(img);
                 });
 
                 // Reset multiplier track
