@@ -314,7 +314,7 @@
             font-weight: 500;
         }
 
-        /* Модальное окно */
+        /* Стили для модального окна выбора метода оплаты */
         .modal {
             display: none;
             position: fixed;
@@ -325,6 +325,12 @@
             background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
@@ -337,15 +343,27 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, -40%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .modal-title {
@@ -365,13 +383,141 @@
             cursor: pointer;
             opacity: 0.7;
             transition: opacity 0.3s;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-modal:hover {
             opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .amount-input {
+        /* Стили для выбора метода оплаты */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .payment-method:hover::before {
+            left: 100%;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 107, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
+        }
+
+        .payment-method.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .method-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .method-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Стили для выбора суммы */
+        .amount-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .amount-option {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .amount-option.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .amount-main {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .amount-bonus {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            color: #4ecdc4;
+        }
+
+        .custom-amount {
+            position: relative;
+        }
+
+        .custom-input {
             width: 100%;
             padding: 15px;
             border-radius: 12px;
@@ -380,14 +526,29 @@
             color: white;
             font-size: 1rem;
             text-align: center;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
-        .amount-input:focus {
+        .custom-input:focus {
             outline: none;
             border-color: rgba(255, 107, 107, 0.8);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
         }
 
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
+        }
+
+        /* Кнопка подтверждения */
         .confirm-btn {
             width: 100%;
             padding: 16px;
@@ -399,33 +560,106 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .confirm-btn:hover::before {
+            left: 100%;
         }
 
         .confirm-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
+
+        .confirm-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Анимация успеха */
+        .success-animation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
+
             header {
                 flex-direction: column;
                 gap: 15px;
+                padding: 10px 0;
             }
+
             .logo h1 {
                 font-size: 1.7rem;
             }
+
             .user-info {
                 width: 100%;
                 justify-content: space-between;
             }
+
             .main-content {
                 gap: 12px;
             }
+
             .game-card {
                 height: 130px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -502,15 +736,102 @@
         </div>
     </div>
 
-    <!-- Простое модальное окно -->
+    <!-- Модальное окно выбора метода оплаты -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Пополнение баланса</h2>
                 <button class="close-modal" id="closeDepositModal">×</button>
             </div>
-            <input type="number" class="amount-input" id="depositAmount" placeholder="Введите сумму в TON" value="10">
-            <button class="confirm-btn" id="confirmDeposit">Пополнить</button>
+
+            <!-- Выбор метода оплаты -->
+            <div class="payment-methods">
+                <div class="payment-method" data-method="ton">
+                    <span class="method-icon">💎</span>
+                    <div class="method-name">TON</div>
+                    <div class="method-desc">Криптовалюта</div>
+                </div>
+                <div class="payment-method" data-method="stars">
+                    <span class="method-icon">⭐</span>
+                    <div class="method-name">Stars</div>
+                    <div class="method-desc">Telegram Stars</div>
+                </div>
+            </div>
+
+            <!-- Выбор суммы -->
+            <div class="amount-section">
+                <div class="section-title">Выберите сумму пополнения</div>
+                <div class="amount-options" id="tonAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="5">
+                        <div class="amount-main">5 TON</div>
+                        <div class="amount-bonus">+0.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="10">
+                        <div class="amount-main">10 TON</div>
+                        <div class="amount-bonus">+1.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="20">
+                        <div class="amount-main">20 TON</div>
+                        <div class="amount-bonus">+3 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 TON</div>
+                        <div class="amount-bonus">+8 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 TON</div>
+                        <div class="amount-bonus">+20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 TON</div>
+                        <div class="amount-bonus">+50 TON</div>
+                    </div>
+                </div>
+
+                <div class="amount-options" id="starsAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 ⭐</div>
+                        <div class="amount-bonus">5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 ⭐</div>
+                        <div class="amount-bonus">10 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 ⭐</div>
+                        <div class="amount-bonus">20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="500">
+                        <div class="amount-main">500 ⭐</div>
+                        <div class="amount-bonus">50 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="1000">
+                        <div class="amount-main">1000 ⭐</div>
+                        <div class="amount-bonus">100 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="2000">
+                        <div class="amount-main">2000 ⭐</div>
+                        <div class="amount-bonus">200 TON</div>
+                    </div>
+                </div>
+
+                <div class="custom-amount">
+                    <input type="number" class="custom-input" id="customAmount" placeholder="Введите свою сумму" min="1">
+                    <span class="currency-symbol" id="currencySymbol">$</span>
+                </div>
+            </div>
+
+            <!-- Кнопка подтверждения -->
+            <button class="confirm-btn" id="confirmDeposit" disabled>
+                Выберите метод оплаты
+            </button>
+
+            <!-- Анимация успеха -->
+            <div class="success-animation" id="successAnimation">
+                <div class="success-icon">🎉</div>
+                <div class="success-message">Пополнение успешно!</div>
+                <div>Баланс обновлен</div>
+            </div>
         </div>
     </div>
 
@@ -532,59 +853,195 @@
     </nav>
 
     <script>
-        // ФИКС ДЛЯ NANTON - очищаем старые данные
-        localStorage.removeItem('userBalance');
-        
-        // ПРОСТАЯ СИСТЕМА БАЛАНСА
-        function getBalance() {
-            const balance = localStorage.getItem('userBalance');
-            return balance ? parseFloat(balance) : 10.5;
-        }
+        // Конфигурация курса обмена
+        const EXCHANGE_RATE = 10; // 1 TON = 10 Stars
 
-        function setBalance(amount) {
-            localStorage.setItem('userBalance', amount.toFixed(2));
-            updateBalanceDisplay();
-        }
-
-        function updateBalanceDisplay() {
-            const balance = getBalance();
-            document.getElementById('balanceAmount').textContent = balance.toFixed(2) + ' TON';
-        }
-
-        // МОДАЛЬНОЕ ОКНО
+        // Элементы DOM
         const depositModal = document.getElementById('depositModal');
         const openDepositModalBtn = document.getElementById('openDepositModal');
         const closeDepositModalBtn = document.getElementById('closeDepositModal');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const tonAmounts = document.getElementById('tonAmounts');
+        const starsAmounts = document.getElementById('starsAmounts');
+        const customAmountInput = document.getElementById('customAmount');
+        const currencySymbol = document.getElementById('currencySymbol');
         const confirmDepositBtn = document.getElementById('confirmDeposit');
+        const successAnimation = document.getElementById('successAnimation');
 
-        openDepositModalBtn.addEventListener('click', () => {
+        let selectedMethod = null;
+        let selectedAmount = 0;
+
+        // Инициализация баланса
+        function initializeBalance() {
+            let balance = localStorage.getItem('userBalance');
+            if (!balance) {
+                balance = '10.5';
+                localStorage.setItem('userBalance', balance);
+            }
+            document.getElementById('balanceAmount').textContent = balance + ' TON';
+        }
+
+        // Обновление баланса
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
+            currentBalance += amount;
+            localStorage.setItem('userBalance', currentBalance.toFixed(2));
+            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
+            return currentBalance;
+        }
+
+        // Открытие модального окна
+        openDepositModalBtn.addEventListener('click', function() {
             depositModal.style.display = 'block';
+            resetSelection();
         });
 
-        closeDepositModalBtn.addEventListener('click', () => {
+        // Закрытие модального окна
+        closeDepositModalBtn.addEventListener('click', closeModal);
+
+        // Выбор метода оплаты
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                paymentMethods.forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+
+                selectedMethod = this.getAttribute('data-method');
+                updateAmountsDisplay();
+                updateConfirmButton();
+            });
+        });
+
+        // Обновление отображения сумм
+        function updateAmountsDisplay() {
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            customAmountInput.value = '';
+            selectedAmount = 0;
+
+            if (selectedMethod === 'ton') {
+                tonAmounts.style.display = 'grid';
+                currencySymbol.textContent = 'TON';
+                customAmountInput.placeholder = 'Введите сумму в TON';
+            } else if (selectedMethod === 'stars') {
+                starsAmounts.style.display = 'grid';
+                currencySymbol.textContent = '⭐';
+                customAmountInput.placeholder = 'Введите сумму в Stars';
+            }
+
+            // Сброс выбранных опций
+            document.querySelectorAll('.amount-option').forEach(option => {
+                option.classList.remove('active');
+            });
+        }
+
+        // Выбор суммы из опций
+        document.querySelectorAll('.amount-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                selectedAmount = parseFloat(this.getAttribute('data-amount'));
+                customAmountInput.value = '';
+                updateConfirmButton();
+            });
+        });
+
+        // Ввод кастомной суммы
+        customAmountInput.addEventListener('input', function() {
+            if (this.value) {
+                document.querySelectorAll('.amount-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                selectedAmount = parseFloat(this.value) || 0;
+            } else {
+                selectedAmount = 0;
+            }
+            updateConfirmButton();
+        });
+
+        // Обновление кнопки подтверждения
+        function updateConfirmButton() {
+            if (selectedMethod && selectedAmount > 0) {
+                let amountText = '';
+                if (selectedMethod === 'ton') {
+                    amountText = `${selectedAmount} TON`;
+                } else {
+                    amountText = `${selectedAmount} ⭐ (${selectedAmount / EXCHANGE_RATE} TON)`;
+                }
+                confirmDepositBtn.textContent = `Пополнить ${amountText}`;
+                confirmDepositBtn.disabled = false;
+            } else {
+                confirmDepositBtn.textContent = 'Выберите метод оплаты';
+                confirmDepositBtn.disabled = true;
+            }
+        }
+
+        // Подтверждение пополнения
+        confirmDepositBtn.addEventListener('click', function() {
+            if (!selectedMethod || selectedAmount <= 0) return;
+
+            // Эмуляция процесса оплаты
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Обработка...';
+
+            setTimeout(() => {
+                // Расчет итоговой суммы в TON
+                let tonAmount = selectedMethod === 'ton' ? selectedAmount : selectedAmount / EXCHANGE_RATE;
+
+                // Обновление баланса
+                updateBalance(tonAmount);
+
+                // Показ анимации успеха
+                showSuccessAnimation();
+
+                // Закрытие модального окна через 2 секунды
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Показ анимации успеха
+        function showSuccessAnimation() {
+            document.querySelector('.payment-methods').style.display = 'none';
+            document.querySelector('.amount-section').style.display = 'none';
+            confirmDepositBtn.style.display = 'none';
+            successAnimation.style.display = 'block';
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
             depositModal.style.display = 'none';
-        });
+            resetSelection();
+        }
 
-        confirmDepositBtn.addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('depositAmount').value) || 0;
-            if (amount > 0) {
-                const currentBalance = getBalance();
-                setBalance(currentBalance + amount);
-                depositModal.style.display = 'none';
-                alert('Баланс пополнен на ' + amount + ' TON!');
-            }
-        });
+        // Сброс выбора
+        function resetSelection() {
+            paymentMethods.forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+            customAmountInput.value = '';
+            selectedMethod = null;
+            selectedAmount = 0;
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Выберите метод оплаты';
+            successAnimation.style.display = 'none';
+            document.querySelector('.payment-methods').style.display = 'grid';
+            document.querySelector('.amount-section').style.display = 'block';
+            confirmDepositBtn.style.display = 'block';
+        }
 
-        // Закрытие модалки при клике вне её
-        window.addEventListener('click', (event) => {
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
             if (event.target === depositModal) {
-                depositModal.style.display = 'none';
+                closeModal();
             }
         });
 
-        // ИНИЦИАЛИЗАЦИЯ
-        document.addEventListener('DOMContentLoaded', () => {
-            updateBalanceDisplay();
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBalance();
         });
     </script>
 </body>
