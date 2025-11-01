@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Главная</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -76,12 +75,18 @@
             border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .deposit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         .deposit-btn:active {
-            transform: scale(0.95);
+            transform: translateY(0);
         }
 
         .avatar {
@@ -156,43 +161,37 @@
         }
 
         .crash {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/crash.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
 
         .mines {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/mines.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
 
         .upgrades {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/upgrades.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
 
         .cases {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/cases.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
 
         .contracts {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/contracts.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
 
         .shop {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('assets/shop.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
         }
@@ -315,7 +314,7 @@
             font-weight: 500;
         }
 
-        /* Стили для модального окна пополнения */
+        /* Стили для модального окна выбора метода оплаты */
         .modal {
             display: none;
             position: fixed;
@@ -323,9 +322,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
@@ -334,114 +339,289 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(135deg, #1a1a4a 0%, #0c0c2e 100%);
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { 
+                transform: translate(-50%, -40%);
+                opacity: 0;
+            }
+            to { 
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .modal-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             background: linear-gradient(90deg, #ff6b6b, #ffa36c);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            font-weight: bold;
         }
 
         .close-modal {
             background: none;
             border: none;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             opacity: 0.7;
+            transition: opacity 0.3s;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-modal:hover {
             opacity: 1;
-        }
-
-        .deposit-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .deposit-option {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px;
+        }
+
+        /* Стили для выбора метода оплаты */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .deposit-option:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .payment-method:hover::before {
+            left: 100%;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 107, 107, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
         }
 
-        .deposit-option.active {
-            background: rgba(255, 107, 107, 0.2);
+        .payment-method.active {
+            background: rgba(255, 107, 107, 0.15);
             border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
         }
 
-        .stars-amount {
+        .method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .method-name {
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 5px;
         }
 
-        .ton-amount {
-            font-size: 0.9rem;
+        .method-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Стили для выбора суммы */
+        .amount-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .amount-option {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .amount-option.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .amount-main {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .amount-bonus {
+            font-size: 0.75rem;
             opacity: 0.8;
+            color: #4ecdc4;
         }
 
         .custom-amount {
-            margin-bottom: 20px;
+            position: relative;
         }
 
         .custom-input {
             width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
             color: white;
             font-size: 1rem;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: rgba(255, 107, 107, 0.8);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
         }
 
         .custom-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .confirm-deposit {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
         }
 
-        .confirm-deposit:active {
-            transform: scale(0.98);
+        /* Кнопка подтверждения */
+        .confirm-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .confirm-btn:hover::before {
+            left: 100%;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
+
+        .confirm-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Анимация успеха */
+        .success-animation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         @media (max-width: 768px) {
@@ -470,6 +650,16 @@
 
             .game-card {
                 height: 130px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -546,7 +736,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно пополнения -->
+    <!-- Модальное окно выбора метода оплаты -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -554,30 +744,94 @@
                 <button class="close-modal" id="closeDepositModal">×</button>
             </div>
             
-            <div class="deposit-options">
-                <div class="deposit-option" data-stars="10" data-ton="1.0">
-                    <div class="stars-amount">10 ⭐</div>
-                    <div class="ton-amount">1.0 TON</div>
+            <!-- Выбор метода оплаты -->
+            <div class="payment-methods">
+                <div class="payment-method" data-method="ton">
+                    <span class="method-icon">💎</span>
+                    <div class="method-name">TON</div>
+                    <div class="method-desc">Криптовалюта</div>
                 </div>
-                <div class="deposit-option" data-stars="50" data-ton="5.0">
-                    <div class="stars-amount">50 ⭐</div>
-                    <div class="ton-amount">5.0 TON</div>
-                </div>
-                <div class="deposit-option" data-stars="100" data-ton="10.0">
-                    <div class="stars-amount">100 ⭐</div>
-                    <div class="ton-amount">10.0 TON</div>
-                </div>
-                <div class="deposit-option" data-stars="500" data-ton="50.0">
-                    <div class="stars-amount">500 ⭐</div>
-                    <div class="ton-amount">50.0 TON</div>
+                <div class="payment-method" data-method="stars">
+                    <span class="method-icon">⭐</span>
+                    <div class="method-name">Stars</div>
+                    <div class="method-desc">Telegram Stars</div>
                 </div>
             </div>
 
-            <div class="custom-amount">
-                <input type="number" class="custom-input" id="customAmount" placeholder="Введите сумму в TON" min="1" step="0.1">
+            <!-- Выбор суммы -->
+            <div class="amount-section">
+                <div class="section-title">Выберите сумму пополнения</div>
+                <div class="amount-options" id="tonAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="5">
+                        <div class="amount-main">5 TON</div>
+                        <div class="amount-bonus">+0.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="10">
+                        <div class="amount-main">10 TON</div>
+                        <div class="amount-bonus">+1.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="20">
+                        <div class="amount-main">20 TON</div>
+                        <div class="amount-bonus">+3 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 TON</div>
+                        <div class="amount-bonus">+8 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 TON</div>
+                        <div class="amount-bonus">+20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 TON</div>
+                        <div class="amount-bonus">+50 TON</div>
+                    </div>
+                </div>
+
+                <div class="amount-options" id="starsAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 ⭐</div>
+                        <div class="amount-bonus">5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 ⭐</div>
+                        <div class="amount-bonus">10 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 ⭐</div>
+                        <div class="amount-bonus">20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="500">
+                        <div class="amount-main">500 ⭐</div>
+                        <div class="amount-bonus">50 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="1000">
+                        <div class="amount-main">1000 ⭐</div>
+                        <div class="amount-bonus">100 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="2000">
+                        <div class="amount-main">2000 ⭐</div>
+                        <div class="amount-bonus">200 TON</div>
+                    </div>
+                </div>
+
+                <div class="custom-amount">
+                    <input type="number" class="custom-input" id="customAmount" placeholder="Введите свою сумму" min="1">
+                    <span class="currency-symbol" id="currencySymbol">$</span>
+                </div>
             </div>
 
-            <button class="confirm-deposit" id="confirmDeposit">Пополнить через Telegram Stars</button>
+            <!-- Кнопка подтверждения -->
+            <button class="confirm-btn" id="confirmDeposit" disabled>
+                Выберите метод оплаты
+            </button>
+
+            <!-- Анимация успеха -->
+            <div class="success-animation" id="successAnimation">
+                <div class="success-icon">🎉</div>
+                <div class="success-message">Пополнение успешно!</div>
+                <div>Баланс обновлен</div>
+            </div>
         </div>
     </div>
 
@@ -599,17 +853,25 @@
     </nav>
 
     <script>
-        // Инициализация Telegram Web App
-        let tg = window.Telegram.WebApp;
-        
-        // Инициализация приложения
-        tg.expand();
-        tg.enableClosingConfirmation();
-        tg.BackButton.hide();
-
         // Конфигурация курса обмена
-        const EXCHANGE_RATE = 0.1; // 1 TON = 10 Stars (1 Star = 0.1 TON)
+        const EXCHANGE_RATE = 10; // 1 TON = 10 Stars
 
+        // Элементы DOM
+        const depositModal = document.getElementById('depositModal');
+        const openDepositModalBtn = document.getElementById('openDepositModal');
+        const closeDepositModalBtn = document.getElementById('closeDepositModal');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const tonAmounts = document.getElementById('tonAmounts');
+        const starsAmounts = document.getElementById('starsAmounts');
+        const customAmountInput = document.getElementById('customAmount');
+        const currencySymbol = document.getElementById('currencySymbol');
+        const confirmDepositBtn = document.getElementById('confirmDeposit');
+        const successAnimation = document.getElementById('successAnimation');
+
+        let selectedMethod = null;
+        let selectedAmount = 0;
+
+        // Инициализация баланса
         function initializeBalance() {
             let balance = localStorage.getItem('userBalance');
             if (!balance) {
@@ -619,6 +881,7 @@
             document.getElementById('balanceAmount').textContent = balance + ' TON';
         }
 
+        // Обновление баланса
         function updateBalance(amount) {
             let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
             currentBalance += amount;
@@ -627,137 +890,158 @@
             return currentBalance;
         }
 
-        // Модальное окно пополнения
-        const depositModal = document.getElementById('depositModal');
-        const openDepositModalBtn = document.getElementById('openDepositModal');
-        const closeDepositModalBtn = document.getElementById('closeDepositModal');
-        const depositOptions = document.querySelectorAll('.deposit-option');
-        const customAmountInput = document.getElementById('customAmount');
-        const confirmDepositBtn = document.getElementById('confirmDeposit');
-
-        let selectedStars = 0;
-        let selectedTon = 0;
-
         // Открытие модального окна
         openDepositModalBtn.addEventListener('click', function() {
             depositModal.style.display = 'block';
-            selectedStars = 0;
-            selectedTon = 0;
-            customAmountInput.value = '';
-            depositOptions.forEach(option => option.classList.remove('active'));
+            resetSelection();
         });
 
         // Закрытие модального окна
-        closeDepositModalBtn.addEventListener('click', function() {
-            depositModal.style.display = 'none';
-        });
+        closeDepositModalBtn.addEventListener('click', closeModal);
 
-        // Выбор опции пополнения
-        depositOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                depositOptions.forEach(opt => opt.classList.remove('active'));
+        // Выбор метода оплаты
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                paymentMethods.forEach(m => m.classList.remove('active'));
                 this.classList.add('active');
                 
-                selectedStars = parseInt(this.getAttribute('data-stars'));
-                selectedTon = parseFloat(this.getAttribute('data-ton'));
+                selectedMethod = this.getAttribute('data-method');
+                updateAmountsDisplay();
+                updateConfirmButton();
+            });
+        });
+
+        // Обновление отображения сумм
+        function updateAmountsDisplay() {
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            customAmountInput.value = '';
+            selectedAmount = 0;
+
+            if (selectedMethod === 'ton') {
+                tonAmounts.style.display = 'grid';
+                currencySymbol.textContent = 'TON';
+                customAmountInput.placeholder = 'Введите сумму в TON';
+            } else if (selectedMethod === 'stars') {
+                starsAmounts.style.display = 'grid';
+                currencySymbol.textContent = '⭐';
+                customAmountInput.placeholder = 'Введите сумму в Stars';
+            }
+
+            // Сброс выбранных опций
+            document.querySelectorAll('.amount-option').forEach(option => {
+                option.classList.remove('active');
+            });
+        }
+
+        // Выбор суммы из опций
+        document.querySelectorAll('.amount-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                selectedAmount = parseFloat(this.getAttribute('data-amount'));
                 customAmountInput.value = '';
+                updateConfirmButton();
             });
         });
 
         // Ввод кастомной суммы
         customAmountInput.addEventListener('input', function() {
             if (this.value) {
-                depositOptions.forEach(option => option.classList.remove('active'));
-                selectedTon = parseFloat(this.value) || 0;
-                selectedStars = Math.round(selectedTon / EXCHANGE_RATE);
+                document.querySelectorAll('.amount-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                selectedAmount = parseFloat(this.value) || 0;
+            } else {
+                selectedAmount = 0;
             }
+            updateConfirmButton();
         });
 
-        // Подтверждение пополнения через Telegram Stars
-        confirmDepositBtn.addEventListener('click', function() {
-            if (selectedTon <= 0) {
-                alert('Пожалуйста, выберите сумму для пополнения');
-                return;
-            }
-
-            // Создание инвойса для Telegram Stars
-            const invoiceParams = {
-                title: `Пополнение баланса на ${selectedTon} TON`,
-                description: `Вы получите ${selectedTon} TON на ваш игровой баланс`,
-                payload: `deposit_${Date.now()}`,
-                currency: 'XTR', // Telegram Stars
-                prices: [
-                    {
-                        label: `${selectedTon} TON`,
-                        amount: selectedStars * 100 // В копейках (1 Star = 100)
-                    }
-                ]
-            };
-
-            // Отправка инвойса через Telegram
-            tg.showInvoice(invoiceParams, (status) => {
-                if (status === 'paid') {
-                    // Успешная оплата
-                    updateBalance(selectedTon);
-                    depositModal.style.display = 'none';
-                    
-                    // Показываем уведомление об успехе
-                    tg.showAlert(`Баланс успешно пополнен на ${selectedTon} TON!`);
-                    
-                    // Можно отправить данные на сервер
-                    sendPaymentConfirmation(selectedStars, selectedTon);
-                } else if (status === 'failed') {
-                    tg.showAlert('Оплата не прошла. Пожалуйста, попробуйте снова.');
-                } else if (status === 'cancelled') {
-                    // Пользователь отменил оплату
+        // Обновление кнопки подтверждения
+        function updateConfirmButton() {
+            if (selectedMethod && selectedAmount > 0) {
+                let amountText = '';
+                if (selectedMethod === 'ton') {
+                    amountText = `${selectedAmount} TON`;
+                } else {
+                    amountText = `${selectedAmount} ⭐ (${selectedAmount / EXCHANGE_RATE} TON)`;
                 }
-            });
+                confirmDepositBtn.textContent = `Пополнить ${amountText}`;
+                confirmDepositBtn.disabled = false;
+            } else {
+                confirmDepositBtn.textContent = 'Выберите метод оплаты';
+                confirmDepositBtn.disabled = true;
+            }
+        }
+
+        // Подтверждение пополнения
+        confirmDepositBtn.addEventListener('click', function() {
+            if (!selectedMethod || selectedAmount <= 0) return;
+
+            // Эмуляция процесса оплаты
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Обработка...';
+
+            setTimeout(() => {
+                // Расчет итоговой суммы в TON
+                let tonAmount = selectedMethod === 'ton' ? selectedAmount : selectedAmount / EXCHANGE_RATE;
+                
+                // Обновление баланса
+                updateBalance(tonAmount);
+                
+                // Показ анимации успеха
+                showSuccessAnimation();
+                
+                // Закрытие модального окна через 2 секунды
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            }, 1500);
         });
 
-        // Функция для отправки подтверждения платежа на сервер
-        function sendPaymentConfirmation(stars, ton) {
-            // Здесь должна быть реализация отправки данных на ваш сервер
-            const paymentData = {
-                userId: tg.initDataUnsafe.user?.id,
-                stars: stars,
-                ton: ton,
-                timestamp: Date.now(),
-                payload: `deposit_${Date.now()}`
-            };
-            
-            // Пример отправки на сервер
-            fetch('/api/payment/confirm', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(paymentData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Payment confirmed on server:', data);
-            })
-            .catch(error => {
-                console.error('Error confirming payment:', error);
-            });
+        // Показ анимации успеха
+        function showSuccessAnimation() {
+            document.querySelector('.payment-methods').style.display = 'none';
+            document.querySelector('.amount-section').style.display = 'none';
+            confirmDepositBtn.style.display = 'none';
+            successAnimation.style.display = 'block';
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            depositModal.style.display = 'none';
+            resetSelection();
+        }
+
+        // Сброс выбора
+        function resetSelection() {
+            paymentMethods.forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+            customAmountInput.value = '';
+            selectedMethod = null;
+            selectedAmount = 0;
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Выберите метод оплаты';
+            successAnimation.style.display = 'none';
+            document.querySelector('.payment-methods').style.display = 'grid';
+            document.querySelector('.amount-section').style.display = 'block';
+            confirmDepositBtn.style.display = 'block';
         }
 
         // Закрытие модального окна при клике вне его
         window.addEventListener('click', function(event) {
             if (event.target === depositModal) {
-                depositModal.style.display = 'none';
+                closeModal();
             }
         });
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
-            
-            // Показываем информацию о пользователе если доступна
-            if (tg.initDataUnsafe.user) {
-                const user = tg.initDataUnsafe.user;
-                document.querySelector('.avatar').textContent = user.first_name ? user.first_name[0] : 'U';
-            }
         });
     </script>
 </body>
