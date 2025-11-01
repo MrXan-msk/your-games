@@ -512,7 +512,7 @@
             <div class="bet-section">
                 <div class="bet-title">СТАВКА</div>
                 <div class="bet-input-container">
-                    <input type="number" class="bet-input" id="bet-input" value="1.00" min="1.00" step="1.00">
+                    <input type="number" class="bet-input" id="bet-input" value="1.00" min="1.00" max="300.00" step="1.00">
                     <div class="bet-buttons">
                         <button class="bet-button" data-action="half">1/2</button>
                         <button class="bet-button" data-action="double">2x</button>
@@ -576,10 +576,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Game state - СТАВКА ВСЕГДА 1.00
+            // Game state
             const gameState = {
                 balance: 10.5,
-                currentBet: 1.00, // Всегда 1.00
+                currentBet: 1.00,
                 minesCount: 5,
                 gameActive: false,
                 revealedCells: 0,
@@ -609,7 +609,7 @@
             function saveGameState() {
                 const stateToSave = {
                     balance: gameState.balance,
-                    // currentBet НЕ сохраняем - всегда 1.00
+                    // currentBet НЕ сохраняем
                     minesCount: gameState.minesCount,
                     gameActive: gameState.gameActive,
                     revealedCells: gameState.revealedCells,
@@ -629,7 +629,7 @@
 
                     // Восстанавливаем все данные, КРОМЕ СТАВКИ
                     gameState.balance = state.balance || 10.5;
-                    // currentBet всегда 1.00 - не восстанавливаем
+                    // currentBet всегда 1.00 по умолчанию - не восстанавливаем
                     gameState.minesCount = state.minesCount || 5;
                     gameState.gameActive = state.gameActive || false;
                     gameState.revealedCells = state.revealedCells || 0;
@@ -735,7 +735,7 @@
                 // Пытаемся загрузить сохраненное состояние
                 const hasSavedState = loadGameState();
 
-                // ВСЕГДА ставим ставку 1.00
+                // Обновляем поле ставки
                 updateBetInput();
 
                 updateMultipliers();
@@ -752,9 +752,17 @@
 
                 // Event listeners
                 betInput.addEventListener('input', function() {
-                    // ВСЕГДА ставим 1.00
-                    this.value = '1.00';
-                    gameState.currentBet = 1.00;
+                    let value = parseFloat(this.value) || 1.00;
+                    
+                    // Ограничиваем от 1 до 300
+                    if (value < 1.00) {
+                        value = 1.00;
+                    } else if (value > 300.00) {
+                        value = 300.00;
+                    }
+                    
+                    gameState.currentBet = value;
+                    this.value = value.toFixed(2);
                 });
 
                 mineOptions.forEach(option => {
@@ -775,9 +783,12 @@
                 betButtons.forEach(button => {
                     button.addEventListener('click', function() {
                         const action = this.getAttribute('data-action');
-                        // ВСЕГДА ставим 1.00, кнопки не работают
-                        betInput.value = '1.00';
-                        gameState.currentBet = 1.00;
+                        if (action === 'half') {
+                            gameState.currentBet = Math.max(1.00, gameState.currentBet / 2);
+                        } else if (action === 'double') {
+                            gameState.currentBet = Math.min(300.00, gameState.currentBet * 2);
+                        }
+                        updateBetInput();
                     });
                 });
 
@@ -828,10 +839,9 @@
                 balanceElement.textContent = gameState.balance.toFixed(2) + ' TON';
             }
 
-            // Update bet input - ВСЕГДА 1.00
+            // Update bet input
             function updateBetInput() {
-                betInput.value = '1.00';
-                gameState.currentBet = 1.00;
+                betInput.value = gameState.currentBet.toFixed(2);
             }
 
             // Update bet buttons state
@@ -873,16 +883,19 @@
             function startGame() {
                 if (gameState.gameActive) return;
 
-                // ВСЕГДА используем ставку 1.00
-                const betAmount = 1.00;
-                
-                if (betAmount > gameState.balance) {
+                // Проверяем, что ставка в пределах 1-300
+                if (gameState.currentBet < 1.00 || gameState.currentBet > 300.00) {
+                    showMessage("Ставка должна быть от 1 до 300 TON!", "lose");
+                    return;
+                }
+
+                if (gameState.currentBet > gameState.balance) {
                     showMessage("Недостаточно средств!", "lose");
                     return;
                 }
 
                 // Deduct bet from balance
-                updateBalance(-betAmount);
+                updateBalance(-gameState.currentBet);
 
                 // Reset game state
                 gameState.gameActive = true;
