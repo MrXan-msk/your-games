@@ -807,7 +807,106 @@
     </nav>
 
     <script>
-        // Подключаем систему карт с правильными названиями
+        // Подключаем общие цены
+        const itemPrices = {
+            1: { title: "B-Day Candle", price: 1.65 },
+            2: { title: "Lunar Snake", price: 1.65 },
+            3: { title: "Snake Box", price: 1.65 },
+            4: { title: "Desk Calendar", price: 1.75 },
+            5: { title: "Whip Cupcake", price: 1.85 },
+            6: { title: "lol Pop", price: 2 },
+            7: { title: "Xmas Stocking", price: 2.1 },
+            8: { title: "Candy Cane", price: 2.1 },
+            9: { title: "Pet Snake", price: 2.1 },
+            10: { title: "Jester Hat", price: 2.1 },
+            11: { title: "Big Year", price: 2.2 },
+            12: { title: "Holiday Drink", price: 2.2 },
+            13: { title: "Party Sparkler", price: 2.2 },
+            14: { title: "Cookie Heart", price: 2.2 },
+            15: { title: "Hypno Lollipop", price: 2.2 },
+            16: { title: "Winter Wreath", price: 2.2 },
+            17: { title: "Fresh Socks", price: 2.2 },
+            18: { title: "Homemade Cake", price: 2.2 },
+            19: { title: "Jingle Balls", price: 2.3 },
+            20: { title: "Ginger Cookie", price: 2.3 },
+            21: { title: "Clover Pin", price: 2.3 },
+            22: { title: "Tama Gadget", price: 2.4 },
+            23: { title: "Spices Wine", price: 2.45 },
+            24: { title: "Stellar Rocket", price: 2.5 },
+            25: { title: "Snoop Dogg", price: 2.6 },
+            26: { title: "Swag Bag", price: 2.7 },
+            27: { title: "Moon Pendant", price: 2.8 },
+            28: { title: "Jack-in-the-Box", price: 3 },
+            29: { title: "Star Notepad", price: 3 },
+            30: { title: "Easter Egg", price: 3 },
+            31: { title: "Santa Hat", price: 3 },
+            32: { title: "Restless Jar", price: 3 },
+            33: { title: "Joyful Bundle", price: 3 },
+            34: { title: "Light Sword", price: 3 },
+            35: { title: "Lush Bouquet", price: 3.5 },
+            36: { title: "Snow Globe", price: 3.5 },
+            37: { title: "Hex Pot", price: 3.5 },
+            38: { title: "Bunnt Muffin", price: 3.75 },
+            39: { title: "Witch Hat", price: 3.8 },
+            40: { title: "Input Key", price: 4 },
+            41: { title: "Bow Tie", price: 4 },
+            42: { title: "Jelly Bunny", price: 4 },
+            43: { title: "Eternal Candle", price: 4 },
+            44: { title: "Spy Agaric", price: 4.3 },
+            45: { title: "Snow Mittens", price: 4.5 },
+            46: { title: "Berry Box", price: 4.5 },
+            47: { title: "Evil Eye", price: 5 },
+            48: { title: "Jolly Chimp", price: 5 },
+            49: { title: "Hanging Star", price: 5 },
+            50: { title: "Valentine Box", price: 5.3 },
+            51: { title: "Sakura Flower", price: 5.5 },
+            52: { title: "Snoop Cigar", price: 6.5 },
+            53: { title: "Slegh Bell", price: 7.5 },
+            54: { title: "Sky Skitettos", price: 8 },
+            55: { title: "Record Player", price: 8 },
+            56: { title: "Crystal Ball", price: 8.4 },
+            57: { title: "Love Candle", price: 7.5 },
+            58: { title: "Top Hat", price: 8.5 },
+            59: { title: "Skull Flower", price: 9 },
+            60: { title: "Trapped Heart", price: 10 },
+            61: { title: "Love Potion", price: 11.5 },
+            62: { title: "Flying Broom", price: 12 },
+            63: { title: "Ionic Dryer", price: 13 },
+            64: { title: "Cupid Charm", price: 14 },
+            65: { title: "Eternal Rose", price: 17 },
+            66: { title: "Mad Pumpkin", price: 18.5 },
+            67: { title: "Diamond Ring", price: 20 },
+            68: { title: "Voodoo Doll", price: 22 },
+            69: { title: "Toy Bear", price: 24 },
+            70: { title: "Vintage Cigar", price: 25 },
+            71: { title: "Signet Ring", price: 28 },
+            72: { title: "Low Rider", price: 30 },
+            73: { title: "Neko Helmet", price: 33 },
+            74: { title: "Kissed Frog", price: 35 },
+            75: { title: "Sharp Tongue", price: 40 },
+            76: { title: "Swiss Watch", price: 47 },
+            77: { title: "Genie Lamp", price: 50 },
+            78: { title: "Bonded Ring", price: 55 },
+            79: { title: "Westside Sign", price: 58 },
+            80: { title: "Scared Cat", price: 60 },
+            81: { title: "Gem Signet", price: 65 },
+            82: { title: "Magic Potion", price: 77 },
+            83: { title: "Ion Gem", price: 80 },
+            84: { title: "Perfume Bottle", price: 88 },
+            85: { title: "Mini Oscar", price: 90 },
+            86: { title: "Loot Bag", price: 95 },
+            87: { title: "Artisan Brick", price: 110 },
+            88: { title: "Nail Bracelet", price: 120 },
+            89: { title: "Astral Shard", price: 145 },
+            90: { title: "Mighty Arm", price: 235 },
+            91: { title: "Heroic Helmet", price: 250 },
+            92: { title: "Precious Peach", price: 385 },
+            93: { title: "Durov's Cap", price: 900 },
+            94: { title: "Heart Locket", price: 1300 },
+            95: { title: "Plush Pepe", price: 6000 }
+        };
+
+        // Подключаем систему карт с общими ценами
         class CardSystem {
             constructor() {
                 this.cards = new Map();
@@ -815,115 +914,17 @@
             }
 
             initializeCards() {
-                // Все карточки с новыми названиями
-                const cardList = [
-                    { id: 1, title: "B-Day Candle", price: 1.65, category: "items" },
-                    { id: 2, title: "Lunar Snake", price: 1.65, category: "items" },
-                    { id: 3, title: "Snake Box", price: 1.65, category: "items" },
-                    { id: 4, title: "Desk Calendar", price: 1.75, category: "items" },
-                    { id: 5, title: "Whip Cupcake", price: 1.85, category: "items" },
-                    { id: 6, title: "Iol Pop", price: 2, category: "items" },
-                    { id: 7, title: "Xmas Stocking", price: 2.1, category: "items" },
-                    { id: 8, title: "Candy Cane", price: 2.1, category: "items" },
-                    { id: 9, title: "Pet Snake", price: 2.1, category: "items" },
-                    { id: 10, title: "Jester Hat", price: 2.1, category: "items" },
-                    { id: 11, title: "Big Year", price: 2.2, category: "items" },
-                    { id: 12, title: "Holiday Drink", price: 2.2, category: "items" },
-                    { id: 13, title: "Party Sparkler", price: 2.2, category: "items" },
-                    { id: 14, title: "Cookie Heart", price: 2.2, category: "items" },
-                    { id: 15, title: "Hypno Lollipop", price: 2.2, category: "items" },
-                    { id: 16, title: "Winter Wreath", price: 2.2, category: "items" },
-                    { id: 17, title: "Fresh Socks", price: 2.2, category: "items" },
-                    { id: 18, title: "Homemade Cake", price: 2.2, category: "items" },
-                    { id: 19, title: "Jingle Balls", price: 2.3, category: "items" },
-                    { id: 20, title: "Ginger Cookie", price: 2.3, category: "items" },
-                    { id: 21, title: "Clover Pin", price: 2.3, category: "items" },
-                    { id: 22, title: "Tama Gadget", price: 2.4, category: "items" },
-                    { id: 23, title: "Spices Wine", price: 2.45, category: "items" },
-                    { id: 24, title: "Stellar Rocket", price: 2.5, category: "items" },
-                    { id: 25, title: "Snoop Dogg", price: 2.6, category: "items" },
-                    { id: 26, title: "Swag Bag", price: 2.7, category: "items" },
-                    { id: 27, title: "Moon Pendant", price: 2.8, category: "items" },
-                    { id: 28, title: "Jack-in-the-Box", price: 3, category: "items" },
-                    { id: 29, title: "Star Notepad", price: 3, category: "items" },
-                    { id: 30, title: "Easter Egg", price: 3, category: "items" },
-                    { id: 31, title: "Santa Hat", price: 3, category: "items" },
-                    { id: 32, title: "Restless Jar", price: 3, category: "items" },
-                    { id: 33, title: "Joyful Bundle", price: 3, category: "items" },
-                    { id: 34, title: "Light Sword", price: 3, category: "items" },
-                    { id: 35, title: "Lush Bouquet", price: 3.5, category: "items" },
-                    { id: 36, title: "Snow Globe", price: 3.5, category: "items" },
-                    { id: 37, title: "Hex Pot", price: 3.5, category: "items" },
-                    { id: 38, title: "Bunnt Muffin", price: 3.75, category: "items" },
-                    { id: 39, title: "Witch Hat", price: 3.8, category: "items" },
-                    { id: 40, title: "Input Key", price: 4, category: "items" },
-                    { id: 41, title: "Bow Tie", price: 4, category: "items" },
-                    { id: 42, title: "Jelly Bunny", price: 4, category: "items" },
-                    { id: 43, title: "Eternal Candle", price: 4, category: "items" },
-                    { id: 44, title: "Spy Agaric", price: 4.3, category: "items" },
-                    { id: 45, title: "Snow Mittens", price: 4.5, category: "items" },
-                    { id: 46, title: "Berry Box", price: 4.5, category: "items" },
-                    { id: 47, title: "Evil Eye", price: 5, category: "items" },
-                    { id: 48, title: "Jolly Chimp", price: 5, category: "items" },
-                    { id: 49, title: "Hanging Star", price: 5, category: "items" },
-                    { id: 50, title: "Valentine Box", price: 5.3, category: "items" },
-                    { id: 51, title: "Sakura Flower", price: 5.5, category: "items" },
-                    { id: 52, title: "Snoop Cigar", price: 6.5, category: "items" },
-                    { id: 53, title: "Slegh Bell", price: 7.5, category: "items" },
-                    { id: 54, title: "Sky Skitettos", price: 8, category: "items" },
-                    { id: 55, title: "Record Player", price: 8, category: "items" },
-                    { id: 56, title: "Crystal Ball", price: 8.4, category: "items" },
-                    { id: 57, title: "Love Candle", price: 7.5, category: "items" },
-                    { id: 58, title: "Top Hat", price: 8.5, category: "items" },
-                    { id: 59, title: "Skull Flower", price: 9, category: "items" },
-                    { id: 60, title: "Trapped Heart", price: 10, category: "items" },
-                    { id: 61, title: "Love Potion", price: 11.5, category: "items" },
-                    { id: 62, title: "Flying Broom", price: 12, category: "items" },
-                    { id: 63, title: "Ionic Dryer", price: 13, category: "items" },
-                    { id: 64, title: "Cupid Charm", price: 14, category: "items" },
-                    { id: 65, title: "Eternal Rose", price: 17, category: "items" },
-                    { id: 66, title: "Mad Pumpkin", price: 18.5, category: "items" },
-                    { id: 67, title: "Diamond Ring", price: 20, category: "items" },
-                    { id: 68, title: "Voodoo Doll", price: 22, category: "items" },
-                    { id: 69, title: "Toy Bear", price: 24, category: "items" },
-                    { id: 70, title: "Vintage Cigar", price: 25, category: "items" },
-                    { id: 71, title: "Signet Ring", price: 28, category: "items" },
-                    { id: 72, title: "Low Rider", price: 30, category: "items" },
-                    { id: 73, title: "Neko Helmet", price: 33, category: "items" },
-                    { id: 74, title: "Kissed Frog", price: 35, category: "items" },
-                    { id: 75, title: "Sharp Tongue", price: 40, category: "items" },
-                    { id: 76, title: "Swiss Watch", price: 47, category: "items" },
-                    { id: 77, title: "Genie Lamp", price: 50, category: "items" },
-                    { id: 78, title: "Bonded Ring", price: 55, category: "items" },
-                    { id: 79, title: "Westside Sign", price: 58, category: "items" },
-                    { id: 80, title: "Scared Cat", price: 60, category: "items" },
-                    { id: 81, title: "Gem Signet", price: 65, category: "items" },
-                    { id: 82, title: "Magic Potion", price: 77, category: "items" },
-                    { id: 83, title: "Ion Gem", price: 80, category: "items" },
-                    { id: 84, title: "Perfume Bottle", price: 88, category: "items" },
-                    { id: 85, title: "Mini Oscar", price: 90, category: "items" },
-                    { id: 86, title: "Loot Bag", price: 95, category: "items" },
-                    { id: 87, title: "Artisan Brick", price: 110, category: "items" },
-                    { id: 88, title: "Nail Bracelet", price: 120, category: "items" },
-                    { id: 89, title: "Astral Shard", price: 145, category: "items" },
-                    { id: 90, title: "Mighty Arm", price: 235, category: "items" },
-                    { id: 91, title: "Heroic Helmet", price: 250, category: "items" },
-                    { id: 92, title: "Precious Peach", price: 385, category: "items" },
-                    { id: 93, title: "Durov's Cap", price: 900, category: "items" },
-                    { id: 94, title: "Heart Locket", price: 1300, category: "items" },
-                    { id: 95, title: "Plush Pepe", price: 6000, category: "items" }
-                ];
-
-                cardList.forEach(card => {
-                    this.addCard(card.id, {
-                        title: card.title,
+                // Используем цены из общего объекта
+                for (const [id, cardData] of Object.entries(itemPrices)) {
+                    this.addCard(parseInt(id), {
+                        title: cardData.title,
                         description: "",
-                        price: card.price,
-                        category: card.category,
+                        price: cardData.price,
+                        category: "items",
                         rarity: "",
-                        image: `assets/item_${card.id}.png`
+                        image: `assets/item_${id}.png`
                     });
-                });
+                }
             }
 
             addCard(id, cardData) {
@@ -1064,7 +1065,7 @@
                         <div class="item-icon" style="display: none;">🎮</div>
                     </div>
                     <div class="item-name">${item.title}</div>
-                    <div class="item-price">${item.purchasePrice || item.sellPrice * 1.4} TON</div>
+                    <div class="item-price">${item.purchasePrice || item.price} TON</div>
                 </div>
             `}).join('');
 
@@ -1091,7 +1092,7 @@
                 const upgradeItem = inventory.find(item => item.id === selectedUpgradeCard);
 
                 if (upgradeItem) {
-                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.sellPrice * 1.4;
+                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.price;
                     // ПОКАЗЫВАЕМ ТОЛЬКО КАРТЫ ДОРОЖЕ ТЕКУЩЕЙ
                     availableCards = allCards.filter(card => card.price > upgradePrice);
                 }
@@ -1176,7 +1177,7 @@
                 const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
                 const upgradeItem = inventory.find(item => item.id === selectedUpgradeCard);
                 if (upgradeItem) {
-                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.sellPrice * 1.4;
+                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.price;
                     availableCards = allCards.filter(card => card.price > upgradePrice);
                 }
             }
@@ -1246,7 +1247,7 @@
                 const targetCard = cardSystem.getCard(selectedTargetCard);
 
                 if (upgradeItem && targetCard) {
-                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.sellPrice * 1.4;
+                    const upgradePrice = upgradeItem.purchasePrice || upgradeItem.price;
                     currentSuccessChance = calculateSuccessChance(upgradePrice, targetCard.price);
                     updateWheelChance(currentSuccessChance);
 
