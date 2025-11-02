@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Инвентарь</title>
     <style>
-        /* СУЩЕСТВУЮЩИЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ */
         * {
             margin: 0;
             padding: 0;
@@ -118,7 +117,6 @@
             opacity: 0.8;
         }
 
-        /* НОВЫЕ СТИЛИ ДЛЯ МАССОВЫХ ОПЕРАЦИЙ */
         .bulk-actions {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
@@ -188,7 +186,6 @@
             margin-left: 10px;
         }
 
-        /* Кастомный чекбокс */
         .checkbox-container {
             display: flex;
             align-items: center;
@@ -220,7 +217,6 @@
             font-weight: bold;
         }
 
-        /* Стили для карточек инвентаря */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -389,7 +385,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        /* Остальные стили без изменений */
         .empty-inventory-container {
             display: flex;
             justify-content: center;
@@ -576,84 +571,67 @@
             .container {
                 padding: 10px;
             }
-
             header {
                 flex-direction: column;
                 gap: 12px;
                 padding: 10px 0;
             }
-
             .logo h1 {
                 font-size: 1.5rem;
             }
-
             .user-info {
                 width: 100%;
                 justify-content: space-between;
             }
-
             .bulk-actions {
                 flex-direction: column;
                 gap: 12px;
                 padding: 12px 15px;
             }
-
             .select-all-container {
                 width: 100%;
                 justify-content: space-between;
             }
-
             .bulk-buttons {
                 width: 100%;
             }
-
             .bulk-button {
                 flex: 1;
                 text-align: center;
             }
-
             .cards-grid {
                 grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
                 gap: 12px;
             }
-
             .inventory-title {
                 font-size: 1.7rem;
             }
-
             .card-image {
                 height: 120px;
             }
-
             .card-footer {
                 flex-direction: column;
                 gap: 8px;
             }
-
             .card-actions {
                 width: 100%;
             }
-
             .empty-inventory-container {
                 padding: 10px;
                 min-height: 50vh;
                 display: flex;
                 align-items: center;
             }
-
             .empty-inventory {
                 padding: 40px 20px;
                 margin: 0;
             }
-
             .empty-icon {
                 font-size: 2.5rem;
             }
-
             .empty-text {
                 font-size: 1.1rem;
             }
-
             .empty-description {
                 font-size: 0.85rem;
             }
@@ -663,23 +641,18 @@
             .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .card-image {
                 height: 100px;
             }
-
             .card-icon {
                 font-size: 2.5rem;
             }
-
             .empty-inventory {
                 padding: 30px 15px;
             }
-
             .empty-icon {
                 font-size: 2rem;
             }
-
             .empty-text {
                 font-size: 1rem;
             }
@@ -689,7 +662,6 @@
             .cards-grid {
                 grid-template-columns: 1fr;
             }
-
             .empty-inventory {
                 padding: 25px 15px;
             }
@@ -716,7 +688,6 @@
             <p class="inventory-subtitle">Ваши купленные предметы и улучшения</p>
         </div>
 
-        <!-- Блок массовых операций -->
         <div class="bulk-actions" id="bulkActions" style="display: none;">
             <div class="select-all-container">
                 <div class="checkbox-container" onclick="toggleSelectAll()">
@@ -731,15 +702,11 @@
             </div>
         </div>
 
-        <div id="inventoryContent">
-            <!-- Контент будет динамически заменяться -->
-        </div>
+        <div id="inventoryContent"></div>
     </div>
 
-    <!-- Уведомление -->
     <div class="notification" id="notification"></div>
 
-    <!-- Модальное окно подтверждения продажи -->
     <div class="modal" id="sellModal">
         <div class="modal-content">
             <h3 id="sellModalTitle">Подтверждение продажи</h3>
@@ -751,7 +718,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно подтверждения вывода -->
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
             <h3 id="withdrawModalTitle">Подтверждение вывода</h3>
@@ -763,7 +729,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно массовых операций -->
     <div class="modal" id="bulkModal">
         <div class="modal-content">
             <h3 id="bulkModalTitle">Массовая операция</h3>
@@ -775,7 +740,6 @@
         </div>
     </div>
 
-    <!-- Нижнее меню -->
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="inv.html" class="nav-item active">
@@ -794,7 +758,7 @@
     </nav>
 
     <script>
-        // Цены предметов для исправления старых данных
+        // Цены предметов
         const itemPrices = {
             1: 1.65, 2: 1.65, 3: 1.65, 4: 1.75, 5: 1.85, 6: 2, 7: 2.1, 8: 2.1, 9: 2.1, 10: 2.1,
             11: 2.2, 12: 2.2, 13: 2.2, 14: 2.2, 15: 2.2, 16: 2.2, 17: 2.2, 18: 2.2, 19: 2.3, 20: 2.3,
@@ -816,34 +780,31 @@
 
         // Функция для расчета цены продажи (22% скидка)
         function calculateSellPrice(originalPrice) {
-            const sellPrice = originalPrice * 0.78; // 22% скидка
-            return Math.round(sellPrice * 100) / 100; // Округление до 2 знаков
+            const sellPrice = originalPrice * 0.78;
+            return Math.round(sellPrice * 100) / 100;
         }
 
-        // Функция для исправления инвентаря
-        function fixInventory() {
+        // Функция для принудительного исправления инвентаря
+        function forceFixInventory() {
             let inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
-
+            
             if (inventory.length === 0) return [];
-
-            // Исправляем каждый предмет
+            
+            console.log('Исправление инвентаря...');
+            
             const fixedInventory = inventory.map(item => {
-                // Если у предмета нет правильной цены
-                if (!item.price || item.price < 1.65) {
-                    // Используем цену из itemPrices или оставляем существующую
-                    const correctPrice = itemPrices[item.id] || item.price || 1.65;
-
-                    return {
-                        ...item,
-                        price: correctPrice
-                    };
-                }
-
-                return item;
+                const correctPrice = itemPrices[item.id] || item.price || 1.65;
+                
+                console.log(`Предмет ${item.id} "${item.title}": ${item.price} -> ${correctPrice} TON`);
+                
+                return {
+                    ...item,
+                    price: correctPrice
+                };
             });
-
-            // Сохраняем исправленный инвентарь
+            
             localStorage.setItem('userInventory', JSON.stringify(fixedInventory));
+            console.log('Инвентарь исправлен');
             return fixedInventory;
         }
 
@@ -882,9 +843,9 @@
         function generateInventory() {
             const inventoryContent = document.getElementById('inventoryContent');
             const bulkActions = document.getElementById('bulkActions');
-
-            // Исправляем инвентарь перед отображением
-            const inventory = fixInventory();
+            
+            // Принудительно исправляем инвентарь
+            const inventory = forceFixInventory();
 
             if (inventory.length === 0) {
                 bulkActions.style.display = 'none';
@@ -903,7 +864,6 @@
                 return;
             }
 
-            // Показываем блок массовых операций
             bulkActions.style.display = 'flex';
 
             inventoryContent.innerHTML = `
@@ -952,7 +912,7 @@
             updateBulkButtons();
         }
 
-        // Переключение выбора предмета
+        // Остальные функции без изменений
         function toggleItemSelection(itemId, event) {
             event.stopPropagation();
 
@@ -978,16 +938,13 @@
             updateSelectAllCheckbox();
         }
 
-        // Переключение "Выбрать все"
         function toggleSelectAll() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
 
             if (isSelectAll) {
-                // Снять выделение со всех
                 selectedItems.clear();
                 isSelectAll = false;
             } else {
-                // Выделить все
                 inventory.forEach(item => {
                     selectedItems.add(item.id);
                 });
@@ -998,13 +955,11 @@
             updateBulkButtons();
         }
 
-        // Обновление счетчика выбранных предметов
         function updateSelectedCount() {
             const selectedCount = document.getElementById('selectedCount');
             selectedCount.textContent = `Выбрано: ${selectedItems.size}`;
         }
 
-        // Обновление чекбокса "Выбрать все"
         function updateSelectAllCheckbox() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const selectAllCheckbox = document.getElementById('selectAllCheckbox');
@@ -1018,7 +973,6 @@
             }
         }
 
-        // Обновление кнопок массовых операций
         function updateBulkButtons() {
             const sellAllBtn = document.querySelector('.bulk-button.sell-all');
             const withdrawAllBtn = document.querySelector('.bulk-button.withdraw-all');
@@ -1032,7 +986,6 @@
             }
         }
 
-        // Показать модальное окно действия
         function showActionModal(itemId, action) {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const item = inventory.find(i => i.id === itemId);
@@ -1062,7 +1015,6 @@
             }
         }
 
-        // Показать модальное окно массовых операций
         function showBulkActionModal(action) {
             if (selectedItems.size === 0) return;
 
@@ -1083,7 +1035,6 @@
             modal.style.display = 'block';
         }
 
-        // Подтверждение одиночного действия
         function confirmAction() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             const itemIndex = inventory.findIndex(i => i.id === currentItemId);
@@ -1108,13 +1059,11 @@
             }
         }
 
-        // Подтверждение массового действия
         function confirmBulkAction() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
             let totalEarned = 0;
             let itemsProcessed = 0;
 
-            // Фильтруем инвентарь, удаляя выбранные предметы
             const newInventory = inventory.filter(item => {
                 if (selectedItems.has(item.id)) {
                     if (currentAction === 'sell') {
@@ -1122,9 +1071,9 @@
                         totalEarned += sellPrice;
                     }
                     itemsProcessed++;
-                    return false; // Удаляем предмет
+                    return false;
                 }
-                return true; // Сохраняем предмет
+                return true;
             });
 
             if (currentAction === 'sell') {
@@ -1134,17 +1083,12 @@
                 showNotification(`Выведено ${itemsProcessed} предметов`);
             }
 
-            // Сохраняем обновленный инвентарь
             localStorage.setItem('userInventory', JSON.stringify(newInventory));
-
-            // Очищаем выбранные предметы
             selectedItems.clear();
-
             closeModals();
             generateInventory();
         }
 
-        // Закрыть все модальные окна
         function closeModals() {
             document.getElementById('sellModal').style.display = 'none';
             document.getElementById('withdrawModal').style.display = 'none';
@@ -1153,7 +1097,6 @@
             currentAction = null;
         }
 
-        // Вспомогательные функции
         function getRarityText(rarity) {
             const rarityMap = {
                 'common': 'Обычная',
@@ -1164,7 +1107,6 @@
             return rarityMap[rarity] || rarity;
         }
 
-        // Инициализация баланса
         function initializeBalance() {
             let balance = localStorage.getItem('userBalance');
             if (!balance) {
@@ -1175,7 +1117,6 @@
             return parseFloat(balance);
         }
 
-        // Обновление баланса
         function updateBalance(amount) {
             let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
             currentBalance += amount;
@@ -1229,4 +1170,3 @@
     </script>
 </body>
 </html>
-
