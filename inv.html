@@ -794,6 +794,20 @@
     </nav>
 
     <script>
+        // Цены предметов для исправления старых данных
+        const itemPrices = {
+            1: 1.65, 2: 1.65, 3: 1.65, 4: 1.75, 5: 1.85, 6: 2, 7: 2.1, 8: 2.1, 9: 2.1, 10: 2.1,
+            11: 2.2, 12: 2.2, 13: 2.2, 14: 2.2, 15: 2.2, 16: 2.2, 17: 2.2, 18: 2.2, 19: 2.3, 20: 2.3,
+            21: 2.3, 22: 2.4, 23: 2.45, 24: 2.5, 25: 2.6, 26: 2.7, 27: 2.8, 28: 3, 29: 3, 30: 3,
+            31: 3, 32: 3, 33: 3, 34: 3, 35: 3.5, 36: 3.5, 37: 3.5, 38: 3.75, 39: 3.8, 40: 4,
+            41: 4, 42: 4, 43: 4, 44: 4.3, 45: 4.5, 46: 4.5, 47: 5, 48: 5, 49: 5, 50: 5.3,
+            51: 5.5, 52: 6.5, 53: 7.5, 54: 8, 55: 8, 56: 8.4, 57: 7.5, 58: 8.5, 59: 9, 60: 10,
+            61: 11.5, 62: 12, 63: 13, 64: 14, 65: 17, 66: 18.5, 67: 20, 68: 22, 69: 24, 70: 25,
+            71: 28, 72: 30, 73: 33, 74: 35, 75: 40, 76: 47, 77: 50, 78: 55, 79: 58, 80: 60,
+            81: 65, 82: 77, 83: 80, 84: 88, 85: 90, 86: 95, 87: 110, 88: 120, 89: 145, 90: 235,
+            91: 250, 92: 385, 93: 900, 94: 1300, 95: 6000
+        };
+
         // Переменные для модальных окон
         let currentItemId = null;
         let currentAction = null;
@@ -804,6 +818,33 @@
         function calculateSellPrice(originalPrice) {
             const sellPrice = originalPrice * 0.78; // 22% скидка
             return Math.round(sellPrice * 100) / 100; // Округление до 2 знаков
+        }
+
+        // Функция для исправления инвентаря
+        function fixInventory() {
+            let inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+
+            if (inventory.length === 0) return [];
+
+            // Исправляем каждый предмет
+            const fixedInventory = inventory.map(item => {
+                // Если у предмета нет правильной цены
+                if (!item.price || item.price < 1.65) {
+                    // Используем цену из itemPrices или оставляем существующую
+                    const correctPrice = itemPrices[item.id] || item.price || 1.65;
+
+                    return {
+                        ...item,
+                        price: correctPrice
+                    };
+                }
+
+                return item;
+            });
+
+            // Сохраняем исправленный инвентарь
+            localStorage.setItem('userInventory', JSON.stringify(fixedInventory));
+            return fixedInventory;
         }
 
         // Функция для получения пути к изображению
@@ -841,7 +882,9 @@
         function generateInventory() {
             const inventoryContent = document.getElementById('inventoryContent');
             const bulkActions = document.getElementById('bulkActions');
-            const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
+
+            // Исправляем инвентарь перед отображением
+            const inventory = fixInventory();
 
             if (inventory.length === 0) {
                 bulkActions.style.display = 'none';
