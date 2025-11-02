@@ -233,6 +233,12 @@
             color: white;
             font-size: 10px;
             font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .inventory-item.selected .item-checkbox::after {
+            opacity: 1;
         }
 
         .item-image {
@@ -797,7 +803,12 @@
             1: 'B-Day Candle', 2: 'Lunar Snake', 3: 'Snake Box', 4: 'Desk Calendar',
             5: 'Whip Cupcake', 12: 'Holiday Drink', 15: 'Hypno Lollipop',
             20: 'Ginger Cookie', 21: 'Clover Pin', 24: 'Stellar Rocket',
-            25: 'Snoop Dogg', 26: 'Swag Bag', 31: 'Santa Hat'
+            25: 'Snoop Dogg', 26: 'Swag Bag', 31: 'Santa Hat',
+            35: 'Gold Coin', 40: 'Crystal Ball', 45: 'Diamond Ring',
+            50: 'Golden Crown', 55: 'Magic Wand', 60: 'Space Helmet',
+            65: 'Royal Scepter', 70: 'Ancient Artifact', 75: 'Mystic Orb',
+            80: 'Dragon Egg', 85: 'Phoenix Feather', 90: 'Unicorn Horn',
+            93: 'Cosmic Cube', 94: 'Infinity Gauntlet', 95: 'Godly Artifact'
         };
 
         // Обновляем названия предметов
@@ -825,7 +836,22 @@
                 'Stellar Rocket': 'assets/item_24.png',
                 'Snoop Dogg': 'assets/item_25.png',
                 'Swag Bag': 'assets/item_26.png',
-                'Santa Hat': 'assets/item_31.png'
+                'Santa Hat': 'assets/item_31.png',
+                'Gold Coin': 'assets/item_35.png',
+                'Crystal Ball': 'assets/item_40.png',
+                'Diamond Ring': 'assets/item_45.png',
+                'Golden Crown': 'assets/item_50.png',
+                'Magic Wand': 'assets/item_55.png',
+                'Space Helmet': 'assets/item_60.png',
+                'Royal Scepter': 'assets/item_65.png',
+                'Ancient Artifact': 'assets/item_70.png',
+                'Mystic Orb': 'assets/item_75.png',
+                'Dragon Egg': 'assets/item_80.png',
+                'Phoenix Feather': 'assets/item_85.png',
+                'Unicorn Horn': 'assets/item_90.png',
+                'Cosmic Cube': 'assets/item_93.png',
+                'Infinity Gauntlet': 'assets/item_94.png',
+                'Godly Artifact': 'assets/item_95.png'
             };
 
             return imageMap[item.title] || item.image || `assets/item_${item.id}.png`;
@@ -1001,13 +1027,31 @@
 
             targetValue = Math.round(targetValue * 100) / 100;
 
-            // Находим все предметы с ценами в диапазоне ±30% от targetValue
-            const availableItems = Object.entries(allItemsData)
+            // Находим предметы в точном диапазоне стоимости
+            let availableItems = Object.entries(allItemsData)
                 .map(([id, data]) => ({ id: parseInt(id), ...data }))
                 .filter(item => {
-                    const priceDiff = Math.abs(item.price - targetValue);
-                    return priceDiff / targetValue <= 0.3; // ±30%
+                    return item.price >= targetValue * 0.9 && item.price <= targetValue * 1.1;
                 });
+
+            // Если нет предметов в точном диапазоне, расширяем поиск
+            if (availableItems.length === 0) {
+                availableItems = Object.entries(allItemsData)
+                    .map(([id, data]) => ({ id: parseInt(id), ...data }))
+                    .filter(item => {
+                        return item.price >= targetValue * 0.8 && item.price <= targetValue * 1.2;
+                    });
+            }
+
+            // Если все еще нет предметов, берем самый близкий по стоимости
+            if (availableItems.length === 0) {
+                const allItems = Object.entries(allItemsData).map(([id, data]) => ({ id: parseInt(id), ...data }));
+                availableItems = [allItems.reduce((closest, item) => {
+                    const closestDiff = Math.abs(closest.price - targetValue);
+                    const currentDiff = Math.abs(item.price - targetValue);
+                    return currentDiff < closestDiff ? item : closest;
+                })];
+            }
 
             let rewardItem;
 
