@@ -843,15 +843,13 @@
 
             addItem(card) {
                 const inventoryItem = {
-                    id: Date.now(),
-                    cardId: card.id,
+                    id: card.id, // Используем ID карточки
                     title: card.title,
                     description: card.description,
-                    image: card.image,  // Сохраняем картинку
+                    image: card.image,
                     rarity: card.rarity,
                     category: card.category,
-                    purchasePrice: card.price,
-                    sellPrice: Math.floor(card.price * 0.72)
+                    price: card.price // Сохраняем оригинальную цену для продажи
                 };
 
                 this.items.push(inventoryItem);
