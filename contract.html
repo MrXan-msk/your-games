@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Апгрейд - Xanchik Bet</title>
     <style>
+        /* Стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -159,7 +160,6 @@
             padding-right: 8px;
         }
 
-        /* Красная полоса прокрутки */
         .inventory-grid::-webkit-scrollbar {
             width: 6px;
         }
@@ -787,74 +787,139 @@
             91: 250, 92: 385, 93: 900, 94: 1300, 95: 6000
         };
 
-        // Данные всех предметов с фиксированными ценами из prices.js
+        // Названия предметов из cards.js (твои названия)
+        const itemNames = {
+            1: "B-Day Candle",
+            2: "Lunar Snake", 
+            3: "Snake Box",
+            4: "Desk Calendar",
+            5: "Whip Cupcake",
+            6: "lol Pop",
+            7: "Xmas Stocking",
+            8: "Candy Cane",
+            9: "Pet Snake",
+            10: "Jester Hat",
+            11: "Big Year",
+            12: "Holiday Drink",
+            13: "Party Sparkler",
+            14: "Cookie Heart",
+            15: "Hypno Lollipop",
+            16: "Winter Wreath",
+            17: "Fresh Socks",
+            18: "Homemade Cake",
+            19: "Jingle Balls",
+            20: "Ginger Cookie",
+            21: "Clover Pin",
+            22: "Tama Gadget",
+            23: "Spices Wine",
+            24: "Stellar Rocket",
+            25: "Snoop Dogg",
+            26: "Swag Bag",
+            27: "Moon Pendant",
+            28: "Jack-in-the-Box",
+            29: "Star Notepad",
+            30: "Easter Egg",
+            31: "Santa Hat",
+            32: "Restless Jar",
+            33: "Joyful Bundle",
+            34: "Light Sword",
+            35: "Lush Bouquet",
+            36: "Snow Globe",
+            37: "Hex Pot",
+            38: "Bunnt Muffin",
+            39: "Witch Hat",
+            40: "Input Key",
+            41: "Bow Tie",
+            42: "Jelly Bunny",
+            43: "Eternal Candle",
+            44: "Spy Agaric",
+            45: "Snow Mittens",
+            46: "Berry Box",
+            47: "Evil Eye",
+            48: "Jolly Chimp",
+            49: "Hanging Star",
+            50: "Valentine Box",
+            51: "Sakura Flower",
+            52: "Snoop Cigar",
+            53: "Slegh Bell",
+            54: "Sky Skitettos",
+            55: "Record Player",
+            56: "Crystal Ball",
+            57: "Love Candle",
+            58: "Top Hat",
+            59: "Skull Flower",
+            60: "Trapped Heart",
+            61: "Love Potion",
+            62: "Flying Broom",
+            63: "Ionic Dryer",
+            64: "Cupid Charm",
+            65: "Eternal Rose",
+            66: "Mad Pumpkin",
+            67: "Diamond Ring",
+            68: "Voodoo Doll",
+            69: "Toy Bear",
+            70: "Vintage Cigar",
+            71: "Signet Ring",
+            72: "Low Rider",
+            73: "Neko Helmet",
+            74: "Kissed Frog",
+            75: "Sharp Tongue",
+            76: "Swiss Watch",
+            77: "Genie Lamp",
+            78: "Bonded Ring",
+            79: "Westside Sign",
+            80: "Scared Cat",
+            81: "Gem Signet",
+            82: "Magic Potion",
+            83: "Ion Gem",
+            84: "Perfume Bottle",
+            85: "Mini Oscar",
+            86: "Loot Bag",
+            87: "Artisan Brick",
+            88: "Nail Bracelet",
+            89: "Astral Shard",
+            90: "Mighty Arm",
+            91: "Heroic Helmet",
+            92: "Precious Peach",
+            93: "Durov's Cap",
+            94: "Heart Locket",
+            95: "Plush Pepe"
+        };
+
+        // Данные всех предметов с фиксированными ценами и правильными названиями
         const allItemsData = {};
         for (let id in itemPrices) {
             allItemsData[id] = {
-                name: `Item ${id}`,
+                id: parseInt(id),
+                name: itemNames[id] || `Item ${id}`,
                 price: itemPrices[id],
-                image: `assets/item_${id}.png`,
+                image: `assets/item_${id}.png`, // Путь для предметов из контрактов
+                shopImage: `assets/shop/item_${id}.png`, // Путь для предметов из магазина
                 icon: '🎁'
             };
-        }
-
-        // Добавляем известные названия для первых предметов
-        const itemNames = {
-            1: 'B-Day Candle', 2: 'Lunar Snake', 3: 'Snake Box', 4: 'Desk Calendar',
-            5: 'Whip Cupcake', 12: 'Holiday Drink', 15: 'Hypno Lollipop',
-            20: 'Ginger Cookie', 21: 'Clover Pin', 24: 'Stellar Rocket',
-            25: 'Snoop Dogg', 26: 'Swag Bag', 31: 'Santa Hat',
-            35: 'Gold Coin', 40: 'Crystal Ball', 45: 'Diamond Ring',
-            50: 'Golden Crown', 55: 'Magic Wand', 60: 'Space Helmet',
-            65: 'Royal Scepter', 70: 'Ancient Artifact', 75: 'Mystic Orb',
-            80: 'Dragon Egg', 85: 'Phoenix Feather', 90: 'Unicorn Horn',
-            93: 'Cosmic Cube', 94: 'Infinity Gauntlet', 95: 'Godly Artifact'
-        };
-
-        // Обновляем названия предметов
-        for (let id in itemNames) {
-            if (allItemsData[id]) {
-                allItemsData[id].name = itemNames[id];
-            }
         }
 
         let selectedItems = [];
         let currentUpgradeResult = null;
 
-        // Функция для получения пути к изображению (как в inv.html)
-        function getItemImage(item) {
-            const imageMap = {
-                'B-Day Candle': 'assets/item_1.png',
-                'Lunar Snake': 'assets/item_2.png',
-                'Snake Box': 'assets/item_3.png',
-                'Desk Calendar': 'assets/item_4.png',
-                'Whip Cupcake': 'assets/item_5.png',
-                'Holiday Drink': 'assets/item_12.png',
-                'Hypno Lollipop': 'assets/item_15.png',
-                'Ginger Cookie': 'assets/item_20.png',
-                'Clover Pin': 'assets/item_21.png',
-                'Stellar Rocket': 'assets/item_24.png',
-                'Snoop Dogg': 'assets/item_25.png',
-                'Swag Bag': 'assets/item_26.png',
-                'Santa Hat': 'assets/item_31.png',
-                'Gold Coin': 'assets/item_35.png',
-                'Crystal Ball': 'assets/item_40.png',
-                'Diamond Ring': 'assets/item_45.png',
-                'Golden Crown': 'assets/item_50.png',
-                'Magic Wand': 'assets/item_55.png',
-                'Space Helmet': 'assets/item_60.png',
-                'Royal Scepter': 'assets/item_65.png',
-                'Ancient Artifact': 'assets/item_70.png',
-                'Mystic Orb': 'assets/item_75.png',
-                'Dragon Egg': 'assets/item_80.png',
-                'Phoenix Feather': 'assets/item_85.png',
-                'Unicorn Horn': 'assets/item_90.png',
-                'Cosmic Cube': 'assets/item_93.png',
-                'Infinity Gauntlet': 'assets/item_94.png',
-                'Godly Artifact': 'assets/item_95.png'
-            };
+        // Функция для получения правильного названия предмета по ID
+        function getItemName(itemId) {
+            return itemNames[itemId] || `Item ${itemId}`;
+        }
 
-            return imageMap[item.title] || item.image || `assets/item_${item.id}.png`;
+        // Функция для получения пути к изображению (для контрактов)
+        function getItemImage(item) {
+            // Сначала пробуем получить изображение из предмета
+            if (item.image && item.image !== 'assets/item_undefined.png') {
+                return item.image;
+            }
+            // Если нет, используем стандартный путь для контрактов
+            return `assets/item_${item.id}.png`;
+        }
+
+        // Функция для получения пути к изображению для магазина
+        function getShopItemImage(itemId) {
+            return `assets/shop/item_${itemId}.png`;
         }
 
         // Загрузка инвентаря
@@ -881,22 +946,21 @@
             inventoryContent.innerHTML = `
                 <div class="inventory-grid" id="inventoryGrid">
                     ${inventory.map((item, index) => {
-                        const itemData = allItemsData[item.id] || {
-                            name: item.title,
-                            price: item.price || itemPrices[item.id] || 1.65,
-                            image: getItemImage(item),
-                            icon: '🎁'
-                        };
+                        const itemId = item.id || item.itemId;
+                        const itemName = getItemName(itemId);
+                        const itemPrice = item.price || item.purchasePrice || itemPrices[itemId] || 1.65;
+                        // Используем изображение из предмета, если есть, иначе стандартный путь
+                        const itemImage = item.image || getItemImage({id: itemId});
 
                         return `
                             <div class="inventory-item" data-index="${index}">
                                 <div class="item-checkbox"></div>
                                 <div class="item-image">
-                                    <img src="${itemData.image}" alt="${itemData.name}"
-                                         onerror="this.style.display='none'; this.parentNode.innerHTML='<div>${itemData.icon}</div>';">
+                                    <img src="${itemImage}" alt="${itemName}"
+                                         onerror="this.style.display='none'; this.parentNode.innerHTML='<div>🎁</div>';">
                                 </div>
-                                <div class="item-name">${itemData.name}</div>
-                                <div class="item-value">${itemData.price} TON</div>
+                                <div class="item-name">${itemName}</div>
+                                <div class="item-value">${itemPrice} TON</div>
                             </div>
                         `;
                     }).join('')}
@@ -918,32 +982,31 @@
 
             if (!item) return;
 
-            const itemData = allItemsData[item.id] || {
-                name: item.title,
-                price: item.price || itemPrices[item.id] || 1.65,
-                image: getItemImage(item),
-                icon: '🎁'
-            };
+            const itemId = item.id || item.itemId;
+            const itemName = getItemName(itemId);
+            const itemPrice = item.price || item.purchasePrice || itemPrices[itemId] || 1.65;
+            const itemImage = item.image || getItemImage({id: itemId});
 
             const isSelected = selectedItems.some(selected =>
-                selected.index === index && selected.id === item.id
+                selected.index === index && selected.id === itemId
             );
 
             if (isSelected) {
-                // Убираем из выбранных
                 selectedItems = selectedItems.filter(selected =>
-                    !(selected.index === index && selected.id === item.id)
+                    !(selected.index === index && selected.id === itemId)
                 );
             } else {
-                // Добавляем в выбранные (макс 10)
                 if (selectedItems.length >= 10) {
                     showNotification('Можно выбрать не более 10 предметов!', true);
                     return;
                 }
                 selectedItems.push({
                     index: index,
-                    id: item.id,
-                    ...itemData
+                    id: itemId,
+                    name: itemName,
+                    price: itemPrice,
+                    image: itemImage,
+                    icon: '🎁'
                 });
             }
 
@@ -957,7 +1020,6 @@
             const totalValueElement = document.getElementById('totalValue');
             const possibleRewardsElement = document.getElementById('possibleRewards');
 
-            // Обновляем список выбранных
             if (selectedItems.length === 0) {
                 selectedList.innerHTML = '<div class="empty-message">Выберите предметы из инвентаря (2-10 шт)</div>';
             } else {
@@ -977,11 +1039,9 @@
                 `).join('');
             }
 
-            // Обновляем общую стоимость
             const totalValue = selectedItems.reduce((sum, item) => sum + item.price, 0);
             totalValueElement.textContent = `Общая стоимость: ${totalValue.toFixed(2)} TON`;
 
-            // Обновляем информацию о возможных наградах
             if (selectedItems.length >= 2) {
                 const minReward = totalValue * 0.2;
                 const maxReward = totalValue * 1.8;
@@ -994,7 +1054,6 @@
                 possibleRewardsElement.textContent = 'Выберите от 2 до 10 предметов для апгрейда';
             }
 
-            // Обновляем стили выбранных предметов в инвентаре
             document.querySelectorAll('.inventory-item').forEach((item, index) => {
                 const isSelected = selectedItems.some(selected => selected.index === index);
                 item.classList.toggle('selected', isSelected);
@@ -1013,39 +1072,33 @@
 
             const totalValue = selectedItems.reduce((sum, item) => sum + item.price, 0);
 
-            // Генерируем результат заранее
             const random = Math.random();
             let targetValue;
 
             if (random <= 0.65) {
-                // 65% шанс - окупаемость 20-65%
                 targetValue = totalValue * (0.2 + Math.random() * 0.45);
             } else {
-                // 35% шанс - прибыль 65-180%
                 targetValue = totalValue * (0.65 + Math.random() * 1.15);
             }
 
             targetValue = Math.round(targetValue * 100) / 100;
 
-            // Находим предметы в точном диапазоне стоимости
             let availableItems = Object.entries(allItemsData)
-                .map(([id, data]) => ({ id: parseInt(id), ...data }))
+                .map(([id, data]) => ({ ...data }))
                 .filter(item => {
                     return item.price >= targetValue * 0.9 && item.price <= targetValue * 1.1;
                 });
 
-            // Если нет предметов в точном диапазоне, расширяем поиск
             if (availableItems.length === 0) {
                 availableItems = Object.entries(allItemsData)
-                    .map(([id, data]) => ({ id: parseInt(id), ...data }))
+                    .map(([id, data]) => ({ ...data }))
                     .filter(item => {
                         return item.price >= targetValue * 0.8 && item.price <= targetValue * 1.2;
                     });
             }
 
-            // Если все еще нет предметов, берем самый близкий по стоимости
             if (availableItems.length === 0) {
-                const allItems = Object.entries(allItemsData).map(([id, data]) => ({ id: parseInt(id), ...data }));
+                const allItems = Object.entries(allItemsData).map(([id, data]) => ({ ...data }));
                 availableItems = [allItems.reduce((closest, item) => {
                     const closestDiff = Math.abs(closest.price - targetValue);
                     const currentDiff = Math.abs(item.price - targetValue);
@@ -1056,26 +1109,25 @@
             let rewardItem;
 
             if (availableItems.length > 0) {
-                // Выбираем случайный предмет из подходящих
                 rewardItem = availableItems[Math.floor(Math.random() * availableItems.length)];
             } else {
-                // Если нет подходящих, выбираем случайный предмет из всех
                 const allItems = Object.values(allItemsData);
                 rewardItem = allItems[Math.floor(Math.random() * allItems.length)];
             }
 
-            // Сохраняем результат
+            // ВАЖНО: Используем правильное название из cards.js и путь к картинке для контрактов
             currentUpgradeResult = {
-                rewardItem: rewardItem,
+                rewardItem: {
+                    ...rewardItem,
+                    name: getItemName(rewardItem.id), // Принудительно устанавливаем правильное название
+                    image: getItemImage(rewardItem) // Используем путь для контрактов
+                },
                 totalValue: totalValue,
                 selectedItems: [...selectedItems],
                 profit: ((rewardItem.price - totalValue) / totalValue * 100).toFixed(1)
             };
 
-            // Сохраняем в localStorage
             localStorage.setItem('pendingUpgrade', JSON.stringify(currentUpgradeResult));
-
-            // Запускаем анимацию
             showUpgradeAnimation();
         }
 
@@ -1096,7 +1148,6 @@
             resultCard.style.display = 'none';
             continueBtn.style.display = 'none';
 
-            // Анимация процесса
             const animations = ['⚡', '🔮', '✨', '🎯', '💫'];
             let animIndex = 0;
 
@@ -1117,15 +1168,15 @@
                 clearInterval(animInterval);
                 animationText.textContent = '🎉 Апгрейд завершен!';
 
-                // Показываем результат
+                // Показываем результат с ГАРАНТИРОВАННО правильным названием и картинкой
+                const rewardItem = currentUpgradeResult.rewardItem;
                 resultImage.innerHTML = `
-                    <img src="${currentUpgradeResult.rewardItem.image}" alt="${currentUpgradeResult.rewardItem.name}"
-                         onerror="this.style.display='none'; this.parentNode.innerHTML='<div>${currentUpgradeResult.rewardItem.icon}</div>';">
+                    <img src="${rewardItem.image}" alt="${rewardItem.name}"
+                         onerror="this.style.display='none'; this.parentNode.innerHTML='<div>🎁</div>';">
                 `;
-                resultName.textContent = currentUpgradeResult.rewardItem.name;
-                resultValue.textContent = `${currentUpgradeResult.rewardItem.price} TON`;
+                resultName.textContent = rewardItem.name;
+                resultValue.textContent = `${rewardItem.price} TON`;
 
-                // Показываем профит/убыток
                 const profit = parseFloat(currentUpgradeResult.profit);
                 if (profit > 0) {
                     profitInfo.innerHTML = `<span class="profit-badge">+${profit}% прибыль</span>`;
@@ -1136,13 +1187,8 @@
                 resultCard.style.display = 'block';
                 continueBtn.style.display = 'block';
 
-                // Добавляем предмет в инвентарь
                 addRewardToInventory();
-
-                // Удаляем использованные предметы
                 removeUsedItems();
-
-                // Очищаем pending upgrade
                 localStorage.removeItem('pendingUpgrade');
             }, 5000);
         }
@@ -1153,9 +1199,9 @@
 
             const newItem = {
                 id: currentUpgradeResult.rewardItem.id,
-                title: currentUpgradeResult.rewardItem.name,
+                title: currentUpgradeResult.rewardItem.name, // Правильное название из cards.js
                 description: "Получено через апгрейд",
-                image: currentUpgradeResult.rewardItem.image,
+                image: currentUpgradeResult.rewardItem.image, // Картинка для контрактов
                 rarity: "",
                 category: "items",
                 purchasePrice: currentUpgradeResult.rewardItem.price,
@@ -1170,7 +1216,6 @@
         function removeUsedItems() {
             const inventory = JSON.parse(localStorage.getItem('userInventory')) || [];
 
-            // Сортируем индексы по убыванию чтобы удалять с конца
             const indicesToRemove = currentUpgradeResult.selectedItems
                 .map(item => item.index)
                 .sort((a, b) => b - a);
