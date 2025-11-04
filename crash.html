@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xanchik Bet - Краш</title>
     <style>
-        /* Стили остаются без изменений */
         :root {
             --primary-color: #0f0f23;
             --secondary-color: #1a1a2e;
@@ -88,12 +87,18 @@
             border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .deposit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         .deposit-btn:active {
-            transform: scale(0.95);
+            transform: translateY(0);
         }
 
         .avatar {
@@ -308,6 +313,19 @@
             z-index: 10;
         }
 
+        .player-winnings {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            z-index: 11;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            display: none;
+        }
+
         .result-message {
             position: absolute;
             top: 30%;
@@ -487,6 +505,41 @@
             backdrop-filter: blur(10px);
         }
 
+        /* Кастомные алерты */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--danger-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+            font-weight: bold;
+        }
+
+        .custom-alert.success {
+            background: var(--success-color);
+        }
+
+        .custom-alert.warning {
+            background: #ffaa00;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         /* Нижнее меню */
         .bottom-nav {
             position: fixed;
@@ -534,6 +587,316 @@
             font-weight: 500;
         }
 
+        /* Стили для модального окна выбора метода оплаты */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1a4a 0%, #0c0c2e 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, -40%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Стили для выбора метода оплаты */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .payment-method:hover::before {
+            left: 100%;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 107, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
+        }
+
+        .payment-method.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .method-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .method-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Стили для выбора суммы */
+        .amount-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .amount-option {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .amount-option.active {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.8);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .amount-main {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .amount-bonus {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            color: #4ecdc4;
+        }
+
+        .custom-amount {
+            position: relative;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: rgba(255, 107, 107, 0.8);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
+        }
+
+        /* Кнопка подтверждения */
+        .confirm-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .confirm-btn:hover::before {
+            left: 100%;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
+
+        .confirm-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Анимация успеха */
+        .success-animation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -546,12 +909,32 @@
             }
 
             .logo h1 {
-                fontSize: 1.7rem;
+                font-size: 1.7rem;
             }
 
             .user-info {
                 width: 100%;
                 justify-content: space-between;
+            }
+
+            .game-container {
+                padding: 15px;
+            }
+
+            .custom-alert {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -565,7 +948,7 @@
             <div class="user-info">
                 <div class="balance">
                     <span id="balanceAmount">10.5 TON</span>
-                    <button class="deposit-btn">Пополнить</button>
+                    <button class="deposit-btn" id="openDepositModal">Пополнить</button>
                 </div>
                 <div class="avatar">U</div>
             </div>
@@ -599,6 +982,7 @@
             <div class="game-graph" id="game-graph">
                 <canvas class="graph-canvas" id="graph-canvas"></canvas>
                 <div class="multiplier-display" id="multiplier-display">1.00x</div>
+                <div class="player-winnings" id="player-winnings">0 TON</div>
                 <div class="phase-indicator" id="phase-indicator">Ожидание ставок</div>
                 <div class="auto-cashout-indicator" id="auto-cashout-indicator" style="display: none;">Автовывод: 2.00x</div>
                 <div class="round-info" id="round-info">Следующий раунд: 5с</div>
@@ -614,6 +998,105 @@
                 <div class="history-items" id="history-items">
                     <!-- History will be generated by JavaScript -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно выбора метода оплаты -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Пополнение баланса</h2>
+                <button class="close-modal" id="closeDepositModal">×</button>
+            </div>
+
+            <!-- Выбор метода оплаты -->
+            <div class="payment-methods">
+                <div class="payment-method" data-method="ton">
+                    <span class="method-icon">💎</span>
+                    <div class="method-name">TON</div>
+                    <div class="method-desc">Криптовалюта</div>
+                </div>
+                <div class="payment-method" data-method="stars">
+                    <span class="method-icon">⭐</span>
+                    <div class="method-name">Stars</div>
+                    <div class="method-desc">Telegram Stars</div>
+                </div>
+            </div>
+
+            <!-- Выбор суммы -->
+            <div class="amount-section">
+                <div class="section-title">Выберите сумму пополнения</div>
+                <div class="amount-options" id="tonAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="5">
+                        <div class="amount-main">5 TON</div>
+                        <div class="amount-bonus">+0.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="10">
+                        <div class="amount-main">10 TON</div>
+                        <div class="amount-bonus">+1.5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="20">
+                        <div class="amount-main">20 TON</div>
+                        <div class="amount-bonus">+3 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 TON</div>
+                        <div class="amount-bonus">+8 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 TON</div>
+                        <div class="amount-bonus">+20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 TON</div>
+                        <div class="amount-bonus">+50 TON</div>
+                    </div>
+                </div>
+
+                <div class="amount-options" id="starsAmounts" style="display: none;">
+                    <div class="amount-option" data-amount="50">
+                        <div class="amount-main">50 ⭐</div>
+                        <div class="amount-bonus">5 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="100">
+                        <div class="amount-main">100 ⭐</div>
+                        <div class="amount-bonus">10 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="200">
+                        <div class="amount-main">200 ⭐</div>
+                        <div class="amount-bonus">20 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="500">
+                        <div class="amount-main">500 ⭐</div>
+                        <div class="amount-bonus">50 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="1000">
+                        <div class="amount-main">1000 ⭐</div>
+                        <div class="amount-bonus">100 TON</div>
+                    </div>
+                    <div class="amount-option" data-amount="2000">
+                        <div class="amount-main">2000 ⭐</div>
+                        <div class="amount-bonus">200 TON</div>
+                    </div>
+                </div>
+
+                <div class="custom-amount">
+                    <input type="number" class="custom-input" id="customAmount" placeholder="Введите свою сумму" min="1">
+                    <span class="currency-symbol" id="currencySymbol">$</span>
+                </div>
+            </div>
+
+            <!-- Кнопка подтверждения -->
+            <button class="confirm-btn" id="confirmDeposit" disabled>
+                Выберите метод оплаты
+            </button>
+
+            <!-- Анимация успеха -->
+            <div class="success-animation" id="successAnimation">
+                <div class="success-icon">🎉</div>
+                <div class="success-message">Пополнение успешно!</div>
+                <div>Баланс обновлен</div>
             </div>
         </div>
     </div>
@@ -637,715 +1120,966 @@
     </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Game state
-            const gameState = {
-                balance: 10.5,
-                currentBet: 1.0,
-                currentMultiplier: 1.00,
-                crashPoint: 1.00,
-                roundPhase: 'waiting', // waiting, playing, crashed
-                nextRoundTimer: 5,
-                gameHistory: [],
-                graphPoints: [],
-                animationId: null,
-                startTime: 0,
-                playerBet: 0,
-                playerInGame: false,
-                autoCashoutMultiplier: 2.00,
-                autoCashoutActive: false,
-                autoCashoutEnabled: false,
-                countdownInterval: null,
-                lastSaveTime: 0,
-                betPlacedInCurrentRound: false,
-                lastUpdateTime: Date.now() // Время последнего обновления для расчета прошедшего времени
-            };
-
-            // DOM elements
-            const balanceElement = document.getElementById('balanceAmount');
-            const betInput = document.getElementById('bet-input');
-            const graphCanvas = document.getElementById('graph-canvas');
-            const multiplierDisplay = document.getElementById('multiplier-display');
-            const phaseIndicator = document.getElementById('phase-indicator');
-            const roundInfo = document.getElementById('round-info');
-            const cashoutButton = document.getElementById('cashout-button');
-            const playButton = document.getElementById('play-button');
-            const historyItems = document.getElementById('history-items');
-            const betButtons = document.querySelectorAll('.bet-button');
-            const autoCashoutInput = document.getElementById('auto-cashout-input');
-            const autoCashoutIndicator = document.getElementById('auto-cashout-indicator');
-            const autoCashoutToggle = document.getElementById('auto-cashout-toggle');
-            const depositBtn = document.querySelector('.deposit-btn');
-            const ctx = graphCanvas.getContext('2d');
-
-            // Сохранение состояния игры
-            function saveGameState() {
-                const now = Date.now();
-                // Сохраняем не чаще чем раз в 100мс
-                if (now - gameState.lastSaveTime < 100) return;
-
-                gameState.lastSaveTime = now;
-                gameState.lastUpdateTime = now; // Сохраняем время последнего обновления
-
-                const stateToSave = {
-                    balance: gameState.balance,
-                    currentBet: gameState.currentBet,
-                    currentMultiplier: gameState.currentMultiplier,
-                    crashPoint: gameState.crashPoint,
-                    roundPhase: gameState.roundPhase,
-                    nextRoundTimer: gameState.nextRoundTimer,
-                    gameHistory: gameState.gameHistory,
-                    graphPoints: gameState.graphPoints,
-                    startTime: gameState.startTime,
-                    playerBet: gameState.playerBet,
-                    playerInGame: gameState.playerInGame,
-                    autoCashoutMultiplier: gameState.autoCashoutMultiplier,
-                    autoCashoutActive: gameState.autoCashoutActive,
-                    autoCashoutEnabled: gameState.autoCashoutEnabled,
-                    betPlacedInCurrentRound: gameState.betPlacedInCurrentRound,
-                    lastUpdateTime: gameState.lastUpdateTime,
-                    timestamp: now
-                };
-                localStorage.setItem('crashGameState', JSON.stringify(stateToSave));
-            }
-
-            // Загрузка состояния игры
-            function loadGameState() {
-                const savedState = localStorage.getItem('crashGameState');
-                if (savedState) {
-                    const state = JSON.parse(savedState);
-
-                    // Восстанавливаем все данные
-                    gameState.balance = state.balance || 10.5;
-                    gameState.currentBet = state.currentBet || 1.0;
-                    gameState.currentMultiplier = state.currentMultiplier || 1.00;
-                    gameState.crashPoint = state.crashPoint || 1.00;
-                    gameState.roundPhase = state.roundPhase || 'waiting';
-                    gameState.nextRoundTimer = state.nextRoundTimer || 5;
-                    gameState.gameHistory = state.gameHistory || [];
-                    gameState.graphPoints = state.graphPoints || [];
-                    gameState.startTime = state.startTime || 0;
-                    gameState.playerBet = state.playerBet || 0;
-                    gameState.playerInGame = state.playerInGame || false;
-                    gameState.autoCashoutMultiplier = state.autoCashoutMultiplier || 2.00;
-                    gameState.autoCashoutActive = state.autoCashoutActive || false;
-                    gameState.autoCashoutEnabled = state.autoCashoutEnabled || false;
-                    gameState.betPlacedInCurrentRound = state.betPlacedInCurrentRound || false;
-                    gameState.lastUpdateTime = state.lastUpdateTime || Date.now();
-
-                    return true;
-                }
-                return false;
-            }
-
-            // Расчет прошедшего времени с момента последнего сохранения
-            function calculateElapsedTime() {
-                const now = Date.now();
-                const elapsed = now - gameState.lastUpdateTime;
-                gameState.lastUpdateTime = now;
-                return elapsed;
-            }
-
-            // Обновление состояния игры на основе прошедшего времени
-            function updateGameStateFromElapsedTime(elapsed) {
-                if (gameState.roundPhase === 'waiting') {
-                    // В режиме ожидания уменьшаем таймер
-                    const secondsPassed = Math.floor(elapsed / 1000);
-                    gameState.nextRoundTimer = Math.max(0, gameState.nextRoundTimer - secondsPassed);
-
-                    if (gameState.nextRoundTimer <= 0) {
-                        startGameRound();
-                    }
-                } else if (gameState.roundPhase === 'playing') {
-                    // В режиме игры увеличиваем множитель
-                    const timePassed = elapsed / 1000; // в секундах
-                    const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
-                    gameState.currentMultiplier += growthSpeed * timePassed * 60; // Ускорение для компенсации
-
-                    // Добавляем точки на график
-                    if (Math.random() < 0.3) {
-                        gameState.graphPoints.push(gameState.currentMultiplier);
-                    }
-
-                    // Проверяем автовывод
-                    checkAutoCashout();
-
-                    // Проверяем краш
-                    if (gameState.currentMultiplier >= gameState.crashPoint) {
-                        endGameRound();
-                    }
-                }
-                // Для crashed ничего не делаем - ждем перехода в waiting
-            }
-
-            // Инициализация баланса
-            function initializeBalance() {
+        // ==================== ЕДИНАЯ СИСТЕМА УПРАВЛЕНИЯ БАЛАНСОМ ====================
+        const BalanceManager = {
+            // Получить текущий баланс
+            getBalance() {
                 let balance = localStorage.getItem('userBalance');
                 if (!balance) {
                     balance = '10.5';
                     localStorage.setItem('userBalance', balance);
                 }
-                gameState.balance = parseFloat(balance);
-                updateBalanceDisplay();
-            }
+                return parseFloat(balance);
+            },
 
-            // Обновление баланса
-            function updateBalance(amount) {
-                gameState.balance += amount;
-                localStorage.setItem('userBalance', gameState.balance.toFixed(2));
-                updateBalanceDisplay();
-                saveGameState();
-                return gameState.balance;
-            }
+            // Обновить баланс
+            updateBalance(amount) {
+                const currentBalance = this.getBalance();
+                const newBalance = currentBalance + amount;
+                const roundedBalance = Math.round(newBalance * 100) / 100;
 
-            // Обновление UI из сохраненного состояния
-            function restoreUIFromState() {
-                // Обновляем поле ставки
-                betInput.value = gameState.currentBet.toFixed(1);
+                localStorage.setItem('userBalance', roundedBalance.toFixed(2));
+                this.updateAllBalanceDisplays();
+                return roundedBalance;
+            },
 
-                // Обновляем автовывод
-                autoCashoutInput.value = gameState.autoCashoutMultiplier.toFixed(2);
-                autoCashoutToggle.checked = gameState.autoCashoutEnabled;
+            // Проверить достаточно ли средств
+            hasEnoughBalance(amount) {
+                return this.getBalance() >= amount;
+            },
 
-                // Обновляем историю
-                updateHistoryDisplay();
-
-                // Рассчитываем прошедшее время и обновляем состояние
-                const elapsed = calculateElapsedTime();
-                updateGameStateFromElapsedTime(elapsed);
-
-                // Восстанавливаем фазу игры
-                if (gameState.roundPhase === 'waiting') {
-                    restoreWaitingPhase();
-                } else if (gameState.roundPhase === 'playing') {
-                    restoreGameRound();
-                } else if (gameState.roundPhase === 'crashed') {
-                    // Если игра крашнулась, начинаем новую через 2 секунды
-                    setTimeout(() => {
-                        startWaitingPhase();
-                    }, 2000);
-                }
-            }
-
-            // Восстановление фазы ожидания
-            function restoreWaitingPhase() {
-                gameState.roundPhase = 'waiting';
-
-                phaseIndicator.textContent = "Ожидание ставок";
-                multiplierDisplay.textContent = "1.00x";
-                multiplierDisplay.style.color = "#00ff88";
-                roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
-                autoCashoutIndicator.style.display = 'none';
-
-                // Восстанавливаем состояние кнопок
-                updatePlayButtonState();
-                cashoutButton.disabled = true;
-
-                // Разблокировать элементы ставки
-                setBetControlsEnabled(true);
-
-                drawGraph();
-
-                // Запускаем таймер
-                startCountdownTimer();
-            }
-
-            // Обновление состояния кнопки "Поставить"
-            function updatePlayButtonState() {
-                if (gameState.betPlacedInCurrentRound && gameState.roundPhase === 'waiting') {
-                    playButton.disabled = true;
-                    playButton.textContent = "Ставка сделана";
-                } else if (gameState.roundPhase === 'waiting') {
-                    playButton.disabled = false;
-                    playButton.textContent = "Поставить";
-                } else {
-                    playButton.disabled = true;
-                    playButton.textContent = "Поставить";
-                }
-            }
-
-            // Запуск таймера обратного отсчета
-            function startCountdownTimer() {
-                // Очищаем предыдущий интервал
-                if (gameState.countdownInterval) {
-                    clearInterval(gameState.countdownInterval);
-                }
-
-                gameState.countdownInterval = setInterval(() => {
-                    gameState.nextRoundTimer--;
-                    roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
-                    saveGameState();
-
-                    if (gameState.nextRoundTimer <= 0) {
-                        clearInterval(gameState.countdownInterval);
-                        startGameRound();
-                    }
-                }, 1000);
-            }
-
-            // Восстановление игрового раунда
-            function restoreGameRound() {
-                gameState.roundPhase = 'playing';
-                phaseIndicator.textContent = "Раунд идет";
-                roundInfo.textContent = "Множитель растет...";
-
-                // Заблокировать элементы ставки во время игры
-                setBetControlsEnabled(false);
-
-                // Восстанавливаем состояние кнопок
-                playButton.disabled = true;
-                playButton.textContent = "Поставить";
-
-                if (gameState.playerInGame) {
-                    cashoutButton.disabled = false;
-                    if (gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
-                        autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
-                        autoCashoutIndicator.style.display = 'block';
-                    }
-                } else {
-                    cashoutButton.disabled = true;
-                    autoCashoutIndicator.style.display = 'none';
-                }
-
-                // Пересчитываем время для плавного продолжения
-                const elapsed = (Date.now() - gameState.startTime) / 1000;
-                gameState.startTime = Date.now() - (elapsed * 1000);
-
-                // Продолжаем анимацию
-                animateGame();
-            }
-
-            // Функция для определения цвета по множителю
-            function getMultiplierColor(multiplier) {
-                if (multiplier < 1.50) return 'history-red';
-                else if (multiplier < 2.50) return 'history-yellow';
-                else if (multiplier < 4.01) return 'history-orange';
-                else if (multiplier < 10.01) return 'history-green';
-                else return 'history-blue';
-            }
-
-            // Функция для блокировки/разблокировки элементов ставки
-            function setBetControlsEnabled(enabled) {
-                betInput.disabled = !enabled;
-                betButtons.forEach(button => {
-                    button.disabled = !enabled;
+            // Обновить все отображения баланса на странице
+            updateAllBalanceDisplays() {
+                const balanceElements = document.querySelectorAll('#balanceAmount');
+                const currentBalance = this.getBalance();
+                balanceElements.forEach(element => {
+                    element.textContent = currentBalance.toFixed(2) + ' TON';
                 });
-                autoCashoutInput.disabled = !enabled;
-                autoCashoutToggle.disabled = !enabled;
-            }
+            },
 
-            // Initialize canvas
-            function initCanvas() {
-                graphCanvas.width = graphCanvas.offsetWidth;
-                graphCanvas.height = graphCanvas.offsetHeight;
-                drawGraph();
-            }
+            // Показать уведомление о балансе
+            showBalanceNotification(message, type = 'error') {
+                // Удаляем старые уведомления
+                const oldAlerts = document.querySelectorAll('.custom-alert');
+                oldAlerts.forEach(alert => alert.remove());
 
-            // Draw the graph
-            function drawGraph() {
-                ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+                const alert = document.createElement('div');
+                alert.className = `custom-alert ${type}`;
+                alert.textContent = message;
 
-                // Draw grid
-                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-                ctx.lineWidth = 1;
-
-                // Horizontal lines
-                for (let i = 0; i <= 5; i++) {
-                    const y = (graphCanvas.height / 5) * i;
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(graphCanvas.width, y);
-                    ctx.stroke();
-                }
-
-                // Draw graph line
-                if (gameState.graphPoints.length > 0) {
-                    ctx.strokeStyle = '#00ff88';
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-
-                    gameState.graphPoints.forEach((point, index) => {
-                        const x = (index / (gameState.graphPoints.length - 1)) * graphCanvas.width;
-                        const y = graphCanvas.height - (point * graphCanvas.height / 20);
-
-                        if (index === 0) {
-                            ctx.moveTo(x, y);
-                        } else {
-                            ctx.lineTo(x, y);
-                        }
-                    });
-
-                    ctx.stroke();
-                }
-            }
-
-            // Generate crash point with exact chances
-// ЗАМЕНИТЬ эту функцию в коде:
-function generateCrashPoint() {
-    const random = Math.random() * 100;
-
-    if (random < 65) return 1.00 + Math.random() * 0.65;      // 65% шанс краха до 1.65x
-    else if (random < 85) return 1.65 + Math.random() * 1.35; // 20% шанс до 3x
-    else if (random < 95) return 3.00 + Math.random() * 2.00; // 10% шанс до 5x
-    else if (random < 99.5) return 5.00 + Math.random() * 15.00; // 4.5% шанс до 20x
-    else return 20.00 + Math.random() * 30.00;               // 0.5% шанс до 50x
-}
-
-            // Calculate growth speed
-            function getGrowthSpeed(currentMultiplier) {
-                if (currentMultiplier < 2.0) return 0.003;
-                else if (currentMultiplier < 5.0) return 0.005;
-                else if (currentMultiplier < 10.0) return 0.008;
-                else if (currentMultiplier < 20.0) return 0.012;
-                else return 0.018;
-            }
-
-            // Show result message
-            function showResultMessage(text, color) {
-                const message = document.createElement('div');
-                message.className = 'result-message';
-                message.textContent = text;
-                message.style.color = color;
-
-                document.querySelector('.game-graph').appendChild(message);
+                document.body.appendChild(alert);
 
                 setTimeout(() => {
-                    message.remove();
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
                 }, 3000);
             }
+        };
 
-            // Check auto cashout
-            function checkAutoCashout() {
-                if (gameState.autoCashoutEnabled &&
-                    gameState.autoCashoutActive &&
-                    gameState.playerInGame &&
-                    gameState.currentMultiplier >= gameState.autoCashoutMultiplier) {
-                    cashout();
-                    showResultMessage("Автовывод!", "#00ccff");
-                }
+        // ==================== СИСТЕМА ПОПОЛНЕНИЯ БАЛАНСА ====================
+        const EXCHANGE_RATE = 10; // 1 TON = 10 Stars
+
+        // Элементы DOM для пополнения
+        const depositModal = document.getElementById('depositModal');
+        const openDepositModalBtn = document.getElementById('openDepositModal');
+        const closeDepositModalBtn = document.getElementById('closeDepositModal');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const tonAmounts = document.getElementById('tonAmounts');
+        const starsAmounts = document.getElementById('starsAmounts');
+        const customAmountInput = document.getElementById('customAmount');
+        const currencySymbol = document.getElementById('currencySymbol');
+        const confirmDepositBtn = document.getElementById('confirmDeposit');
+        const successAnimation = document.getElementById('successAnimation');
+
+        let selectedMethod = null;
+        let selectedAmount = 0;
+
+        // ==================== ИГРОВАЯ ЛОГИКА КРАШ 24/7 ====================
+        // Game state
+        const gameState = {
+            balance: 10.5,
+            currentBet: 1.0,
+            currentMultiplier: 1.00,
+            crashPoint: 1.00,
+            roundPhase: 'waiting', // waiting, playing, crashed
+            nextRoundTimer: 5,
+            gameHistory: [],
+            graphPoints: [],
+            animationId: null,
+            startTime: 0,
+            playerBet: 0,
+            playerInGame: false,
+            autoCashoutMultiplier: 2.00,
+            autoCashoutActive: false,
+            autoCashoutEnabled: false,
+            countdownInterval: null,
+            lastSaveTime: 0,
+            betPlacedInCurrentRound: false,
+            lastUpdateTime: Date.now(),
+            serverTimeOffset: 0
+        };
+
+        // DOM elements для игры
+        const balanceElement = document.getElementById('balanceAmount');
+        const betInput = document.getElementById('bet-input');
+        const graphCanvas = document.getElementById('graph-canvas');
+        const multiplierDisplay = document.getElementById('multiplier-display');
+        const playerWinnings = document.getElementById('player-winnings');
+        const phaseIndicator = document.getElementById('phase-indicator');
+        const roundInfo = document.getElementById('round-info');
+        const cashoutButton = document.getElementById('cashout-button');
+        const playButton = document.getElementById('play-button');
+        const historyItems = document.getElementById('history-items');
+        const betButtons = document.querySelectorAll('.bet-button');
+        const autoCashoutInput = document.getElementById('auto-cashout-input');
+        const autoCashoutIndicator = document.getElementById('auto-cashout-indicator');
+        const autoCashoutToggle = document.getElementById('auto-cashout-toggle');
+        const ctx = graphCanvas.getContext('2d');
+
+        // ==================== ФУНКЦИИ ПОПОЛНЕНИЯ ====================
+        // Инициализация баланса
+        function initializeBalance() {
+            BalanceManager.updateAllBalanceDisplays();
+            gameState.balance = BalanceManager.getBalance();
+        }
+
+        // Открытие модального окна
+        openDepositModalBtn.addEventListener('click', function() {
+            depositModal.style.display = 'block';
+            resetSelection();
+        });
+
+        // Закрытие модального окна
+        closeDepositModalBtn.addEventListener('click', closeModal);
+
+        // Выбор метода оплаты
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                paymentMethods.forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+
+                selectedMethod = this.getAttribute('data-method');
+                updateAmountsDisplay();
+                updateConfirmButton();
+            });
+        });
+
+        // Обновление отображения сумм
+        function updateAmountsDisplay() {
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            customAmountInput.value = '';
+            selectedAmount = 0;
+
+            if (selectedMethod === 'ton') {
+                tonAmounts.style.display = 'grid';
+                currencySymbol.textContent = 'TON';
+                customAmountInput.placeholder = 'Введите сумму в TON';
+            } else if (selectedMethod === 'stars') {
+                starsAmounts.style.display = 'grid';
+                currencySymbol.textContent = '⭐';
+                customAmountInput.placeholder = 'Введите сумму в Stars';
             }
 
-            // Start waiting phase
-            function startWaitingPhase() {
-                gameState.roundPhase = 'waiting';
-                gameState.nextRoundTimer = 5;
-                gameState.graphPoints = [];
-                gameState.autoCashoutActive = false;
-                gameState.currentMultiplier = 1.00;
-                gameState.playerInGame = false;
-                gameState.playerBet = 0;
-                gameState.betPlacedInCurrentRound = false;
-                gameState.lastUpdateTime = Date.now();
+            // Сброс выбранных опций
+            document.querySelectorAll('.amount-option').forEach(option => {
+                option.classList.remove('active');
+            });
+        }
 
-                phaseIndicator.textContent = "Ожидание ставок";
-                multiplierDisplay.textContent = "1.00x";
-                multiplierDisplay.style.color = "#00ff88";
-                roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
-                autoCashoutIndicator.style.display = 'none';
+        // Выбор суммы из опций
+        document.querySelectorAll('.amount-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
 
-                updatePlayButtonState();
-                cashoutButton.disabled = true;
+                selectedAmount = parseFloat(this.getAttribute('data-amount'));
+                customAmountInput.value = '';
+                updateConfirmButton();
+            });
+        });
 
-                setBetControlsEnabled(true);
-
-                drawGraph();
-
-                saveGameState();
-
-                startCountdownTimer();
+        // Ввод кастомной суммы
+        customAmountInput.addEventListener('input', function() {
+            if (this.value) {
+                document.querySelectorAll('.amount-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                selectedAmount = parseFloat(this.value) || 0;
+            } else {
+                selectedAmount = 0;
             }
+            updateConfirmButton();
+        });
 
-            // Start game round
-            function startGameRound() {
-                gameState.roundPhase = 'playing';
-                gameState.currentMultiplier = 1.00;
-                gameState.crashPoint = generateCrashPoint();
-                gameState.graphPoints = [1.00];
-                gameState.startTime = Date.now();
-                gameState.lastUpdateTime = Date.now();
-
-                phaseIndicator.textContent = "Раунд идет";
-                roundInfo.textContent = "Множитель растет...";
-
-                multiplierDisplay.textContent = "1.00x";
-                multiplierDisplay.style.color = "#00ff88";
-
-                setBetControlsEnabled(false);
-
-                if (gameState.playerInGame && gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
-                    autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
-                    autoCashoutIndicator.style.display = 'block';
+        // Обновление кнопки подтверждения
+        function updateConfirmButton() {
+            if (selectedMethod && selectedAmount > 0) {
+                let amountText = '';
+                if (selectedMethod === 'ton') {
+                    amountText = `${selectedAmount} TON`;
                 } else {
-                    autoCashoutIndicator.style.display = 'none';
+                    amountText = `${selectedAmount} ⭐ (${selectedAmount / EXCHANGE_RATE} TON)`;
                 }
-
-                if (gameState.playerInGame) {
-                    cashoutButton.disabled = false;
-                    gameState.autoCashoutActive = true;
-                }
-
-                playButton.disabled = true;
-                playButton.textContent = "Поставить";
-
-                saveGameState();
-
-                animateGame();
+                confirmDepositBtn.textContent = `Пополнить ${amountText}`;
+                confirmDepositBtn.disabled = false;
+            } else {
+                confirmDepositBtn.textContent = 'Выберите метод оплаты';
+                confirmDepositBtn.disabled = true;
             }
+        }
 
-            // Animate the game
-            function animateGame() {
-                const elapsed = (Date.now() - gameState.startTime) / 1000;
+        // Подтверждение пополнения
+        confirmDepositBtn.addEventListener('click', function() {
+            if (!selectedMethod || selectedAmount <= 0) return;
 
+            // Эмуляция процесса оплаты
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Обработка...';
+
+            setTimeout(() => {
+                // Расчет итоговой суммы в TON
+                let tonAmount = selectedMethod === 'ton' ? selectedAmount : selectedAmount / EXCHANGE_RATE;
+
+                // Обновление баланса через единую систему
+                BalanceManager.updateBalance(tonAmount);
+                gameState.balance = BalanceManager.getBalance();
+
+                BalanceManager.showBalanceNotification(`Баланс пополнен на ${tonAmount.toFixed(2)} TON!`, 'success');
+
+                // Показ анимации успеха
+                showSuccessAnimation();
+
+                // Закрытие модального окна через 2 секунды
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Показ анимации успеха
+        function showSuccessAnimation() {
+            document.querySelector('.payment-methods').style.display = 'none';
+            document.querySelector('.amount-section').style.display = 'none';
+            confirmDepositBtn.style.display = 'none';
+            successAnimation.style.display = 'block';
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            depositModal.style.display = 'none';
+            resetSelection();
+        }
+
+        // Сброс выбора
+        function resetSelection() {
+            paymentMethods.forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+            customAmountInput.value = '';
+            selectedMethod = null;
+            selectedAmount = 0;
+            tonAmounts.style.display = 'none';
+            starsAmounts.style.display = 'none';
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.textContent = 'Выберите метод оплаты';
+            successAnimation.style.display = 'none';
+            document.querySelector('.payment-methods').style.display = 'grid';
+            document.querySelector('.amount-section').style.display = 'block';
+            confirmDepositBtn.style.display = 'block';
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
+            if (event.target === depositModal) {
+                closeModal();
+            }
+        });
+
+        // ==================== ИГРОВЫЕ ФУНКЦИИ 24/7 ====================
+        // Кастомные алерты
+        function showCustomAlert(message, type = 'error') {
+            const alert = document.createElement('div');
+            alert.className = `custom-alert ${type}`;
+            alert.textContent = message;
+
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Расчет прошедшего времени с учетом серверного времени
+        function calculateElapsedTime() {
+            const now = Date.now();
+            const elapsed = now - gameState.lastUpdateTime;
+            gameState.lastUpdateTime = now;
+            return elapsed;
+        }
+
+        // Обновление состояния игры на основе прошедшего времени
+        function updateGameStateFromElapsedTime(elapsed) {
+            if (gameState.roundPhase === 'waiting') {
+                const secondsPassed = elapsed / 1000;
+                gameState.nextRoundTimer = Math.max(0, gameState.nextRoundTimer - secondsPassed);
+
+                if (gameState.nextRoundTimer <= 0) {
+                    startGameRound();
+                }
+            } else if (gameState.roundPhase === 'playing') {
+                const timePassed = elapsed / 1000;
                 const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
-                gameState.currentMultiplier += growthSpeed;
+                gameState.currentMultiplier += growthSpeed * timePassed * 60;
 
-                if (Math.random() < 0.08) {
+                if (Math.random() < 0.3) {
                     gameState.graphPoints.push(gameState.currentMultiplier);
                 }
 
-                multiplierDisplay.textContent = gameState.currentMultiplier.toFixed(2) + "x";
-
                 checkAutoCashout();
-
-                const progress = gameState.currentMultiplier / gameState.crashPoint;
-                if (progress > 0.7) {
-                    const red = Math.min(255, Math.floor(255 * (progress - 0.7) * 3.33));
-                    const green = Math.max(0, 255 - Math.floor(255 * (progress - 0.7) * 3.33));
-                    multiplierDisplay.style.color = `rgb(${red}, ${green}, 136)`;
-                }
-
-                drawGraph();
 
                 if (gameState.currentMultiplier >= gameState.crashPoint) {
                     endGameRound();
-                    return;
+                }
+            }
+        }
+
+        // Сохранение состояния игры
+        function saveGameState() {
+            const now = Date.now();
+            if (now - gameState.lastSaveTime < 100) return;
+
+            gameState.lastSaveTime = now;
+            gameState.lastUpdateTime = now;
+
+            const stateToSave = {
+                balance: gameState.balance,
+                currentBet: gameState.currentBet,
+                currentMultiplier: gameState.currentMultiplier,
+                crashPoint: gameState.crashPoint,
+                roundPhase: gameState.roundPhase,
+                nextRoundTimer: gameState.nextRoundTimer,
+                gameHistory: gameState.gameHistory,
+                graphPoints: gameState.graphPoints,
+                startTime: gameState.startTime,
+                playerBet: gameState.playerBet,
+                playerInGame: gameState.playerInGame,
+                autoCashoutMultiplier: gameState.autoCashoutMultiplier,
+                autoCashoutActive: gameState.autoCashoutActive,
+                autoCashoutEnabled: gameState.autoCashoutEnabled,
+                betPlacedInCurrentRound: gameState.betPlacedInCurrentRound,
+                lastUpdateTime: gameState.lastUpdateTime,
+                timestamp: now
+            };
+            localStorage.setItem('crashGameState', JSON.stringify(stateToSave));
+        }
+
+        // Загрузка состояния игры
+        function loadGameState() {
+            const savedState = localStorage.getItem('crashGameState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const now = Date.now();
+                const timeDiff = now - state.lastUpdateTime;
+
+                // Восстанавливаем ВСЕ данные
+                gameState.balance = state.balance || BalanceManager.getBalance();
+                gameState.currentBet = state.currentBet || 1.0;
+                gameState.currentMultiplier = state.currentMultiplier || 1.00;
+                gameState.crashPoint = state.crashPoint || 1.00;
+                gameState.roundPhase = state.roundPhase || 'waiting';
+                gameState.nextRoundTimer = state.nextRoundTimer || 5;
+                gameState.gameHistory = state.gameHistory || [];
+                gameState.graphPoints = state.graphPoints || [];
+                gameState.startTime = state.startTime || 0;
+                gameState.playerBet = state.playerBet || 0;
+                gameState.playerInGame = state.playerInGame || false;
+                gameState.autoCashoutMultiplier = state.autoCashoutMultiplier || 2.00;
+                gameState.autoCashoutActive = state.autoCashoutActive || false;
+                gameState.autoCashoutEnabled = state.autoCashoutEnabled || false;
+                gameState.betPlacedInCurrentRound = state.betPlacedInCurrentRound || false;
+                gameState.lastUpdateTime = state.lastUpdateTime || now;
+
+                // Обновляем состояние на основе прошедшего времени
+                if (timeDiff > 1000) { // Если прошло больше 1 секунды
+                    updateGameStateFromElapsedTime(timeDiff);
                 }
 
-                if (Date.now() % 500 < 16) {
-                    saveGameState();
-                }
+                return true;
+            }
+            return false;
+        }
 
-                gameState.animationId = requestAnimationFrame(animateGame);
+        // Обновление ставки
+        function updateCurrentBet(value) {
+            let newValue = parseFloat(value) || 1.0;
+
+            // Ограничиваем минимальную ставку
+            if (newValue < 1.0) {
+                newValue = 1.0;
             }
 
-            // End game round
-            function endGameRound() {
-                gameState.roundPhase = 'crashed';
-                gameState.lastUpdateTime = Date.now();
+            // Проверяем максимальную ставку (не больше баланса)
+            if (newValue > gameState.balance) {
+                newValue = gameState.balance;
+                showCustomAlert("Ставка не может превышать ваш баланс!");
+            }
 
-                if (gameState.animationId) {
-                    cancelAnimationFrame(gameState.animationId);
-                }
+            // Округляем до 1 знака после запятой
+            newValue = Math.round(newValue * 10) / 10;
 
-                multiplierDisplay.textContent = "CRASH! " + gameState.currentMultiplier.toFixed(2) + "x";
-                multiplierDisplay.style.color = "#ff4444";
-                createCrashAnimation();
+            // Обновляем состояние игры и поле ввода
+            gameState.currentBet = newValue;
+            betInput.value = newValue.toFixed(1);
 
-                if (gameState.playerInGame) {
-                    gameState.playerInGame = false;
-                    gameState.autoCashoutActive = false;
-                    createParticles(10, '#ff4444');
-                }
+            saveGameState();
+        }
 
-                cashoutButton.disabled = true;
-                autoCashoutIndicator.style.display = 'none';
+        // Initialize canvas
+        function initCanvas() {
+            graphCanvas.width = graphCanvas.offsetWidth;
+            graphCanvas.height = graphCanvas.offsetHeight;
+            drawGraph();
+        }
 
-                gameState.gameHistory.unshift({
-                    multiplier: gameState.currentMultiplier.toFixed(2),
-                    crashed: true
+        // Draw the graph
+        function drawGraph() {
+            ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 1;
+
+            // Horizontal lines
+            for (let i = 0; i <= 5; i++) {
+                const y = (graphCanvas.height / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(graphCanvas.width, y);
+                ctx.stroke();
+            }
+
+            // Draw graph line
+            if (gameState.graphPoints.length > 0) {
+                ctx.strokeStyle = '#00ff88';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                gameState.graphPoints.forEach((point, index) => {
+                    const x = (index / (gameState.graphPoints.length - 1)) * graphCanvas.width;
+                    const y = graphCanvas.height - (point * graphCanvas.height / 20);
+
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
                 });
-                updateHistoryDisplay();
 
-                saveGameState();
+                ctx.stroke();
+            }
+        }
 
-                setTimeout(() => {
-                    startWaitingPhase();
-                }, 2000);
+        // Generate crash point with exact chances
+        function generateCrashPoint() {
+            const random = Math.random() * 100;
+
+            if (random < 65) return 1.00 + Math.random() * 0.65;      // 65% шанс краха до 1.65x
+            else if (random < 85) return 1.65 + Math.random() * 1.35; // 20% шанс до 3x
+            else if (random < 95) return 3.00 + Math.random() * 2.00; // 10% шанс до 5x
+            else if (random < 99.5) return 5.00 + Math.random() * 15.00; // 4.5% шанс до 20x
+            else return 20.00 + Math.random() * 30.00;               // 0.5% шанс до 50x
+        }
+
+        // Calculate growth speed
+        function getGrowthSpeed(currentMultiplier) {
+            if (currentMultiplier < 2.0) return 0.003;
+            else if (currentMultiplier < 5.0) return 0.005;
+            else if (currentMultiplier < 10.0) return 0.008;
+            else if (currentMultiplier < 20.0) return 0.012;
+            else return 0.018;
+        }
+
+        // Show result message
+        function showResultMessage(text, color) {
+            const message = document.createElement('div');
+            message.className = 'result-message';
+            message.textContent = text;
+            message.style.color = color;
+
+            document.querySelector('.game-graph').appendChild(message);
+
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+
+        // Check auto cashout
+        function checkAutoCashout() {
+            if (gameState.autoCashoutEnabled &&
+                gameState.autoCashoutActive &&
+                gameState.playerInGame &&
+                gameState.currentMultiplier >= gameState.autoCashoutMultiplier) {
+                cashout();
+                showResultMessage("Автовывод!", "#00ccff");
+            }
+        }
+
+        // Start waiting phase
+        function startWaitingPhase() {
+            gameState.roundPhase = 'waiting';
+            gameState.nextRoundTimer = 5;
+            gameState.graphPoints = [];
+            gameState.autoCashoutActive = false;
+            gameState.currentMultiplier = 1.00;
+            gameState.playerInGame = false;
+            gameState.playerBet = 0;
+            gameState.betPlacedInCurrentRound = false;
+            gameState.lastUpdateTime = Date.now();
+
+            phaseIndicator.textContent = "Ожидание ставок";
+            multiplierDisplay.textContent = "1.00x";
+            multiplierDisplay.style.color = "#00ff88";
+            playerWinnings.style.display = 'none';
+            roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+            autoCashoutIndicator.style.display = 'none';
+
+            updatePlayButtonState();
+            cashoutButton.disabled = true;
+
+            setBetControlsEnabled(true);
+
+            drawGraph();
+
+            saveGameState();
+
+            startCountdownTimer();
+        }
+
+        // Обновление состояния кнопки "Поставить"
+        function updatePlayButtonState() {
+            if (gameState.betPlacedInCurrentRound && gameState.roundPhase === 'waiting') {
+                playButton.disabled = true;
+                playButton.textContent = "Ставка сделана";
+            } else if (gameState.roundPhase === 'waiting') {
+                playButton.disabled = false;
+                playButton.textContent = "Поставить";
+            } else {
+                playButton.disabled = true;
+                playButton.textContent = "Поставить";
+            }
+        }
+
+        // Запуск таймера обратного отсчета
+        function startCountdownTimer() {
+            if (gameState.countdownInterval) {
+                clearInterval(gameState.countdownInterval);
             }
 
-            // Place bet
-            function placeBet() {
-                if (gameState.roundPhase !== 'waiting') return;
-                if (gameState.betPlacedInCurrentRound) {
-                    alert("Вы уже сделали ставку в этом раунде!");
-                    return;
-                }
+            gameState.countdownInterval = setInterval(() => {
+                gameState.nextRoundTimer--;
+                roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+                saveGameState();
 
-                if (gameState.currentBet > gameState.balance) {
-                    alert("Недостаточно средств!");
-                    return;
+                if (gameState.nextRoundTimer <= 0) {
+                    clearInterval(gameState.countdownInterval);
+                    startGameRound();
                 }
+            }, 1000);
+        }
 
-                gameState.playerBet = gameState.currentBet;
-                gameState.playerInGame = true;
+        // Start game round
+        function startGameRound() {
+            gameState.roundPhase = 'playing';
+            gameState.currentMultiplier = 1.00;
+            gameState.crashPoint = generateCrashPoint();
+            gameState.graphPoints = [1.00];
+            gameState.startTime = Date.now();
+            gameState.lastUpdateTime = Date.now();
+
+            phaseIndicator.textContent = "Раунд идет";
+            roundInfo.textContent = "Множитель растет...";
+
+            multiplierDisplay.textContent = "1.00x";
+            multiplierDisplay.style.color = "#00ff88";
+
+            setBetControlsEnabled(false);
+
+            if (gameState.playerInGame && gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
+                autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
+                autoCashoutIndicator.style.display = 'block';
+            } else {
+                autoCashoutIndicator.style.display = 'none';
+            }
+
+            if (gameState.playerInGame) {
+                cashoutButton.disabled = false;
                 gameState.autoCashoutActive = true;
-                gameState.betPlacedInCurrentRound = true;
+                playerWinnings.textContent = (gameState.playerBet * gameState.currentMultiplier).toFixed(2) + ' TON';
+                playerWinnings.style.display = 'block';
+            }
 
-                updateBalance(-gameState.currentBet);
+            playButton.disabled = true;
+            playButton.textContent = "Поставить";
 
-                updateBalanceDisplay();
-                updatePlayButtonState();
+            saveGameState();
 
-                createParticles(8, '#00ff88');
+            animateGame();
+        }
+
+        // Animate the game
+        function animateGame() {
+            const elapsed = (Date.now() - gameState.startTime) / 1000;
+
+            const growthSpeed = getGrowthSpeed(gameState.currentMultiplier);
+            gameState.currentMultiplier += growthSpeed;
+
+            if (Math.random() < 0.08) {
+                gameState.graphPoints.push(gameState.currentMultiplier);
+            }
+
+            multiplierDisplay.textContent = gameState.currentMultiplier.toFixed(2) + "x";
+
+            if (gameState.playerInGame) {
+                playerWinnings.textContent = (gameState.playerBet * gameState.currentMultiplier).toFixed(2) + ' TON';
+            }
+
+            checkAutoCashout();
+
+            const progress = gameState.currentMultiplier / gameState.crashPoint;
+            if (progress > 0.7) {
+                const red = Math.min(255, Math.floor(255 * (progress - 0.7) * 3.33));
+                const green = Math.max(0, 255 - Math.floor(255 * (progress - 0.7) * 3.33));
+                multiplierDisplay.style.color = `rgb(${red}, ${green}, 136)`;
+            }
+
+            drawGraph();
+
+            if (gameState.currentMultiplier >= gameState.crashPoint) {
+                endGameRound();
+                return;
+            }
+
+            if (Date.now() % 500 < 16) {
                 saveGameState();
             }
 
-            // Cash out
-            function cashout() {
-                if (!gameState.playerInGame || gameState.roundPhase !== 'playing') return;
+            gameState.animationId = requestAnimationFrame(animateGame);
+        }
 
-                const winnings = gameState.playerBet * gameState.currentMultiplier;
+        // End game round
+        function endGameRound() {
+            gameState.roundPhase = 'crashed';
+            gameState.lastUpdateTime = Date.now();
+
+            if (gameState.animationId) {
+                cancelAnimationFrame(gameState.animationId);
+            }
+
+            multiplierDisplay.textContent = "CRASH! " + gameState.currentMultiplier.toFixed(2) + "x";
+            multiplierDisplay.style.color = "#ff4444";
+            playerWinnings.style.display = 'none';
+            createCrashAnimation();
+
+            if (gameState.playerInGame) {
                 gameState.playerInGame = false;
                 gameState.autoCashoutActive = false;
-
-                updateBalance(winnings);
-
-                updateBalanceDisplay();
-                cashoutButton.disabled = true;
-                autoCashoutIndicator.style.display = 'none';
-
-                showResultMessage("Успели!", "#00ff88");
-                createParticles(15, '#00ff88');
-
-                saveGameState();
+                createParticles(10, '#ff4444');
             }
 
-            // Create particles
-            function createParticles(count, color) {
-                for (let i = 0; i < count; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    particle.style.width = Math.random() * 8 + 4 + 'px';
-                    particle.style.height = particle.style.width;
-                    particle.style.left = Math.random() * 80 + 10 + '%';
-                    particle.style.top = Math.random() * 80 + 10 + '%';
-                    particle.style.background = color;
-                    particle.style.animationDelay = Math.random() * 1 + 's';
+            cashoutButton.disabled = true;
+            autoCashoutIndicator.style.display = 'none';
 
-                    document.querySelector('.game-graph').appendChild(particle);
+            gameState.gameHistory.unshift({
+                multiplier: gameState.currentMultiplier.toFixed(2),
+                crashed: true
+            });
+            updateHistoryDisplay();
 
-                    setTimeout(() => {
-                        particle.remove();
-                    }, 2000);
-                }
+            saveGameState();
+
+            setTimeout(() => {
+                startWaitingPhase();
+            }, 2000);
+        }
+
+        // Place bet
+        function placeBet() {
+            if (gameState.roundPhase !== 'waiting') return;
+
+            // Используем gameState.currentBet для проверки
+            const betAmount = gameState.currentBet;
+
+            console.log("Ставка:", betAmount, "Баланс:", gameState.balance);
+
+            if (betAmount > gameState.balance) {
+                showCustomAlert("Недостаточно средств!");
+                return;
             }
 
-            // Create crash animation
-            function createCrashAnimation() {
-                const crash = document.createElement('div');
-                crash.className = 'crash-animation';
-                crash.textContent = 'CRASH!';
-                crash.style.left = Math.random() * 50 + 25 + '%';
-                crash.style.top = Math.random() * 50 + 25 + '%';
+            if (betAmount < 1.0) {
+                showCustomAlert("Минимальная ставка 1 TON!");
+                return;
+            }
 
-                document.querySelector('.game-graph').appendChild(crash);
+            gameState.playerBet = betAmount;
+            gameState.playerInGame = true;
+            gameState.autoCashoutActive = true;
+            gameState.betPlacedInCurrentRound = true;
+
+            // Обновляем баланс через единую систему
+            BalanceManager.updateBalance(-betAmount);
+            gameState.balance = BalanceManager.getBalance();
+
+            updatePlayButtonState();
+
+            createParticles(8, '#00ff88');
+            saveGameState();
+        }
+
+        // Cash out
+        function cashout() {
+            if (!gameState.playerInGame || gameState.roundPhase !== 'playing') return;
+
+            const winnings = gameState.playerBet * gameState.currentMultiplier;
+            gameState.playerInGame = false;
+            gameState.autoCashoutActive = false;
+
+            // Обновляем баланс через единую систему
+            BalanceManager.updateBalance(winnings);
+            gameState.balance = BalanceManager.getBalance();
+
+            cashoutButton.disabled = true;
+            autoCashoutIndicator.style.display = 'none';
+            playerWinnings.style.display = 'none';
+
+            showResultMessage("Успели!", "#00ff88");
+            showCustomAlert(`Вы успели забрать ${winnings.toFixed(2)} TON!`, 'success');
+            createParticles(15, '#00ff88');
+
+            saveGameState();
+        }
+
+        // Create particles
+        function createParticles(count, color) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 8 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 80 + 10 + '%';
+                particle.style.top = Math.random() * 80 + 10 + '%';
+                particle.style.background = color;
+                particle.style.animationDelay = Math.random() * 1 + 's';
+
+                document.querySelector('.game-graph').appendChild(particle);
 
                 setTimeout(() => {
-                    crash.remove();
+                    particle.remove();
                 }, 2000);
             }
+        }
 
-            // Update balance display
-            function updateBalanceDisplay() {
-                balanceElement.textContent = gameState.balance.toFixed(2) + ' TON';
-            }
+        // Create crash animation
+        function createCrashAnimation() {
+            const crash = document.createElement('div');
+            crash.className = 'crash-animation';
+            crash.textContent = 'CRASH!';
+            crash.style.left = Math.random() * 50 + 25 + '%';
+            crash.style.top = Math.random() * 50 + 25 + '%';
 
-            // Update history display
-            function updateHistoryDisplay() {
-                historyItems.innerHTML = '';
+            document.querySelector('.game-graph').appendChild(crash);
 
-                gameState.gameHistory.slice(0, 8).forEach(result => {
-                    const historyItem = document.createElement('div');
-                    const multiplier = parseFloat(result.multiplier);
-                    const colorClass = getMultiplierColor(multiplier);
-                    historyItem.className = `history-item ${colorClass}`;
-                    historyItem.textContent = result.multiplier + 'x';
-                    historyItems.appendChild(historyItem);
-                });
-            }
+            setTimeout(() => {
+                crash.remove();
+            }, 2000);
+        }
 
-            // Event listeners
-            playButton.addEventListener('click', placeBet);
-            cashoutButton.addEventListener('click', cashout);
+        // Update history display
+        function updateHistoryDisplay() {
+            historyItems.innerHTML = '';
 
-            betInput.addEventListener('input', function() {
-                gameState.currentBet = parseFloat(this.value) || 1.0;
-                if (gameState.currentBet < 1.0) {
-                    gameState.currentBet = 1.0;
-                    this.value = '1.0';
-                }
-                saveGameState();
+            gameState.gameHistory.slice(0, 8).forEach(result => {
+                const historyItem = document.createElement('div');
+                const multiplier = parseFloat(result.multiplier);
+                const colorClass = getMultiplierColor(multiplier);
+                historyItem.className = `history-item ${colorClass}`;
+                historyItem.textContent = result.multiplier + 'x';
+                historyItems.appendChild(historyItem);
             });
+        }
 
-            autoCashoutInput.addEventListener('input', function() {
-                gameState.autoCashoutMultiplier = parseFloat(this.value) || 2.0;
-                if (gameState.autoCashoutMultiplier < 1.1) {
-                    gameState.autoCashoutMultiplier = 1.1;
-                    this.value = '1.10';
-                }
-                saveGameState();
-            });
+        // Функция для определения цвета по множителю
+        function getMultiplierColor(multiplier) {
+            if (multiplier < 1.50) return 'history-red';
+            else if (multiplier < 2.50) return 'history-yellow';
+            else if (multiplier < 4.01) return 'history-orange';
+            else if (multiplier < 10.01) return 'history-green';
+            else return 'history-blue';
+        }
 
-            autoCashoutToggle.addEventListener('change', function() {
-                gameState.autoCashoutEnabled = this.checked;
-                saveGameState();
-            });
-
+        // Функция для блокировки/разблокировки элементов ставки
+        function setBetControlsEnabled(enabled) {
+            betInput.disabled = !enabled;
             betButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const action = this.getAttribute('data-action');
-                    if (action === 'half') {
-                        gameState.currentBet = Math.max(1.0, gameState.currentBet / 2);
-                    } else if (action === 'double') {
-                        gameState.currentBet = gameState.currentBet * 2;
-                    }
-                    betInput.value = gameState.currentBet.toFixed(1);
-                    saveGameState();
-                });
+                button.disabled = !enabled;
             });
+            autoCashoutInput.disabled = !enabled;
+            autoCashoutToggle.disabled = !enabled;
+        }
 
-            // Обработка кнопки пополнения
-            depositBtn.addEventListener('click', function() {
-                const amount = prompt('Введите сумму пополнения в TON:');
-                if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                    updateBalance(parseFloat(amount));
-                    alert('Баланс успешно пополнен на ' + amount + ' TON!');
-                }
-            });
+        // Обновление UI из сохраненного состояния
+        function restoreUIFromState() {
+            // Обновляем поле ставки
+            betInput.value = gameState.currentBet.toFixed(1);
 
-            // Сохраняем состояние при закрытии страницы
-            window.addEventListener('beforeunload', saveGameState);
+            // Обновляем автовывод
+            autoCashoutInput.value = gameState.autoCashoutMultiplier.toFixed(2);
+            autoCashoutToggle.checked = gameState.autoCashoutEnabled;
 
-            // Очистка интервалов при разгрузке страницы
-            window.addEventListener('unload', function() {
-                if (gameState.countdownInterval) {
-                    clearInterval(gameState.countdownInterval);
-                }
-                if (gameState.animationId) {
-                    cancelAnimationFrame(gameState.animationId);
-                }
-            });
+            // Обновляем историю
+            updateHistoryDisplay();
 
-            // Initialize game
-            function initGame() {
-                initializeBalance();
-                window.addEventListener('resize', initCanvas);
-                initCanvas();
-                updateBalanceDisplay();
-
-                const hasSavedState = loadGameState();
-
-                if (hasSavedState) {
-                    restoreUIFromState();
-                } else {
-                    updateHistoryDisplay();
+            // Восстанавливаем фазу игры
+            if (gameState.roundPhase === 'waiting') {
+                restoreWaitingPhase();
+            } else if (gameState.roundPhase === 'playing') {
+                restoreGameRound();
+            } else if (gameState.roundPhase === 'crashed') {
+                setTimeout(() => {
                     startWaitingPhase();
+                }, 2000);
+            }
+        }
+
+        // Восстановление фазы ожидания
+        function restoreWaitingPhase() {
+            gameState.roundPhase = 'waiting';
+
+            phaseIndicator.textContent = "Ожидание ставок";
+            multiplierDisplay.textContent = "1.00x";
+            multiplierDisplay.style.color = "#00ff88";
+            roundInfo.textContent = `Следующий раунд: ${gameState.nextRoundTimer}с`;
+            autoCashoutIndicator.style.display = 'none';
+            playerWinnings.style.display = 'none';
+
+            updatePlayButtonState();
+            cashoutButton.disabled = true;
+
+            setBetControlsEnabled(true);
+
+            drawGraph();
+
+            startCountdownTimer();
+        }
+
+        // Восстановление игрового раунда
+        function restoreGameRound() {
+            gameState.roundPhase = 'playing';
+            phaseIndicator.textContent = "Раунд идет";
+            roundInfo.textContent = "Множитель растет...";
+
+            setBetControlsEnabled(false);
+
+            playButton.disabled = true;
+            playButton.textContent = "Поставить";
+
+            if (gameState.playerInGame) {
+                cashoutButton.disabled = false;
+                gameState.autoCashoutActive = true;
+                playerWinnings.textContent = (gameState.playerBet * gameState.currentMultiplier).toFixed(2) + ' TON';
+                playerWinnings.style.display = 'block';
+
+                if (gameState.autoCashoutMultiplier > 1.00 && gameState.autoCashoutEnabled) {
+                    autoCashoutIndicator.textContent = `Автовывод: ${gameState.autoCashoutMultiplier.toFixed(2)}x`;
+                    autoCashoutIndicator.style.display = 'block';
                 }
+            } else {
+                cashoutButton.disabled = true;
+                autoCashoutIndicator.style.display = 'none';
             }
 
-            // Start the game
-            initGame();
+            const elapsed = (Date.now() - gameState.startTime) / 1000;
+            gameState.startTime = Date.now() - (elapsed * 1000);
+
+            animateGame();
+        }
+
+        // Event listeners для игры
+        playButton.addEventListener('click', placeBet);
+        cashoutButton.addEventListener('click', cashout);
+
+        betInput.addEventListener('input', function() {
+            updateCurrentBet(this.value);
         });
+
+        betInput.addEventListener('change', function() {
+            updateCurrentBet(this.value);
+        });
+
+        autoCashoutInput.addEventListener('input', function() {
+            gameState.autoCashoutMultiplier = parseFloat(this.value) || 2.0;
+            if (gameState.autoCashoutMultiplier < 1.1) {
+                gameState.autoCashoutMultiplier = 1.1;
+                this.value = '1.10';
+            }
+            saveGameState();
+        });
+
+        autoCashoutToggle.addEventListener('change', function() {
+            gameState.autoCashoutEnabled = this.checked;
+            saveGameState();
+        });
+
+        betButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                let newBet;
+
+                if (action === 'half') {
+                    newBet = Math.max(1.0, gameState.currentBet / 2);
+                } else if (action === 'double') {
+                    newBet = gameState.currentBet * 2;
+                }
+
+                updateCurrentBet(newBet);
+            });
+        });
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        function initGame() {
+            initializeBalance();
+            window.addEventListener('resize', initCanvas);
+            initCanvas();
+
+            const hasSavedState = loadGameState();
+
+            if (hasSavedState) {
+                restoreUIFromState();
+            } else {
+                updateHistoryDisplay();
+                startWaitingPhase();
+            }
+        }
+
+        // Сохраняем состояние при закрытии страницы
+        window.addEventListener('beforeunload', saveGameState);
+
+        // Очистка интервалов при разгрузке страницы
+        window.addEventListener('unload', function() {
+            if (gameState.countdownInterval) {
+                clearInterval(gameState.countdownInterval);
+            }
+            if (gameState.animationId) {
+                cancelAnimationFrame(gameState.animationId);
+            }
+        });
+
+        // Start the game
+        document.addEventListener('DOMContentLoaded', initGame);
+
+        // Экспортируем BalanceManager для использования в других файлах
+        window.BalanceManager = BalanceManager;
     </script>
 </body>
 </html>
