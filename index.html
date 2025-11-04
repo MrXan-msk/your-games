@@ -268,6 +268,41 @@
             z-index: 0;
         }
 
+        /* Кастомные алерты */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4444;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+            font-weight: bold;
+        }
+
+        .custom-alert.success {
+            background: #00ff88;
+        }
+
+        .custom-alert.warning {
+            background: #ffaa00;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -661,6 +696,12 @@
             .payment-methods {
                 grid-template-columns: 1fr;
             }
+
+            .custom-alert {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
         }
     </style>
 </head>
@@ -853,7 +894,64 @@
     </nav>
 
     <script>
-        // Конфигурация курса обмена
+        // ==================== ЕДИНАЯ СИСТЕМА УПРАВЛЕНИЯ БАЛАНСОМ ====================
+        const BalanceManager = {
+            // Получить текущий баланс
+            getBalance() {
+                let balance = localStorage.getItem('userBalance');
+                if (!balance) {
+                    balance = '10.5';
+                    localStorage.setItem('userBalance', balance);
+                }
+                return parseFloat(balance);
+            },
+
+            // Обновить баланс
+            updateBalance(amount) {
+                const currentBalance = this.getBalance();
+                const newBalance = currentBalance + amount;
+                const roundedBalance = Math.round(newBalance * 100) / 100;
+
+                localStorage.setItem('userBalance', roundedBalance.toFixed(2));
+                this.updateAllBalanceDisplays();
+                return roundedBalance;
+            },
+
+            // Проверить достаточно ли средств
+            hasEnoughBalance(amount) {
+                return this.getBalance() >= amount;
+            },
+
+            // Обновить все отображения баланса на странице
+            updateAllBalanceDisplays() {
+                const balanceElements = document.querySelectorAll('#balanceAmount');
+                const currentBalance = this.getBalance();
+                balanceElements.forEach(element => {
+                    element.textContent = currentBalance.toFixed(2) + ' TON';
+                });
+            },
+
+            // Показать уведомление о балансе
+            showBalanceNotification(message, type = 'error') {
+                // Удаляем старые уведомления
+                const oldAlerts = document.querySelectorAll('.custom-alert');
+                oldAlerts.forEach(alert => alert.remove());
+
+                const alert = document.createElement('div');
+                alert.className = `custom-alert ${type}`;
+                alert.textContent = message;
+
+                document.body.appendChild(alert);
+
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 3000);
+            }
+        };
+
+        // ==================== СИСТЕМА ПОПОЛНЕНИЯ БАЛАНСА ====================
         const EXCHANGE_RATE = 10; // 1 TON = 10 Stars
 
         // Элементы DOM
@@ -873,21 +971,7 @@
 
         // Инициализация баланса
         function initializeBalance() {
-            let balance = localStorage.getItem('userBalance');
-            if (!balance) {
-                balance = '10.5';
-                localStorage.setItem('userBalance', balance);
-            }
-            document.getElementById('balanceAmount').textContent = balance + ' TON';
-        }
-
-        // Обновление баланса
-        function updateBalance(amount) {
-            let currentBalance = parseFloat(localStorage.getItem('userBalance') || '10.5');
-            currentBalance += amount;
-            localStorage.setItem('userBalance', currentBalance.toFixed(2));
-            document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + ' TON';
-            return currentBalance;
+            BalanceManager.updateAllBalanceDisplays();
         }
 
         // Открытие модального окна
@@ -988,8 +1072,9 @@
                 // Расчет итоговой суммы в TON
                 let tonAmount = selectedMethod === 'ton' ? selectedAmount : selectedAmount / EXCHANGE_RATE;
 
-                // Обновление баланса
-                updateBalance(tonAmount);
+                // Обновление баланса через единую систему
+                BalanceManager.updateBalance(tonAmount);
+                BalanceManager.showBalanceNotification(`Баланс пополнен на ${tonAmount.toFixed(2)} TON!`, 'success');
 
                 // Показ анимации успеха
                 showSuccessAnimation();
@@ -1039,10 +1124,21 @@
             }
         });
 
-        // Инициализация при загрузке страницы
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         document.addEventListener('DOMContentLoaded', function() {
             initializeBalance();
+
+            // Добавляем обработчик для кнопки пополнения в других местах страницы
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('deposit-btn')) {
+                    depositModal.style.display = 'block';
+                    resetSelection();
+                }
+            });
         });
+
+        // Экспортируем BalanceManager для использования в других файлах
+        window.BalanceManager = BalanceManager;
     </script>
 </body>
 </html>
